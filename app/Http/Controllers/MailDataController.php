@@ -20,7 +20,6 @@ class MailDataController extends Controller
         $arguments = [$dataFromExternal];
         $result = call_user_func_array([$controller, $methodName], $arguments);
         return $result;
-        // var_dump($controller);
     }
 
     public function processData($module='', $status='', $encrypt='')
@@ -82,7 +81,6 @@ class MailDataController extends Controller
         $password = $password;
 
         try {
-            // Attempt to connect to the database
             $connection = new \PDO("sqlsrv:Server=$servername,$port;Database=$dbname", $username, $password);
             $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';

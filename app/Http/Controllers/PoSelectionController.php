@@ -62,20 +62,16 @@ class PoSelectionController extends Controller
             'supervisor'    => $data["supervisor"]
         );
 
-        // Melakukan enkripsi pada $dataArray
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
             $emailAddresses = $data["email_addr"];
         
-            // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
-                // Dynamically update the log path
-                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log'); // Define your custom path here
-
-                // Set the new path in the configuration
+                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log');
+                
                 Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
