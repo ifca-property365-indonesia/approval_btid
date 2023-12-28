@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use App\Mail\FeedbackMail;
 use App\Mail\StaffActionMail;
@@ -53,6 +54,12 @@ class StaffActionController extends Controller
             $emailAddresses = $data["email_addr"];
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+                
+                // Dynamically update the log path
+                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log'); // Define your custom path here
+
+                // Set the new path in the configuration
+                Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new StaffActionMail($EmailBack));

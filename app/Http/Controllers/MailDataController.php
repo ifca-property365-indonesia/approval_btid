@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,7 @@ class MailDataController extends Controller
         $arguments = [$dataFromExternal];
         $result = call_user_func_array([$controller, $methodName], $arguments);
         return $result;
+        // var_dump($controller);
     }
 
     public function processData($module='', $status='', $encrypt='')

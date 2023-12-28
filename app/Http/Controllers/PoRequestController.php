@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendMail;
@@ -40,7 +41,7 @@ class PoRequestController extends Controller
             'user_name'     => $data["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => "PoRequest",
+            'module'        => $data["module"],
             'body'          => "Please approve Purchase Requisition No. ".$data['req_hd_no']." for ".$req_hd_descs,
             'subject'       => "Need Approval for Purchase Requisition No.  ".$data['req_hd_no'],
         );
@@ -65,6 +66,12 @@ class PoRequestController extends Controller
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+                
+                // Dynamically update the log path
+                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log'); // Define your custom path here
+
+                // Set the new path in the configuration
+                Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new SendMail($encryptedData, $dataArray));

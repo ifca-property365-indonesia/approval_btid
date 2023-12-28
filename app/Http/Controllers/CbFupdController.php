@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendMail;
@@ -42,7 +43,7 @@ class CbFupdController extends Controller
             'entity_name'   => $data["entity_name"],
             'user_name'     => $data["user_name"],
             'reason'        => $data["reason"],
-            'module'        => "CbFupd",
+            'module'        => $data["module"],
             'body'          => "Please approve Propose Transfer to Bank No. ".$data['doc_no']." for ".$band_hd_descs,
             'subject'       => "Need Approval for Propose Transfer to Bank No. ".$data['doc_no'],
         );
@@ -70,6 +71,12 @@ class CbFupdController extends Controller
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+                
+                // Dynamically update the log path
+                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log'); // Define your custom path here
+
+                // Set the new path in the configuration
+                Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
