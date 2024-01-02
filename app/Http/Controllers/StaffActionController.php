@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
+use App\Mail\FeedbackMail;
 use App\Mail\StaffActionMail;
 use Carbon\Carbon;
 
 class StaffActionController extends Controller
 {
-    public function processModule($data)
+    public function staffaction(Request $request)
     {
         $callback = array(
             'Error' => false,
@@ -24,39 +24,35 @@ class StaffActionController extends Controller
             'Status' => 200
         );
 
-        if ($data["status"] == 'R') {
+        if ($request->status == 'R') {
 
             $action = 'Revision';
-            $bodyEMail = 'Please revise '.$data["descs"].' No. '.$data["doc_no"].' with the reason';
+            $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason';
 
-        } else if ($data["status"] == 'C'){
+        } else if ($request->status == 'C'){
             
             $action = 'Cancellation';
-            $bodyEMail = $data["descs"].' No. '.$data["doc_no"].' has been cancelled with the reason';
+            $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason';
 
         }
 
         $EmailBack = array(
-            'doc_no'            => $data["doc_no"],
+            'doc_no'            => $request->doc_no,
             'action'            => $action,
-            'reason'            => $data["reason"],
-            'descs'             => $data["descs"],
-            'subject'		    => $data["subject"],
+            'reason'            => $request->reason,
+            'descs'             => $request->descs,
+            'subject'		    => $request->subject,
             'bodyEMail'		    => $bodyEMail,
-            'user_name'         => $data["user_name"],
-            'staff_act_send'    => $data["staff_act_send"],
-            'entity_name'       => $data["entity_name"],
+            'user_name'         => $request->user_name,
+            'staff_act_send'    => $request->staff_act_send,
+            'entity_name'       => $request->entity_name,
             'action_date'       => Carbon::now('Asia/Jakarta')->format('d-m-Y H:i')
         );
 
         try {
-            $emailAddresses = $data["email_addr"];
+            $emailAddresses = $request->email_addr;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
-                
-                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log');
-                
-                Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new StaffActionMail($EmailBack));
@@ -72,6 +68,22 @@ class StaffActionController extends Controller
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
+        }
+    }
+
+    public function fileexist(Request $request)
+    {
+        $file_name = $request->file_name;
+        $folder_name = $request->folder_name;
+
+        // $urlcheck = 'http://35.219.16.171/file/'.$folder_name.'/'.$file_name;
+        $urlcheck = 'http://uat.ifca.co.id:8080/FTP/BTID/'.$folder_name.'/'.$file_name;
+
+        $response2 = Http::get($urlcheck);
+        if( $response2->successful() ) {
+            echo "Ada File";
+        } else {
+            echo "Tidak Ada File";
         }
     }
 }

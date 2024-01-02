@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendMail;
@@ -44,7 +43,7 @@ class PoSelectionController extends Controller
             'user_name'     => $data["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => $data["module"],
+            'module'        => "PoSelection",
             'body'          => "Please approve Quotation No. ".$data['po_doc_no']." for ".$po_descs,
             'subject'       => "Need Approval for Quotation No.  ".$data['po_doc_no'],
         );
@@ -59,20 +58,21 @@ class PoSelectionController extends Controller
             'ref_no'        => $data["ref_no"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
-            'supervisor'    => $data["supervisor"]
+            'supervisor'    => $data["supervisor"],
+            'type'          => 'S',
+            'type_module'   => 'PO',
+            'text'          => 'Purchase Selection'
         );
 
+        // Melakukan enkripsi pada $dataArray
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
             $emailAddresses = $data["email_addr"];
         
+            // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
-                
-                $newPath = storage_path('logs/'.$data["module"].'/sendmail.log');
-                
-                Config::set('logging.channels.sendmail.path', $newPath);
                 
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
@@ -96,58 +96,6 @@ class PoSelectionController extends Controller
         $data = Crypt::decrypt($encrypt);
         $dateTime = DateTime::createFromFormat('d-m-Y', $data["trx_date"]);
         $formattedDate = $dateTime->format('d-m-Y');
-        
-        $where = array(
-            'doc_no'        => $data["doc_no"],
-            'status'        => array("A",'R', 'C'),
-            'entity_cd'     => $data["entity_cd"],
-            'level_no'      => $data["level_no"],
-            'type'          => 'S',
-            'module'        => 'PO',
-        );
-
-        $query = DB::connection('BTID')
-        ->table('mgr.cb_cash_request_appr')
-        ->where($where)
-        ->get();
-
-        $where2 = array(
-            'doc_no'        => $data["doc_no"],
-            'status'        => 'P',
-            'entity_cd'     => $data["entity_cd"],
-            'level_no'      => $data["level_no"],
-            'type'          => 'S',
-            'module'        => 'PO',
-        );
-
-        $query2 = DB::connection('BTID')
-        ->table('mgr.cb_cash_request_appr')
-        ->where($where2)
-        ->get();
-
-        if (count($query)>0) {
-            $msg = 'You Have Already Made a Request to Purchase Selection No. '.$data["doc_no"] ;
-            $notif = 'Restricted !';
-            $st  = 'OK';
-            $image = "double_approve.png";
-            $msg1 = array(
-                "Pesan" => $msg,
-                "St" => $st,
-                "notif" => $notif,
-                "image" => $image
-            );
-        } else if (count($query2) == 0){
-            $msg = 'There is no Purchase Selection with No. '.$data["doc_no"] ;
-            $notif = 'Restricted !';
-            $st  = 'OK';
-            $image = "double_approve.png";
-            $msg1 = array(
-                "Pesan" => $msg,
-                "St" => $st,
-                "notif" => $notif,
-                "image" => $image
-            );
-        }
 
         if ($status == "A") {
             $descstatus = "Approved";
