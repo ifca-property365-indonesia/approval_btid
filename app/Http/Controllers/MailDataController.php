@@ -27,7 +27,7 @@ class MailDataController extends Controller
 
         $where = array(
             'doc_no'        => $data["doc_no"],
-            'status'        => array("A",'R', 'C'),
+            'status'        => array("A","R","C"),
             'entity_cd'     => $data["entity_cd"],
             'level_no'      => $data["level_no"],
             'type'          => $data["type"],
