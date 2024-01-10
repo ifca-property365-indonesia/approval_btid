@@ -108,7 +108,7 @@ class CbPpuController extends Controller
 
         // Execute the stored procedure using Laravel's database query builder
         try {
-            $result = DB::connection('sqlsrv')->select("EXEC mgr.x_send_mail_approval_cb_ppu ?, ?, ?, ?, ?, ?, ?, ?, ?, ?", [
+            $result = DB::connection('BTID')->select("EXEC mgr.x_send_mail_approval_cb_ppu ?, ?, ?, ?, ?, ?, ?, ?, ?, ?", [
                 $data["entity_cd"],
                 $data["project_no"],
                 $data["doc_no"],
