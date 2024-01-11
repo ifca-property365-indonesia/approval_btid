@@ -27,3 +27,4 @@ Route::POST('/getaccess', [MailData::class, 'getAccess']);
 
 use App\Http\Controllers\StaffActionController as StaffAction;
 Route::POST('/staffaction', [StaffAction::class, 'staffaction']);
+Route::POST('/fileexist', [StaffAction::class, 'fileexist']);
