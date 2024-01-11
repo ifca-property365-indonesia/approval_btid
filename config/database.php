@@ -72,10 +72,10 @@ return [
             'username' => env('DB_USERNAME3', 'forge'),
             'password' => env('DB_PASSWORD3', ''),
             'charset' => 'utf8',
-            'prefix' => '',            
-            'encrypt' => 'yes',
-            'trust_server_certificate' => true,            
-            'prefix_indexes' => true,
+            'prefix' => '',
+	    'encrypt' => 'yes',
+            'trust_server_certificate' => true,
+	    'prefix_indexes' => true,
         ],
 
         'pgsql' => [

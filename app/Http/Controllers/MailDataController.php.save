@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+
+class MailDataController extends Controller
+{
+    public function receive(Request $request)
+    {
+        $dataFromExternal = $request->all();
+        $module = $request->module;
+        $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
+        $methodName = 'processModule';
+        //$arguments = [$dataFromExternal];
+		
+        //$result = call_user_func_array([$controller, $methodName], $arguments);
+        //return $result;
+    }
+}
