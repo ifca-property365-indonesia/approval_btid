@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -76,16 +77,23 @@ class StaffActionController extends Controller
         $file_name = $request->file_name;
         $folder_name = $request->folder_name;
 
-        var_dump($file_name);
-        var_dump($folder_name);
-        // // $urlcheck = 'http://35.219.16.171/file/'.$folder_name.'/'.$file_name;
-        // $urlcheck = 'http://34.101.201.127/'.$folder_name.'/'.$file_name;
+        // Connect to FTP server
+        $ftp_server = "34.101.201.127";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
 
-        // $response2 = Http::get($urlcheck);
-        // if( $response2->successful() ) {
-        //     echo "Ada File";
-        // } else {
-        //     echo "Tidak Ada File";
-        // }
+        // Log in to FTP server
+        $ftp_user_name = "ifca_dev";
+        $ftp_user_pass = "@Serangan1212";
+        $login = ftp_login($ftp_conn, $ftp_user_name, $ftp_user_pass);
+
+        $file = $folder_name."/".$file_name;
+
+        if (ftp_size($ftp_conn, $file) >= 0) {
+            echo "Ada File";
+        } else {
+            echo "Tidak Ada File";
+        }
+
+        ftp_close($ftp_conn);
     }
 }
