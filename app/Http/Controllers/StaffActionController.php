@@ -77,7 +77,7 @@ class StaffActionController extends Controller
         $folder_name = $request->folder_name;
 
         // $urlcheck = 'http://35.219.16.171/file/'.$folder_name.'/'.$file_name;
-        $urlcheck = 'http://uat.ifca.co.id:8080/FTP/BTID/'.$folder_name.'/'.$file_name;
+        $urlcheck = 'http://34.101.201.127/'.$folder_name.'/'.$file_name;
 
         $response2 = Http::get($urlcheck);
         if( $response2->successful() ) {
