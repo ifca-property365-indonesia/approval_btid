@@ -28,13 +28,16 @@ class StaffActionController extends Controller
         if ($request->status == 'R') {
 
             $action = 'Revision';
-            $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason';
+            $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
         } else if ($request->status == 'C'){
             
             $action = 'Cancellation';
-            $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason';
+            $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
+        } else if  ($request->status == 'A') {
+            $action = 'Approval';
+            $bodyEMail = 'Your Request has been Approved';
         }
 
         $EmailBack = array(
