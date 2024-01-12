@@ -50,7 +50,9 @@
                                     <input type="text" id="module" name="module" value="<?php echo $module?>" hidden>
                                     <input type="text" id="email" name="email" value="<?php echo $email?>" hidden>
                                     <div class="form-group">
-                                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                                        <?php if ($status != 'A'): ?>
+                                            <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                                        <?php endif; ?>
                                     </div>
                                     <input type="submit" class="btn" style="background-color:<?php echo $bgcolor?>;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0px 40px;margin: 10px" value=<?php echo $valuebt?>>
                                     </form>
