@@ -102,11 +102,7 @@ class MailDataController extends Controller
                 "bgcolor"   => $bgcolor,
                 "valuebt"   => $valuebt
             );
-            if ($status == "A"){
-                return view('email/passcheck', $data);
-            } else {
-                return view('email/passcheckwithremark', $data);
-            }
+            return view('email/passcheckwithremark', $data);
         }
     }
 
@@ -114,7 +110,6 @@ class MailDataController extends Controller
     {
         $status = $request->status;
         $encrypt= $request->encrypt;
-        $password=$request->password;
         $email=$request->email;
         $module=$request->module;
         $reason=$request->reason;
@@ -122,23 +117,8 @@ class MailDataController extends Controller
             $reason = '0';
         }
 
-        $where = array('email' => $email);
-        $data = DB::connection('BTID')
-                    ->table('mgr.security_users')
-                    ->where($where)
-                    ->select('name')
-                    ->first();
-
-        $servername = getenv('DB_HOST3') ?: 'uat.ifca.co.id';
-        $port = getenv('DB_PORT3') ?: '1436';
-        $dbname = getenv('DB_DATABASE3') ?: 'BTID_LIVE';
-        $username = $data->name;
-        $password = $password;
-
         try {
             // Attempt to connect to the database
-            $connection = new \PDO("sqlsrv:Server=$servername,$port;Database=$dbname", $username, $password);
-            $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
