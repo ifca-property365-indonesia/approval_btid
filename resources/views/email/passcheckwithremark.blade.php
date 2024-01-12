@@ -52,8 +52,6 @@
                                     <div class="form-group">
                                         <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                                     </div>
-                                    <p>Please Enter Your Password</p>
-                                    <input type="password" id="password" name="password"><br>
                                     <input type="submit" class="btn" style="background-color:<?php echo $bgcolor?>;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0px 40px;margin: 10px" value=<?php echo $valuebt?>>
                                     </form>
                                 </td>
