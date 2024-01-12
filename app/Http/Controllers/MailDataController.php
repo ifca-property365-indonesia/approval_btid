@@ -125,15 +125,8 @@ class MailDataController extends Controller
             $result = call_user_func_array([$controller, $methodName], $arguments);
             return $result;
         } catch (\Exception $e) {
-            if ($e->getCode() == 2002 || $e->getCode() == 50000) {
-                $msg = "Server not found or connection failed.";
-            } elseif ($e->getCode() == 28000) {
-                $msg = "Authentication failed: Invalid username or password.";
-            } else {
-                $msg = "Connection failed: " . $e->getMessage();
-            }
             $msg1 = array(
-                "Pesan" => $msg,
+                "Pesan" => "Cannot find Module",
                 "image" => "reject.png"
             );
             return view("email.after", $msg1);
