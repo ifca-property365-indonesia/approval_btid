@@ -86,7 +86,7 @@ class StaffActionController extends Controller
         $ftp_user_pass = "@Serangan1212";
         $login = ftp_login($ftp_conn, $ftp_user_name, $ftp_user_pass);
 
-        $file = $folder_name."/".$file_name;
+        $file = "ifca-att/".$folder_name."/".$file_name;
 
         if (ftp_size($ftp_conn, $file) >= 0) {
             echo "Ada File";
