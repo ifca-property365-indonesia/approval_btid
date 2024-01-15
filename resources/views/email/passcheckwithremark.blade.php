@@ -40,7 +40,7 @@
                             <tr>
                                 <td style="text-align:center;padding: 50px 30px;">
                                     <img style="width:88px; margin-bottom:24px;" src="{{ url('public/images/double_approve.png') }}" alt="Verified">
-                                    <p>You will do a {{ $name }} for Doc No. {{ $doc_no }}</p>
+                                    <p>Do you want to {{ $valuebt }} this request ?</p>
                                     <form id="frmEditor" class="form-horizontal" method="POST" action="{{ url('/api/getaccess') }}" enctype="multipart/form-data">
                                     @csrf
                                     <input type="text" id="status" name="status" value="<?php echo $status?>" hidden>
@@ -49,10 +49,14 @@
                                     <input type="text" id="module" name="module" value="<?php echo $module?>" hidden>
                                     <input type="text" id="email" name="email" value="<?php echo $email?>" hidden>
                                     <?php if ($status != 'A'): ?>
-                                    <p>Please provide reasons for your request : </p>
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
-                                    </div>
+                                        <?php if ($status == 'R'): ?>
+                                            <p>Please provide the reasons for requesting this revision</p>
+                                        <?php elseif ($status == 'C'): ?>
+                                            <p>Please provide the reasons for requesting the cancellation of this revision</p>
+                                        <?php endif; ?>
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                                        </div>
                                     <?php endif; ?>
                                     <input type="submit" class="btn" style="background-color:<?php echo $bgcolor?>;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0px 40px;margin: 10px" value=<?php echo $valuebt?>>
                                     </form>
