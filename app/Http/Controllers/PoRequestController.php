@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendMail;
+use App\Mail\SendPoRMail;
 
 class PoRequestController extends Controller
 {
@@ -19,11 +20,13 @@ class PoRequestController extends Controller
             $req_hd_descs = $data["req_hd_descs"];
         }
 
-        $list_of_urls = explode(',', $data["url_file"]);
-        $list_of_files = explode(',', $data["file_name"]);
+        $list_of_urls = explode(';', $data["url_file"]);
+        $list_of_files = explode(';', $data["file_name"]);
+        $list_of_doc = explode(';', $data["document_link"]);
 
         $url_data = [];
         $file_data = [];
+        $doc_data = [];
 
         foreach ($list_of_urls as $url) {
             $url_data[] = $url;
@@ -32,16 +35,24 @@ class PoRequestController extends Controller
         foreach ($list_of_files as $file) {
             $file_data[] = $file;
         }
+
+        foreach ($list_of_doc as $doc) {
+            $doc_data[] = $doc;
+        }
         
         $dataArray = array(
             'sender'        => $data["sender"],
             'entity_name'   => $data["entity_name"],
             'descs'         => $data["descs"],
+            'email_address' => $data["email_addr"],
             'user_name'     => $data["user_name"],
+            'req_hd_descs'  => $data["req_hd_descs"],
+            'req_hd_no'     => $data["req_hd_no"],
+            'total_price'   => $data["total_price"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
+            'doc_link'      => $doc_data,
             'module'        => "PoRequest",
-            'body'          => "Please approve Purchase Requisition No. ".$data['req_hd_no']." for ".$req_hd_descs,
             'subject'       => "Need Approval for Purchase Requisition No.  ".$data['req_hd_no'],
         );
 
@@ -70,7 +81,7 @@ class PoRequestController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPoRMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

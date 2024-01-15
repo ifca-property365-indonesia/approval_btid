@@ -7,10 +7,9 @@
     <meta name="x-apple-disable-message-reformatting">
     <title></title>
     
-    <link href="https://fonts.googleapis.com/css?family=Vollkorn:400,600" rel="stylesheet" type="text/css">
     <style>
         body {
-            font-family: Vollkorn;
+            font-family: Arial;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -35,7 +34,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#ffff67;">
+                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                         <tbody>
                             <tr>
                                 <td style="text-align:center;padding: 50px 30px;">

@@ -35,11 +35,31 @@
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a request to purchase that requires your approval :</p><br>
+
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;"><b>{{ $dataArray['req_hd_descs'] }}</b><br>
+                                        With total estimated amount of Rp {{ $dataArray['total_price'] }}<br>
+                                        RF no : {{ $dataArray['req_hd_no'] }}</p><br>
+
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
-                                    <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                    <br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        In case you need some clarification, kindly approach<br>
+                                        <table style="width:100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="padding: 8px; text-align: left; font-weight: bold; font-size: 16px;">Name of department head</td>
+                                                <td style="padding: 8px; text-align: left; font-size: 16px;">{{ $dataArray['user_name'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px; text-align: left; font-weight: bold; font-size: 16px;">Email</td>
+                                                <td style="padding: 8px; text-align: left; font-size: 16px;">{{ $dataArray['email_address'] }}</td>
+                                            </tr>
+                                        </table>                                                                               
+                                    </p>
+                                        
+                                        <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         <b>Thank you,</b><br>
                                         {{ $dataArray['sender'] }}
                                     </p><br>
@@ -54,7 +74,7 @@
                                                     $hasAttachment = true;
                                                 @endphp
                                                 <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <b style="font-style:italic;">To view the attachment, please click the links below:</b><br>
+                                                    <span>To view a detailed product list, description, and estimate price per item, please click on the link below :</span><br>
                                             @endif
                                             <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
                                         @endif
@@ -63,6 +83,31 @@
                                     @if($hasAttachment)
                                         </p>
                                     @endif
+
+                                    @php
+                                        $hasAttachment = false;
+                                    @endphp
+
+                                    @foreach($dataArray['doc_link'] as $key => $doc_link)
+                                        @if($doc_link !== '' && $doc_link !== 'EMPTY')
+                                            @if(!$hasAttachment)
+                                                @php
+                                                    $hasAttachment = true;
+                                                @endphp
+                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                                    <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
+                                            @endif
+                                            <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br>
+                                        @endif
+                                    @endforeach
+
+                                    @if($hasAttachment)
+                                        </p>
+                                    @endif
+
+                                    <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        <b>Please do not reply, as this is an automated-generated email.</b><br>
+                                    </p><br>
 
                                 </td>
                             </tr>
