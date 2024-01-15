@@ -8,10 +8,9 @@
     <meta name="x-apple-disable-message-reformatting">
     <title></title>
     
-    <link href="https://fonts.googleapis.com/css?family=Vollkorn:400,600" rel="stylesheet" type="text/css">
     <style>
         body {
-            font-family: Vollkorn;
+            font-family: Arial;
         }
     </style>
     
@@ -33,7 +32,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#ffff67;">
+                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px">
