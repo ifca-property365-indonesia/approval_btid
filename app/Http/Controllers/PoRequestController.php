@@ -20,9 +20,9 @@ class PoRequestController extends Controller
             $req_hd_descs = $data["req_hd_descs"];
         }
 
-        $list_of_urls = explode(';', $data["url_file"]);
-        $list_of_files = explode(';', $data["file_name"]);
-        $list_of_doc = explode(';', $data["document_link"]);
+        $list_of_urls = explode('; ', $data["url_file"]);
+        $list_of_files = explode('; ', $data["file_name"]);
+        $list_of_doc = explode('; ', $data["document_link"]);
 
         $url_data = [];
         $file_data = [];
