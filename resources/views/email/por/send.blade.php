@@ -76,7 +76,7 @@
                                                 <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
                                                     <span>To view a detailed product list, description, and estimate price per item, please click on the link below :</span><br>
                                             @endif
-                                            <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
+                                            <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br><br>
                                         @endif
                                     @endforeach
 
@@ -86,20 +86,19 @@
 
                                     @php
                                         $hasAttachment = false;
-                                        $filteredDocLinks = array_filter($dataArray['doc_link'], function($value) {
-                                            return $value !== 'EMPTY' && $value !== '';
-                                        });
                                     @endphp
 
-                                    @foreach($filteredDocLinks as $key => $doc_link)
-                                        @if(!$hasAttachment)
-                                            @php
-                                                $hasAttachment = true;
-                                            @endphp
-                                            <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
+                                    @foreach($dataArray['doc_link'] as $key => $doc_link)
+                                        @if($doc_link !== '' && $doc_link !== 'EMPTY')
+                                            @if(!$hasAttachment)
+                                                @php
+                                                    $hasAttachment = true;
+                                                @endphp
+                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                                    <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
+                                            @endif
+                                            <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br><br>
                                         @endif
-                                        <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br>
                                     @endforeach
 
                                     @if($hasAttachment)
