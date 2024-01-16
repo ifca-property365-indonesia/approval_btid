@@ -39,6 +39,8 @@ class PoRequestController extends Controller
         foreach ($list_of_doc as $doc) {
             $doc_data[] = $doc;
         }
+
+        $formattedNumber = number_format($data["total_price"], 2, '.', ',');
         
         $dataArray = array(
             'sender'        => $data["sender"],
@@ -48,7 +50,7 @@ class PoRequestController extends Controller
             'user_name'     => $data["user_name"],
             'req_hd_descs'  => $data["req_hd_descs"],
             'req_hd_no'     => $data["req_hd_no"],
-            'total_price'   => $data["total_price"],
+            'total_price'   => $formattedNumber,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'doc_link'      => $doc_data,
