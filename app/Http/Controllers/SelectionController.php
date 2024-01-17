@@ -171,8 +171,12 @@ class SelectionController extends Controller
                 "bgcolor"   => $bgcolor,
                 "valuebt"   => $valuebt
             );
-            var_dump($data);
-            // return view('email/passcheckwithremark', $data);
+            return view('email/pos/passcheckwithremark', $data);
         }
+    }
+
+    public function getAccess(Request $request)
+    {
+        var_dump($request->all);
     }
 }
