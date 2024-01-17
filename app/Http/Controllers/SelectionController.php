@@ -177,6 +177,6 @@ class SelectionController extends Controller
 
     public function getAccess(Request $request)
     {
-        var_dump($request->all);
+        var_dump($request->all());
     }
 }
