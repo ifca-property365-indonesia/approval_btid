@@ -15,7 +15,7 @@ class SelectionController extends Controller
 {
     public function processModule($data) 
     {
-        if (strpos($data->po_descs, "\n") !== false) {
+        if (strpos($data["po_descs"], "\n") !== false) {
             $po_descs = str_replace("\n", ' (', $data->po_descs) . ')';
         } else {
             $po_descs = $data->po_descs;
