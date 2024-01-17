@@ -15,14 +15,14 @@ class SelectionController extends Controller
 {
     public function processModule($data) 
     {
-        if (strpos($data["po_descs"], "\n") !== false) {
-            $po_descs = str_replace("\n", ' (', $data["po_descs"]) . ')';
+        if (strpos($dataEncrypt["po_descs"], "\n") !== false) {
+            $po_descs = str_replace("\n", ' (', $dataEncrypt["po_descs"]) . ')';
         } else {
-            $po_descs = $data["po_descs"];
+            $po_descs = $dataEncrypt["po_descs"];
         }
         
-        $list_of_urls = explode(',', $data["url_file"]);
-        $list_of_files = explode(',', $data["file_name"]);
+        $list_of_urls = explode(',', $dataEncrypt["url_file"]);
+        $list_of_files = explode(',', $dataEncrypt["file_name"]);
 
         $url_data = [];
         $file_data = [];
@@ -36,28 +36,28 @@ class SelectionController extends Controller
         }
         
         $dataArray = array(
-            'sender'        => $data["sender"],
-            'entity_name'   => $data["entity_name"],
-            'descs'         => $data["descs"],
-            'user_name'     => $data["user_name"],
+            'sender'        => $dataEncrypt["sender"],
+            'entity_name'   => $dataEncrypt["entity_name"],
+            'descs'         => $dataEncrypt["descs"],
+            'user_name'     => $dataEncrypt["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => $data["module"],
-            'body'          => "Please approve Quotation No. ".$data['po_doc_no']." for ".$po_descs,
-            'subject'       => "Need Approval for Quotation No.  ".$data['po_doc_no'],
+            'module'        => $dataEncrypt["module"],
+            'body'          => "Please approve Quotation No. ".$dataEncrypt['po_doc_no']." for ".$po_descs,
+            'subject'       => "Need Approval for Quotation No.  ".$dataEncrypt['po_doc_no'],
         );
 
         $data2Encrypt = array(
-            'entity_cd'     => $data["entity_cd"],
-            'project_no'    => $data["project_no"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
-            'trx_date'      => $data["trx_date"],
-            'doc_no'        => $data["doc_no"],
-            'ref_no'        => $data["ref_no"],
-            'usergroup'     => $data["usergroup"],
-            'user_id'       => $data["user_id"],
-            'supervisor'    => $data["supervisor"],
+            'entity_cd'     => $dataEncrypt["entity_cd"],
+            'project_no'    => $dataEncrypt["project_no"],
+            'email_address' => $dataEncrypt["email_addr"],
+            'level_no'      => $dataEncrypt["level_no"],
+            'trx_date'      => $dataEncrypt["trx_date"],
+            'doc_no'        => $dataEncrypt["doc_no"],
+            'ref_no'        => $dataEncrypt["ref_no"],
+            'usergroup'     => $dataEncrypt["usergroup"],
+            'user_id'       => $dataEncrypt["user_id"],
+            'supervisor'    => $dataEncrypt["supervisor"],
             'type'          => 'S',
             'type_module'   => 'PO',
             'text'          => 'Purchase Selection'
@@ -67,7 +67,7 @@ class SelectionController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $data["email_addr"];
+            $emailAddresses = $dataEncrypt["email_addr"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
@@ -92,6 +92,87 @@ class SelectionController extends Controller
 
     public function processData($module = '', $status='', $encrypt='')
     {
-        var_dump($module);
+        $dataEncrypt = Crypt::decrypt($encrypt);
+
+        $where = array(
+            'doc_no'        => $dataEncrypt["doc_no"],
+            'status'        => array("A","R","C"),
+            'entity_cd'     => $dataEncrypt["entity_cd"],
+            'level_no'      => $dataEncrypt["level_no"],
+            'type'          => $dataEncrypt["type"],
+            'module'        => $dataEncrypt["type_module"],
+        );
+
+        $query = DB::connection('BTID')
+        ->table('mgr.cb_cash_request_appr')
+        ->where($where)
+        ->get();
+
+        $where2 = array(
+            'doc_no'        => $dataEncrypt["doc_no"],
+            'status'        => 'P',
+            'entity_cd'     => $dataEncrypt["entity_cd"],
+            'level_no'      => $dataEncrypt["level_no"],
+            'type'          => $dataEncrypt["type"],
+            'module'        => $dataEncrypt["type_module"],
+        );
+
+        $query2 = DB::connection('BTID')
+        ->table('mgr.cb_cash_request_appr')
+        ->where($where2)
+        ->get();
+
+        if (count($query)>0) {
+            $msg = 'You Have Already Made a Request to '.$dataEncrypt["text"].' No. '.$dataEncrypt["doc_no"] ;
+            $notif = 'Restricted !';
+            $st  = 'OK';
+            $image = "double_approve.png";
+            $msg1 = array(
+                "Pesan" => $msg,
+                "St" => $st,
+                "notif" => $notif,
+                "image" => $image
+            );
+            return view("email.after", $msg1);
+        } else if (count($query2) == 0){
+            $msg = 'There is no '.$dataEncrypt["text"].' with No. '.$dataEncrypt["doc_no"] ;
+            $notif = 'Restricted !';
+            $st  = 'OK';
+            $image = "double_approve.png";
+            $msg1 = array(
+                "Pesan" => $msg,
+                "St" => $st,
+                "notif" => $notif,
+                "image" => $image
+            );
+            return view("email.after", $msg1);
+        } else {
+            if ($status == 'A') {
+                $name   = 'Approval';
+                $bgcolor = '#40de1d';
+                $valuebt  = 'Approve';
+            } else if ($status == 'R') {
+                $name   = 'Revision';
+                $bgcolor = '#f4bd0e';
+                $valuebt  = 'Revise';
+            } else {
+                $name   = 'Cancellation';
+                $bgcolor = '#e85347';
+                $valuebt  = 'Cancel';
+            }
+            $dataArray = Crypt::decrypt($encrypt);
+            $data = array(
+                "status"    => $status,
+                "doc_no"    => $dataArray["doc_no"],
+                "email"     => $dataArray["email_address"],
+                "module"    => $module,
+                "encrypt"   => $encrypt,
+                "name"      => $name,
+                "bgcolor"   => $bgcolor,
+                "valuebt"   => $valuebt
+            );
+            var_dump($data);
+            // return view('email/passcheckwithremark', $data);
+        }
     }
 }
