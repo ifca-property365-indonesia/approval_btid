@@ -108,18 +108,6 @@ class PoSelectionController extends Controller
             $descstatus = "Cancelled";
             $imagestatus = "reject.png";
         }
-        // var_dump($data);
-        // var_dump($data["entity_cd"]);
-        // var_dump($data["project_no"]);
-        // var_dump($data["doc_no"]);
-        // var_dump($data["ref_no"]);
-        // var_dump($data["trx_date"]);
-        // var_dump($status);
-        // var_dump($data["level_no"]);
-        // var_dump($data["usergroup"]);
-        // var_dump($data["user_id"]);
-        // var_dump($data["supervisor"]);
-        // var_dump($data["reason"]);
         $pdo = DB::connection('BTID')->getPdo();
         $sth = $pdo->prepare("EXEC mgr.x_send_mail_approval_po_selection ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
         $sth->bindParam(1, $data["entity_cd"]);
@@ -134,7 +122,6 @@ class PoSelectionController extends Controller
         $sth->bindParam(10, $data["supervisor"]);
         $sth->bindParam(11, $reason);
         $sth->execute();
-        var_dump($sth);
         // if ($sth == true) {
         //     $msg = "You Have Successfully ".$descstatus." the Purchase Selection No. ".$data["doc_no"];
         //     $notif = $descstatus." !";

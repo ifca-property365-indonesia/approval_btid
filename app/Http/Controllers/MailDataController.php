@@ -113,23 +113,24 @@ class MailDataController extends Controller
         $email=$request->email;
         $module=$request->module;
         $reason=$request->reason;
-        if (empty($request->reason)) {
-            $reason = '0';
-        }
+        var_dump($request->all());
+        // if (empty($request->reason)) {
+        //     $reason = '0';
+        // }
 
-        try {
-            // Attempt to connect to the database
-            $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
-            $methodName = 'update';
-            $arguments = [$status, $encrypt, $reason];
-            $result = call_user_func_array([$controller, $methodName], $arguments);
-            return $result;
-        } catch (\Exception $e) {
-            $msg1 = array(
-                "Pesan" => "Cannot find Module",
-                "image" => "reject.png"
-            );
-            return view("email.after", $msg1);
-        }
+        // try {
+        //     // Attempt to connect to the database
+        //     $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
+        //     $methodName = 'update';
+        //     $arguments = [$status, $encrypt, $reason];
+        //     $result = call_user_func_array([$controller, $methodName], $arguments);
+        //     return $result;
+        // } catch (\Exception $e) {
+        //     $msg1 = array(
+        //         "Pesan" => "Cannot find Module",
+        //         "image" => "reject.png"
+        //     );
+        //     return view("email.after", $msg1);
+        // }
     }
 }
