@@ -89,4 +89,9 @@ class SelectionController extends Controller
             return "Gagal mengirim email: " . $e->getMessage();
         }
     }
+
+    public function processData($module = '', $status='', $encrypt='')
+    {
+        var_dump($module);
+    }
 }
