@@ -179,6 +179,12 @@ class SelectionController extends Controller
     {
         $data = Crypt::decrypt($request->encrypt);
         $trx_date = $data["trx_date"];
+        if (empty($request->reason)) {
+            $reason = '0';
+        } else {
+            $reason = $request->reason;
+        }
+        $status = $request->status;
         // $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
         // $formattedDate = $dateTime->format('d-m-Y');
 
@@ -199,12 +205,12 @@ class SelectionController extends Controller
         $sth->bindParam(3, $data["doc_no"]);
         $sth->bindParam(4, $data["ref_no"]);
         $sth->bindParam(5, $data["trx_date"]);
-        $sth->bindParam(6, $request->status);
+        $sth->bindParam(6, $status);
         $sth->bindParam(7, $data["level_no"]);
         $sth->bindParam(8, $data["usergroup"]);
         $sth->bindParam(9, $data["user_id"]);
         $sth->bindParam(10, $data["supervisor"]);
-        $sth->bindParam(11, $request->reason);
+        $sth->bindParam(11, $reason);
         $sth->execute();
         if ($sth == true) {
             $msg = "You Have Successfully ".$descstatus." the Purchase Selection No. ".$data["doc_no"];
