@@ -108,6 +108,7 @@ class MailDataController extends Controller
 
     public function getAccess(Request $request)
     {
+        $dataFromExternal = $request->all();
         $status = $request->status;
         $encrypt= $request->encrypt;
         $email=$request->email;
