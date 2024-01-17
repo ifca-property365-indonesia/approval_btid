@@ -102,8 +102,7 @@ class MailDataController extends Controller
                 "bgcolor"   => $bgcolor,
                 "valuebt"   => $valuebt
             );
-            var_dump($data);
-            // return view('email/passcheckwithremark', $data);
+            return view('email/passcheckwithremark', $data);
         }
     }
 
@@ -117,15 +116,16 @@ class MailDataController extends Controller
         if (empty($request->reason)) {
             $reason = '0';
         }
-
         try {
             $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
-            $result = call_user_func_array([$controller, $methodName], $arguments);
-            return $result;
+            var_dump($controller);
+            var_dump($methodName);
+            var_dump($arguments);
+            // $result = call_user_func_array([$controller, $methodName], $arguments);
+            // return $result;
         } catch (\Exception $e) {
-            
             $msg1 = array(
                 "Pesan" => "FAILED",
                 "image" => "reject.png"
