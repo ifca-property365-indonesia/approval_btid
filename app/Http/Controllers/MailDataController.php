@@ -122,8 +122,9 @@ class MailDataController extends Controller
             var_dump($controller);
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
-            $result = call_user_func_array([$controller, $methodName], $arguments);
-            return $result;
+            var_dump($arguments);
+            // $result = call_user_func_array([$controller, $methodName], $arguments);
+            // return $result;
         } catch (\Exception $e) {
             $msg1 = array(
                 "Pesan" => "Cannot find Module",
