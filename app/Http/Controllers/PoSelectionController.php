@@ -97,7 +97,7 @@ class PoSelectionController extends Controller
         $trx_date = $data["trx_date"];
         $dateTime = DateTime::createFromFormat('d M Y', $trx_date);
         $formattedDate = $dateTime->format('d M Y');
-        var_dump($formattedDate);
+        var_dump($dateTime);
 
         // if ($status == "A") {
         //     $descstatus = "Approved";
