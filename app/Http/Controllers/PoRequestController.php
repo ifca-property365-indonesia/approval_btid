@@ -47,6 +47,7 @@ class PoRequestController extends Controller
             'entity_name'   => $data["entity_name"],
             'descs'         => $data["descs"],
             'email_address' => $data["email_addr"],
+            'sender_addr'   => $data["sender_addr"],
             'user_name'     => $data["user_name"],
             'req_hd_descs'  => $data["req_hd_descs"],
             'req_hd_no'     => $data["req_hd_no"],
