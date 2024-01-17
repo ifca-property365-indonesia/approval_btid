@@ -94,8 +94,8 @@ class PoSelectionController extends Controller
     public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
-        var_dump($data);
-        // $trx_date = $data["trx_date"];
+        $trx_date = $data["trx_date"];
+        var_dump($trx_date);
         // $dateTime = DateTime::createFromFormat('d M Y', $trx_date);
         // $formattedDate = $dateTime->format('d M Y');
         // var_dump($dateTime);
