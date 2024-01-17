@@ -108,6 +108,7 @@ class PoSelectionController extends Controller
             $descstatus = "Cancelled";
             $imagestatus = "reject.png";
         }
+        var_dump($data);
         var_dump($data["entity_cd"]);
         var_dump($data["project_no"]);
         var_dump($data["doc_no"]);
