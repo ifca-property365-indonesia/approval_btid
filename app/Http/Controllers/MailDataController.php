@@ -116,7 +116,7 @@ class MailDataController extends Controller
         if (empty($request->reason)) {
             $reason = '0';
         }
-
+        var_dump($module);
         // try {
         //     // Attempt to connect to the database
         //     $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
