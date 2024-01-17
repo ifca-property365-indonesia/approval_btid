@@ -178,8 +178,11 @@ class SelectionController extends Controller
     public function getAccess(Request $request)
     {
         $data = Crypt::decrypt($request->encrypt);
-        var_dump($data);
-
-
+        $trx_date = $data["trx_date"];
+        $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
+        $formattedDate = $dateTime->format('d-m-Y');
+        var_dump($trx_date);
+        var_dump($dateTime);
+        var_dump($formattedDate);
     }
 }
