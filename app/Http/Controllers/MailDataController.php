@@ -120,11 +120,8 @@ class MailDataController extends Controller
             $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
-            var_dump($controller);
-            var_dump($methodName);
-            var_dump($arguments);
-            // $result = call_user_func_array([$controller, $methodName], $arguments);
-            // return $result;
+            $result = call_user_func_array([$controller, $methodName], $arguments);
+            return $result;
         } catch (\Exception $e) {
             $msg1 = array(
                 "Pesan" => "FAILED",
