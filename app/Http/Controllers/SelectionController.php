@@ -179,14 +179,13 @@ class SelectionController extends Controller
     public function getAccess(Request $request)
     {
         $data = Crypt::decrypt($request->encrypt);
-        $trx_date = $data["trx_date"];
         if (empty($request->reason)) {
             $reason = '0';
         } else {
             $reason = $request->reason;
         }
         $status = $request->status;
-        $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
+        $dateTime = DateTime::createFromFormat('d-m-Y', $request->trx_date);
         $formattedDate = $dateTime->format('d-m-Y');
         var_dump($formattedDate);
 
