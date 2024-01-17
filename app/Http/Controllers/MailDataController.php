@@ -122,8 +122,8 @@ class MailDataController extends Controller
             var_dump($controller);
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
-            var_dump($arguments);
-            // $result = call_user_func_array([$controller, $methodName], $arguments);
+            $result = call_user_func_array([$controller, $methodName], $arguments);
+            var_dump($result);
             // return $result;
         } catch (\Exception $e) {
             $msg1 = array(
