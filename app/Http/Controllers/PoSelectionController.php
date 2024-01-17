@@ -95,7 +95,7 @@ class PoSelectionController extends Controller
     {
         $data = Crypt::decrypt($encrypt);
         $trx_date = $data["trx_date"];
-        $dateTime = DateTime::createFromFormat('d M Y', $data["trx_date"]);
+        $dateTime = DateTime::createFromFormat('d M Y', $trx_date);
         $formattedDate = $dateTime->format('d M Y');
 
         if ($status == "A") {
