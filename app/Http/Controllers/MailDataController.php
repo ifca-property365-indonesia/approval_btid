@@ -111,7 +111,7 @@ class MailDataController extends Controller
         $status = $request->status;
         $encrypt= $request->encrypt;
         $email=$request->email;
-        $module="PoSelection";
+        $module=$request->module;
         $reason=$request->reason;
         if (empty($request->reason)) {
             $reason = '0';
