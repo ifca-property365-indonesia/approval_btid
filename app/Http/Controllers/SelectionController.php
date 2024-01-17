@@ -16,13 +16,13 @@ class SelectionController extends Controller
     public function processModule($data) 
     {
         if (strpos($data["po_descs"], "\n") !== false) {
-            $po_descs = str_replace("\n", ' (', $data->po_descs) . ')';
+            $po_descs = str_replace("\n", ' (', $data["po_descs"]) . ')';
         } else {
-            $po_descs = $data->po_descs;
+            $po_descs = $data["po_descs"];
         }
         
-        $list_of_urls = explode(',', $data->url_file);
-        $list_of_files = explode(',', $data->file_name);
+        $list_of_urls = explode(',', $data["url_file"]);
+        $list_of_files = explode(',', $data["file_name"]);
 
         $url_data = [];
         $file_data = [];
@@ -36,28 +36,28 @@ class SelectionController extends Controller
         }
         
         $dataArray = array(
-            'sender'        => $data->sender,
-            'entity_name'   => $data->entity_name,
-            'descs'         => $data->descs,
-            'user_name'     => $data->user_name,
+            'sender'        => $data["sender"],
+            'entity_name'   => $data["entity_name"],
+            'descs'         => $data["descs"],
+            'user_name'     => $data["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => $data->module,
+            'module'        => $data["module"],
             'body'          => "Please approve Quotation No. ".$dataEncrypt['po_doc_no']." for ".$po_descs,
             'subject'       => "Need Approval for Quotation No.  ".$dataEncrypt['po_doc_no'],
         );
 
         $data2Encrypt = array(
-            'entity_cd'     => $data->entity_cd,
-            'project_no'    => $data->project_no,
-            'email_address' => $data->email_addr,
-            'level_no'      => $data->level_no,
-            'trx_date'      => $data->trx_date,
-            'doc_no'        => $data->doc_no,
-            'ref_no'        => $data->ref_no,
-            'usergroup'     => $data->usergroup,
-            'user_id'       => $data->user_id,
-            'supervisor'    => $data->supervisor,
+            'entity_cd'     => $data["entity_cd"],
+            'project_no'    => $data["project_no"],
+            'email_address' => $data["email_addr"],
+            'level_no'      => $data["level_no"],
+            'trx_date'      => $data["trx_date"],
+            'doc_no'        => $data["doc_no"],
+            'ref_no'        => $data["ref_no"],
+            'usergroup'     => $data["usergroup"],
+            'user_id'       => $data["user_id"],
+            'supervisor'    => $data["supervisor"],
             'type'          => 'S',
             'type_module'   => 'PO',
             'text'          => 'Purchase Selection'
@@ -67,7 +67,7 @@ class SelectionController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $data->email_addr;
+            $emailAddresses = $data["email_addr"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
