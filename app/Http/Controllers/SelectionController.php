@@ -185,11 +185,10 @@ class SelectionController extends Controller
             $reason = $request->reason;
         }
         $status = $request->status;
-        // $dateTime = DateTime::createFromFormat('d-m-Y', $request->trx_date);
-        // $formattedDate = $dateTime->format('d-m-Y');
-        // var_dump($formattedDate);
-
-        $formattedDate = date("d-m-Y", strtotime($request->trx_date));
+        $dateTime = DateTime::createFromFormat('d-m-Y', $request->trx_date);
+        $formattedDate2 = $dateTime->format('d-m-Y');
+        $formattedDate = date("d-m-Y", strtotime($formattedDate2));
+        var_dump($formattedDate);
 
         if ($status == "A") {
             $descstatus = "Approved";
