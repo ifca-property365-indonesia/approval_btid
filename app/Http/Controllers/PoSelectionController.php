@@ -122,23 +122,23 @@ class PoSelectionController extends Controller
         $sth->bindParam(10, $data["supervisor"]);
         $sth->bindParam(11, $reason);
         $sth->execute();
-        // if ($sth == true) {
-        //     $msg = "You Have Successfully ".$descstatus." the Purchase Selection No. ".$data["doc_no"];
-        //     $notif = $descstatus." !";
-        //     $st = 'OK';
-        //     $image = $imagestatus;
-        // } else {
-        //     $msg = "You Failed to ".$descstatus." the Purchase Selection No.".$data["doc_no"];
-        //     $notif = 'Fail to '.$descstatus.' !';
-        //     $st = 'OK';
-        //     $image = "reject.png";
-        // }
-        // $msg1 = array(
-        //     "Pesan" => $msg,
-        //     "St" => $st,
-        //     "notif" => $notif,
-        //     "image" => $image
-        // );
-        // return view("email.after", $msg1);
+        if ($sth == true) {
+            $msg = "You Have Successfully ".$descstatus." the Purchase Selection No. ".$data["doc_no"];
+            $notif = $descstatus." !";
+            $st = 'OK';
+            $image = $imagestatus;
+        } else {
+            $msg = "You Failed to ".$descstatus." the Purchase Selection No.".$data["doc_no"];
+            $notif = 'Fail to '.$descstatus.' !';
+            $st = 'OK';
+            $image = "reject.png";
+        }
+        $msg1 = array(
+            "Pesan" => $msg,
+            "St" => $st,
+            "notif" => $notif,
+            "image" => $image
+        );
+        return view("email.after", $msg1);
     }
 }
