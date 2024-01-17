@@ -130,4 +130,9 @@ class MailDataController extends Controller
             return view("email.after", $msg1);
         }
     }
+
+    public function processSelection($module='', $status='', $encrypt='')
+    {
+        var_dump($module);
+    }
 }
