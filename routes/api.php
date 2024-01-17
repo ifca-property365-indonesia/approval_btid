@@ -22,7 +22,7 @@ use App\Http\Controllers\MailDataController as MailData;
 
 Route::POST('/maildata', [MailData::class, 'receive']);
 Route::GET('/processdata/{module}/{status}/{encrypt}', [MailData::class, 'processData']);
-Route::GET('/processdata/PoSelection/{status}/{encrypt}', [MailData::class, 'processSelection']);
+Route::GET('/processdata/PoSelection/A/{encrypt}', [MailData::class, 'processSelection']);
 Route::POST('/getaccess', [MailData::class, 'getAccess']);
 
 
