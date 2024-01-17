@@ -43,8 +43,8 @@ class SelectionController extends Controller
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'module'        => $data["module"],
-            'body'          => "Please approve Quotation No. ".$dataEncrypt['po_doc_no']." for ".$po_descs,
-            'subject'       => "Need Approval for Quotation No.  ".$dataEncrypt['po_doc_no'],
+            'body'          => "Please approve Quotation No. ".$data['po_doc_no']." for ".$po_descs,
+            'subject'       => "Need Approval for Quotation No.  ".$data['po_doc_no'],
         );
 
         $data2Encrypt = array(
