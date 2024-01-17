@@ -94,8 +94,9 @@ class PoSelectionController extends Controller
     public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
-        $dateTime = DateTime::createFromFormat('d-m-Y', $data["trx_date"]);
-        $formattedDate = $dateTime->format('d-m-Y');
+        $trx_date = $data["trx_date"];
+        $dateTime = DateTime::createFromFormat('d M Y', $data["trx_date"]);
+        $formattedDate = $dateTime->format('d M Y');
 
         if ($status == "A") {
             $descstatus = "Approved";
