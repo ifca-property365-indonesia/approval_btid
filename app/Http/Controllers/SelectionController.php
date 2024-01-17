@@ -165,6 +165,7 @@ class SelectionController extends Controller
                 "status"    => $status,
                 "doc_no"    => $dataArray["doc_no"],
                 "email"     => $dataArray["email_address"],
+                "trx_date"  => $dataArray["trx_date"],
                 "module"    => $module,
                 "encrypt"   => $encrypt,
                 "name"      => $name,
