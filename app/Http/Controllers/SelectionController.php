@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendPoSMail;
 use PDO;
 use DateTime;
 
@@ -74,7 +74,7 @@ class SelectionController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPoSMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
