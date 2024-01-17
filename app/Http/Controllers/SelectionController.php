@@ -185,8 +185,8 @@ class SelectionController extends Controller
             $reason = $request->reason;
         }
         $status = $request->status;
-        // $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
-        // $formattedDate = $dateTime->format('d-m-Y');
+        $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
+        $formattedDate = $dateTime->format('d-m-Y');
 
         if ($status == "A") {
             $descstatus = "Approved";
@@ -204,7 +204,7 @@ class SelectionController extends Controller
         $sth->bindParam(2, $data["project_no"]);
         $sth->bindParam(3, $data["doc_no"]);
         $sth->bindParam(4, $data["ref_no"]);
-        $sth->bindParam(5, $data["trx_date"]);
+        $sth->bindParam(5, $formattedDate);
         $sth->bindParam(6, $status);
         $sth->bindParam(7, $data["level_no"]);
         $sth->bindParam(8, $data["usergroup"]);
