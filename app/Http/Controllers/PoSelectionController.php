@@ -94,21 +94,31 @@ class PoSelectionController extends Controller
     public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
-        var_dump($data);
-        // $trx_date = $data["trx_date"];
-        // $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
-        // $formattedDate = $dateTime->format('d-m-Y');
+        $trx_date = $data["trx_date"];
+        $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
+        $formattedDate = $dateTime->format('d-m-Y');
 
-        // if ($status == "A") {
-        //     $descstatus = "Approved";
-        //     $imagestatus = "approved.png";
-        // } else if ($status == "R") {
-        //     $descstatus = "Revised";
-        //     $imagestatus = "revise.png";
-        // } else {
-        //     $descstatus = "Cancelled";
-        //     $imagestatus = "reject.png";
-        // }
+        if ($status == "A") {
+            $descstatus = "Approved";
+            $imagestatus = "approved.png";
+        } else if ($status == "R") {
+            $descstatus = "Revised";
+            $imagestatus = "revise.png";
+        } else {
+            $descstatus = "Cancelled";
+            $imagestatus = "reject.png";
+        }
+        var_dump($data["entity_cd"]);
+        var_dump($data["project_no"]);
+        var_dump($data["doc_no"]);
+        var_dump($data["ref_no"]);
+        var_dump($formattedDate);
+        var_dump($status);
+        var_dump($data["level_no"]);
+        var_dump($data["usergroup"]);
+        var_dump($data["user_id"]);
+        var_dump($data["supervisor"]);
+        var_dump($data["reason"]);
         // $pdo = DB::connection('BTID')->getPdo();
         // $sth = $pdo->prepare("EXEC mgr.x_send_mail_approval_po_selection ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
         // $sth->bindParam(1, $data["entity_cd"]);
