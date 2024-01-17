@@ -43,7 +43,7 @@ class PoSelectionController extends Controller
             'user_name'     => $data["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => "Selection",
+            'module'        => $data["module"],
             'body'          => "Please approve Quotation No. ".$data['po_doc_no']." for ".$po_descs,
             'subject'       => "Need Approval for Quotation No.  ".$data['po_doc_no'],
         );
