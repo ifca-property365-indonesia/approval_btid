@@ -177,6 +177,9 @@ class SelectionController extends Controller
 
     public function getAccess(Request $request)
     {
-        var_dump($request->all());
+        $data = Crypt::decrypt($request->encrypt);
+        var_dump($data);
+
+
     }
 }
