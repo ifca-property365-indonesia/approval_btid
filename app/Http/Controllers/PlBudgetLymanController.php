@@ -22,6 +22,7 @@ class PlBudgetLymanController extends Controller
             'project_name'  => $data["project_name"],
             'amount'        => $amount,
             'user_name'     => $data["user_name"],
+            'sender'        => $data["sender"],
             'module'        => $data["module"],
             'body'          => "Please approve RAB Budget No. ".$data['doc_no']." project ".$data["project_name"]. " with Amount ".$amount,
             'subject'       => "Need Approval for RAB Budget No. ".$data['doc_no'],
