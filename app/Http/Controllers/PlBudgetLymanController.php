@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
-use App\Mail\SendPoRMail;
+use App\Mail\SendPLMail;
 
 class PlBudgetLymanController extends Controller
 {
@@ -51,7 +50,7 @@ class PlBudgetLymanController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPLMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
