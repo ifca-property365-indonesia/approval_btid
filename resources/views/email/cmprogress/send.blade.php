@@ -11,6 +11,40 @@
     <style>
         body {
             font-family: Arial;
+            margin: 0;
+            padding: 0 !important;
+            mso-line-height-rule: exactly;
+            background-color: #ffffff;
+            font-family: Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .custom-table {
+                background-color:#e0e0e0;"
+            }
+
+        td {
+            padding: 8px;
+        }
+
+        @media only screen and (max-width: 620px) {
+            table {
+                width: 100% !important;
+            }
+
+            td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .custom-table {
+                background-color:#ffffff;"
+            }
+            
         }
     </style>
 </head>
