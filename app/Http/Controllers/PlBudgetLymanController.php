@@ -33,9 +33,7 @@ class PlBudgetLymanController extends Controller
             'email_address' => $data["email_addr"],
             'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
-            'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
-            'supervisor'    => $data["supervisor"],
             'type'          => 'B',
             'type_module'   => 'PL',
             'text'          => 'Budget Lyman'
