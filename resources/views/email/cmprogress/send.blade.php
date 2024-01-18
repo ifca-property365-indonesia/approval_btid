@@ -36,7 +36,7 @@
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
-                                    <table>
+                                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                                         <tr>
                                             <td>Progress No : </td>
                                             <td>{{ $dataArray['progress_no'] }}</td>
