@@ -3,18 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
-use App\Mail\SendPoRMail;
 
-class PlBudgetLymanController extends Controller
+class PlBudgetRevisionController extends Controller
 {
-    public function processModule($data) 
+    public function processModule($data)
     {
-        $amount = number_format( $data["amount"] , 2 , '.' , ',' );
+        $amount = number_format( $request->amount , 2 , '.' , ',' );
 
         $dataArray = array(
             'descs'         => $data["descs"],
@@ -22,9 +16,10 @@ class PlBudgetLymanController extends Controller
             'project_name'  => $data["project_name"],
             'amount'        => $amount,
             'user_name'     => $data["user_name"],
+            'sender'        => $data["sender"],
             'module'        => $data["module"],
-            'body'          => "Please approve RAB Budget No. ".$data['doc_no']." project ".$data["project_name"]. " with Amount ".$amount,
-            'subject'       => "Need Approval for RAB Budget No. ".$data['doc_no'],
+            'body'          => "Please approve Revision RAB Budget No. ".$data['doc_no']." project ".$data["project_name"]. " with Amount ".$amount,
+            'subject'       => "Need Approval for Revision RAB Budget No. ".$data['doc_no'],
         );
 
         $data2Encrypt = array(
@@ -33,12 +28,12 @@ class PlBudgetLymanController extends Controller
             'email_address' => $data["email_addr"],
             'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
-            'usergroup'     => $data["usergroup"],
+            'trx_type'      => $data["trx_type"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
-            'type'          => 'B',
+            'type'          => 'R',
             'type_module'   => 'PL',
-            'text'          => 'Budget Lyman'
+            'text'          => 'Budget Revision'
         );  
 
         // Melakukan enkripsi pada $dataArray
@@ -83,21 +78,22 @@ class PlBudgetLymanController extends Controller
             $imagestatus = "reject.png";
         }
         $pdo = DB::connection('BTID')->getPdo();
-        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.xrl_send_mail_approval_pl_budget_lyman ?, ?, ?, ?, ?, ?;");
+        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.xrl_send_mail_approval_pl_budget_revision ?, ?, ?, ?, ?, ?, ?;");
         $sth->bindParam(1, $data["entity_cd"]);
         $sth->bindParam(2, $data["project_no"]);
         $sth->bindParam(3, $data["doc_no"]);
-        $sth->bindParam(4, $status);
-        $sth->bindParam(5, $data["level_no"]);
-        $sth->bindParam(6, $data["user_id"]);
+        $sth->bindParam(4, $data["trx_type"]);
+        $sth->bindParam(5, $status);
+        $sth->bindParam(6, $data["level_no"]);
+        $sth->bindParam(7, $data["user_id"]);
         $sth->execute();
         if ($sth == true) {
-            $msg = "You Have Successfully ".$descstatus." the RAB Budget No. ".$data["doc_no"];
+            $msg = "You Have Successfully ".$descstatus." the Revision RAB Budget No. ".$data["doc_no"];
             $notif = $descstatus." !";
             $st = 'OK';
             $image = $imagestatus;
         } else {
-            $msg = "You Failed to ".$descstatus." the RAB Budget No.".$data["doc_no"];
+            $msg = "You Failed to ".$descstatus." the Revision RAB Budget No.".$data["doc_no"];
             $notif = 'Fail to '.$descstatus.' !';
             $st = 'OK';
             $image = "reject.png";
