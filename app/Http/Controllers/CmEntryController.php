@@ -21,6 +21,9 @@ class CmEntryController extends Controller
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
             'module'        => $data["module"],
+            'contract_no'        => $data["contract_no"],
+            'contract_amt'        => $data["contract_amt"],
+            'auth_vo'        => $data["auth_vo"],
             'body'          => "Please approve Contract Entry No. ".$data['doc_no']." for ".$data["descs"],
             'subject'       => "Need Approval for Contract Entry No.  ".$data['doc_no'],
         );
