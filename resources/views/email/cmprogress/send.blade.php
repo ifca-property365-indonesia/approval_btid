@@ -72,37 +72,37 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
                                     <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Progress No :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Progress No</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['progress_no'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Current Progress Percentage :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Current Progress Percentage</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['curr_progress'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Amount Current Progress :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Amount Current Progress</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['amount'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Previous Progress Percentage :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Previous Progress Percentage</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['prev_progress'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Amount Previous Progress :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Amount Previous Progress</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['prev_progress_amt'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Contract No :</td>
+                                            <td style="text-align: left; padding-right: 10px;">Contract No</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['contract_no'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">In Entity :</td>
+                                            <td style="text-align: left; padding-right: 10px;">In Entity</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['entity_name'] }}</td>
                                         </tr>
