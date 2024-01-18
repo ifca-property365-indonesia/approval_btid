@@ -39,35 +39,35 @@
                                     <table>
                                         <tr>
                                             <td>Progress No : </td>
-                                            <td>{{ $data['progress_no'] }}</td>
+                                            <td>{{ $dataArray['progress_no'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Current Progress Percentage : </td>
-                                            <td>{{ $data['curr_progress'] }}</td>
+                                            <td>{{ $dataArray['curr_progress'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Amount Current Progress : </td>
-                                            <td>{{ $data['amount'] }}</td>
+                                            <td>{{ $dataArray['amount'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Previous Progress Percentage : </td>
-                                            <td>{{ $data['prev_progress'] }}</td>
+                                            <td>{{ $dataArray['prev_progress'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Amount Previous Progress : </td>
-                                            <td>{{ $data['prev_progress_amt'] }}</td>
+                                            <td>{{ $dataArray['prev_progress_amt'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>From PO Number : </td>
-                                            <td>{{ $data['PONumberOracle'] }}</td>
+                                            <td>{{ $dataArray['PONumberOracle'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Contract No : </td>
-                                            <td>{{ $data['contract_no'] }}</td>
+                                            <td>{{ $dataArray['contract_no'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>In Entity : </td>
-                                            <td>{{ $data['entity_name'] }}</td>
+                                            <td>{{ $dataArray['entity_name'] }}</td>
                                         </tr>
                                     </table>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
