@@ -35,7 +35,6 @@ class PlBudgetRevisionController extends Controller
             'doc_no'        => $data["doc_no"],
             'trx_type'      => $data["trx_type"],
             'user_id'       => $data["user_id"],
-            'supervisor'    => $data["supervisor"],
             'type'          => 'R',
             'type_module'   => 'PL',
             'text'          => 'Budget Revision'
