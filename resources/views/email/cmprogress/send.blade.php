@@ -58,10 +58,6 @@
                                             <td>{{ $dataArray['prev_progress_amt'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td>From PO Number : </td>
-                                            <td>{{ $dataArray['PONumberOracle'] }}</td>
-                                        </tr>
-                                        <tr>
                                             <td>Contract No : </td>
                                             <td>{{ $dataArray['contract_no'] }}</td>
                                         </tr>
