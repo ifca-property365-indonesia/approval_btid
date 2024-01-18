@@ -48,11 +48,6 @@
                                             <td>{{ $dataArray['contract_amt'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Amount Current Progress</td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['amount'] }}</td>
-                                        </tr>
-                                        <tr>
                                             <td style="text-align: left; padding-right: 10px;">Auth VO</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['auth_vo'] }}</td>
