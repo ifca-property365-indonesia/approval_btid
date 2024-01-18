@@ -11,6 +11,40 @@
     <style>
         body {
             font-family: Arial;
+            margin: 0;
+            padding: 0 !important;
+            mso-line-height-rule: exactly;
+            background-color: #ffffff;
+            font-family: Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .custom-table {
+                background-color:#e0e0e0;"
+            }
+
+        td {
+            padding: 8px;
+        }
+
+        @media only screen and (max-width: 620px) {
+            table {
+                width: 100% !important;
+            }
+
+            td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .custom-table {
+                background-color:#ffffff;"
+            }
+            
         }
     </style>
 </head>
@@ -38,14 +72,14 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
                                     <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Contract No</td>
+                                            <td style="text-align: left; padding-right: 10px;">Progress No</td>
                                             <td>:</td>
-                                            <td>{{ $dataArray['contract_no'] }}</td>
+                                            <td>{{ $dataArray['progress_no'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Contract Amount</td>
+                                            <td style="text-align: left; padding-right: 10px;">Current Progress Percentage</td>
                                             <td>:</td>
-                                            <td>{{ $dataArray['contract_amt'] }}</td>
+                                            <td>{{ $dataArray['curr_progress'] }}</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: left; padding-right: 10px;">Amount Current Progress</td>
@@ -53,16 +87,26 @@
                                             <td>{{ $dataArray['amount'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Auth VO</td>
+                                            <td style="text-align: left; padding-right: 10px;">Previous Progress Percentage</td>
                                             <td>:</td>
-                                            <td>{{ $dataArray['auth_vo'] }}</td>
+                                            <td>{{ $dataArray['prev_progress'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: left; padding-right: 10px;">Amount Previous Progress</td>
+                                            <td>:</td>
+                                            <td>{{ $dataArray['prev_progress_amt'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: left; padding-right: 10px;">Contract No</td>
+                                            <td>:</td>
+                                            <td>{{ $dataArray['contract_no'] }}</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: left; padding-right: 10px;">In Entity</td>
                                             <td>:</td>
                                             <td>{{ $dataArray['entity_name'] }}</td>
                                         </tr>
-                                    </table>
+                                    </table>                                    
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>

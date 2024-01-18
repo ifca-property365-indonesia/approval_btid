@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendCmEntryMail;
+use App\Mail\SendCmProgressMail;
 use PDO;
 use DateTime;
 
@@ -20,6 +20,13 @@ class CmProgressController extends Controller
             'entity_name'   => $data["entity_name"],
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
+            'progress_no'        => $data["progress_no"],
+            'curr_progress'        => $data["curr_progress"],
+            'amount'        => $data["amount"],
+            'prev_progress'        => $data["prev_progress"],
+            'prev_progress_amt'        => $data["prev_progress_amt"],
+            'contract_no'        => $data["contract_no"],
+            'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
             'body'          => "Please approve Contract Progress No. ".$data['doc_no']." for ".$data["descs"],
             'subject'       => "Need Approval for Contract Progress No.  ".$data['doc_no'],
@@ -53,7 +60,7 @@ class CmProgressController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendCmEntryMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendCmProgressMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
