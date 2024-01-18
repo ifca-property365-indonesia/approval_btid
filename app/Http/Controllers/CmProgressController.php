@@ -24,7 +24,7 @@ class CmProgressController extends Controller
             'curr_progress'        => $data["curr_progress"],
             'amount'        => $data["amount"],
             'prev_progress'        => $data["prev_progress"],
-            'prev_progress_amt'        => $data["preprev_progress_amtv_progress"],
+            'prev_progress_amt'        => $data["prev_progress_amt"],
             'contract_no'        => $data["contract_no"],
             'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
