@@ -13,7 +13,7 @@ class PlBudgetRevisionController extends Controller
 {
     public function processModule($data)
     {
-        $amount = number_format( $request->amount , 2 , '.' , ',' );
+        $amount = number_format( $data["amount"] , 2 , '.' , ',' );
 
         $dataArray = array(
             'descs'         => $data["descs"],
