@@ -12,6 +12,6 @@ class PurchaseSelectionController extends Controller
 {
     public function Mail(Request $request)
     {
-        Log::info('Connect');
+        return 'connect';
     }
 }
