@@ -15,6 +15,11 @@ class CmProgressController extends Controller
 {
     public function processModule($data)
     {
+
+        $amount = number_format( $data["amount"] , 2 , '.' , ',' );
+        $prev_progress_amt = number_format( $data["prev_progress_amt"] , 2 , '.' , ',' );
+
+        
         $dataArray = array(
             'sender'        => $data["sender"],
             'entity_name'   => $data["entity_name"],
@@ -22,9 +27,9 @@ class CmProgressController extends Controller
             'user_name'     => $data["user_name"],
             'progress_no'        => $data["progress_no"],
             'curr_progress'        => $data["curr_progress"],
-            'amount'        => $data["amount"],
+            'amount'        => $amount,
             'prev_progress'        => $data["prev_progress"],
-            'prev_progress_amt'        => $data["prev_progress_amt"],
+            'prev_progress_amt'        => $prev_progress_amt,
             'contract_no'        => $data["contract_no"],
             'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
