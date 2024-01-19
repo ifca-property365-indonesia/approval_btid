@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
-class PoSelController extends Controller
+class PurchaseSelectionController extends Controller
 {
-    public function inpuytdata(Request $request)
+    public function Mail(Request $request)
     {
-        return "Email berhasil dikirim";
+        Log::info('Connect');
     }
 }
