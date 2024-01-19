@@ -15,6 +15,9 @@ class CmEntryController extends Controller
 {
     public function processModule($data)
     {
+        $contract_amt = number_format( $data["contract_amt"] , 2 , '.' , ',' );
+        $auth_vo = number_format( $data["auth_vo"] , 2 , '.' , ',' );
+
         $dataArray = array(
             'sender'        => $data["sender"],
             'entity_name'   => $data["entity_name"],
@@ -22,8 +25,8 @@ class CmEntryController extends Controller
             'user_name'     => $data["user_name"],
             'module'        => $data["module"],
             'contract_no'        => $data["contract_no"],
-            'contract_amt'        => $data["contract_amt"],
-            'auth_vo'        => $data["auth_vo"],
+            'contract_amt'        => $contract_amt,
+            'auth_vo'        => $auth_vo,
             'body'          => "Please approve Contract Entry No. ".$data['doc_no']." for ".$data["descs"],
             'subject'       => "Need Approval for Contract Entry No.  ".$data['doc_no'],
         );
