@@ -7,22 +7,22 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendPoSMail;
+use App\Mail\SendMail;
 use PDO;
 use DateTime;
 
-class PurchaseSelectionController extends Controller
+class PoSelectionController extends Controller
 {
-    public function Mail(Request $request)
+    public function processModule($data) 
     {
-        if (strpos($request->po_descs, "\n") !== false) {
-            $po_descs = str_replace("\n", ' (', $request->po_descs) . ')';
+        if (strpos($data["po_descs"], "\n") !== false) {
+            $po_descs = str_replace("\n", ' (', $data["po_descs"]) . ')';
         } else {
-            $po_descs = $request->po_descs;
+            $po_descs = $data["po_descs"];
         }
         
-        $list_of_urls = explode(',', $request->url_file);
-        $list_of_files = explode(',', $request->file_name);
+        $list_of_urls = explode(',', $data["url_file"]);
+        $list_of_files = explode(',', $data["file_name"]);
 
         $url_data = [];
         $file_data = [];
@@ -36,43 +36,45 @@ class PurchaseSelectionController extends Controller
         }
         
         $dataArray = array(
-            'sender'        => $request->sender,
-            'entity_name'   => $request->entity_name,
-            'descs'         => $request->descs,
-            'user_name'     => $request->user_name,
+            'sender'        => $data["sender"],
+            'entity_name'   => $data["entity_name"],
+            'descs'         => $data["descs"],
+            'user_name'     => $data["user_name"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'body'          => "Please approve Quotation No. ".$request->po_doc_no." for ".$po_descs,
-            'subject'       => "Need Approval for Quotation No.  ".$request->po_doc_no,
+            'module'        => $data["module"],
+            'body'          => "Please approve Quotation No. ".$data['po_doc_no']." for ".$po_descs,
+            'subject'       => "Need Approval for Quotation No.  ".$data['po_doc_no'],
         );
 
         $data2Encrypt = array(
-            'entity_cd'     => $request->entity_cd,
-            'project_no'    => $request->project_no,
-            'email_address' => $request->email_addr,
-            'level_no'      => $request->level_no,
-            'trx_date'      => $request->trx_date,
-            'doc_no'        => $request->doc_no,
-            'request_no'    => $request->request_no,
-            'usergroup'     => $request->usergroup,
-            'user_id'       => $request->user_id,
-            'supervisor'    => $request->supervisor,
+            'entity_cd'     => $data["entity_cd"],
+            'project_no'    => $data["project_no"],
+            'email_address' => $data["email_addr"],
+            'level_no'      => $data["level_no"],
+            'trx_date'      => $data["trx_date"],
+            'doc_no'        => $data["doc_no"],
+            'ref_no'        => $data["ref_no"],
+            'usergroup'     => $data["usergroup"],
+            'user_id'       => $data["user_id"],
+            'supervisor'    => $data["supervisor"],
             'type'          => 'S',
             'type_module'   => 'PO',
             'text'          => 'Purchase Selection'
         );
 
+        // Melakukan enkripsi pada $dataArray
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = $data["email_addr"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendPoSMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
@@ -88,12 +90,13 @@ class PurchaseSelectionController extends Controller
         }
     }
 
-    public function processData($status = '', $encrypt = '')
+    public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
         $trx_date = $data["trx_date"];
         $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
         $formattedDate = $dateTime->format('d-m-Y');
+
         if ($status == "A") {
             $descstatus = "Approved";
             $imagestatus = "approved.png";
@@ -109,7 +112,7 @@ class PurchaseSelectionController extends Controller
         $sth->bindParam(1, $data["entity_cd"]);
         $sth->bindParam(2, $data["project_no"]);
         $sth->bindParam(3, $data["doc_no"]);
-        $sth->bindParam(4, $data["request_no"]);
+        $sth->bindParam(4, $data["ref_no"]);
         $sth->bindParam(5, $data["trx_date"]);
         $sth->bindParam(6, $status);
         $sth->bindParam(7, $data["level_no"]);

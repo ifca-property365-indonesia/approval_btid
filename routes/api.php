@@ -26,6 +26,7 @@ Route::POST('/getaccess', [MailData::class, 'getAccess']);
 
 use App\Http\Controllers\PurchaseSelectionController as Selection;
 Route::POST('/purchase_selection', [Selection::class, 'Mail']);
+Route::GET('/poselection/{status}/{encrypt}', [Selection::class, 'processData']);
 
 use App\Http\Controllers\StaffActionController as StaffAction;
 Route::POST('/staffaction', [StaffAction::class, 'staffaction']);
