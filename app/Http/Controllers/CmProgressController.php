@@ -16,6 +16,8 @@ class CmProgressController extends Controller
     public function processModule($data)
     {
 
+        $curr_progress = number_format( $data["curr_progress"] , 2 , '.' , ',' );
+        $prev_progress = number_format( $data["prev_progress"] , 2 , '.' , ',' );
         $amount = number_format( $data["amount"] , 2 , '.' , ',' );
         $prev_progress_amt = number_format( $data["prev_progress_amt"] , 2 , '.' , ',' );
 
@@ -26,9 +28,9 @@ class CmProgressController extends Controller
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
             'progress_no'        => $data["progress_no"],
-            'curr_progress'        => $data["curr_progress"],
+            'curr_progress'        => $curr_progress,
             'amount'        => $amount,
-            'prev_progress'        => $data["prev_progress"],
+            'prev_progress'        => $prev_progress,
             'prev_progress_amt'        => $prev_progress_amt,
             'contract_no'        => $data["contract_no"],
             'entity_name'        => $data["entity_name"],
