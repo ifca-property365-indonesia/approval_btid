@@ -69,12 +69,69 @@
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a request to purchase that requires your approval :</p>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a purchase order that requires your approval :</p>
                     
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
-                                        <b>{{ $dataArray['req_hd_descs'] }}</b><br>
-                                        With a total estimated amount of Rp {{ $dataArray['total_price'] }}<br>
-                                        RF No.: {{ $dataArray['req_hd_no'] }}<br>
+                                        @php
+                                            $hasOrderRemarks = false;
+                                            $hasSupplier = false;
+                                            $hasOrder = false;
+                                            $hasRemark = false;
+                                        @endphp
+
+                                        <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        @foreach($dataArray['order_remarks'] as $key => $order_remarks)
+                                            @if($order_remarks !== '' && $order_remarks !== 'EMPTY')
+                                                @if(!$hasOrderRemarks)
+                                                    @php
+                                                        $hasOrderRemarks = true;
+                                                    @endphp
+                                                @endif
+                                                <b>{{ $order_remarks }}</b><br>
+                                            @endif
+
+                                            @php
+                                                $supplier_name = $dataArray['supplier_name'][$key] ?? '';
+                                            @endphp
+
+                                            @if($supplier_name !== '' && $supplier_name !== 'EMPTY')
+                                                @if(!$hasSupplier)
+                                                    @php
+                                                        $hasSupplier = true;
+                                                    @endphp
+                                                @endif
+                                                {{ $supplier_name }}<br>
+                                            @endif
+                                        @endforeach
+                                        With a total estimated amount of Rp {{ $dataArray['po_amt'] }}<br>
+                                        @foreach($dataArray['order_remarks'] as $key => $order_remarks)
+                                            @php
+                                                $order_no = $dataArray['order_no'][$key] ?? '';
+                                            @endphp
+
+                                            @if($order_no !== '' && $order_no !== 'EMPTY')
+                                                @if(!$hasOrder)
+                                                    @php
+                                                        $hasOrder = true;
+                                                    @endphp
+                                                @endif
+                                                PO no : {{ $order_no }}<br>
+                                            @endif
+
+                                            @php
+                                                $remark = $dataArray['remark'][$key] ?? '';
+                                            @endphp
+
+                                            @if($remark !== '' && $remark !== 'EMPTY')
+                                                @if(!$hasRemark)
+                                                    @php
+                                                        $hasRemark = true;
+                                                    @endphp
+                                                @endif
+                                                RF no : {{ $remark }}<br>
+                                            @endif
+                                        @endforeach
+                                        </p>
                                     </p>
                     
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
@@ -108,27 +165,6 @@
                                                     <span>To view a detailed product list, description, and estimate price per item, please click on the link below :</span><br>
                                             @endif
                                             <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
-                                        @endif
-                                    @endforeach
-                    
-                                    @if($hasAttachment)
-                                        </p>
-                                    @endif
-                    
-                                    @php
-                                        $hasAttachment = false;
-                                    @endphp
-                    
-                                    @foreach($dataArray['doc_link'] as $key => $doc_link)
-                                        @if($doc_link !== '' && $doc_link !== 'EMPTY')
-                                            @if(!$hasAttachment)
-                                                @php
-                                                    $hasAttachment = true;
-                                                @endphp
-                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
-                                            @endif
-                                            <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br>
                                         @endif
                                     @endforeach
                     

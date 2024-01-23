@@ -23,10 +23,12 @@ class PoRequestController extends Controller
         $list_of_urls = explode('; ', $data["url_file"]);
         $list_of_files = explode('; ', $data["file_name"]);
         $list_of_doc = explode('; ', $data["document_link"]);
+        $list_of_approve = explode('; ', $data["approve_exist"]);
 
         $url_data = [];
         $file_data = [];
         $doc_data = [];
+        $approve_data = [];
 
         foreach ($list_of_urls as $url) {
             $url_data[] = $url;
@@ -40,6 +42,10 @@ class PoRequestController extends Controller
             $doc_data[] = $doc;
         }
 
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
         $formattedNumber = number_format($data["total_price"], 2, '.', ',');
         
         $dataArray = array(
@@ -49,12 +55,15 @@ class PoRequestController extends Controller
             'email_address' => $data["email_addr"],
             'sender_addr'   => $data["sender_addr"],
             'user_name'     => $data["user_name"],
+            'clarify_user'  => $data["clarify_user"],
+            'clarify_email' => $data["clarify_email"],
             'req_hd_descs'  => $data["req_hd_descs"],
             'req_hd_no'     => $data["req_hd_no"],
             'total_price'   => $formattedNumber,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'doc_link'      => $doc_data,
+            'approve_list'  => $approve_data,
             'module'        => "PoRequest",
             'subject'       => "Need Approval for Purchase Requisition No.  ".$data['req_hd_no'],
         );
