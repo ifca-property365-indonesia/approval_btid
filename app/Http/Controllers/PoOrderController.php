@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendPoMail;
 
 class PoOrderController extends Controller
 {
     public function processModule($data) 
     {
 
-        $list_of_urls = explode(',', $data["url_file"]);
-        $list_of_files = explode(',', $data["file_name"]);
+        $list_of_urls = explode('; ', $data["url_file"]);
+        $list_of_files = explode('; ', $data["file_name"]);
 
         $url_data = [];
         $file_data = [];
@@ -27,15 +27,65 @@ class PoOrderController extends Controller
         foreach ($list_of_files as $file) {
             $file_data[] = $file;
         }
+
+        $list_of_supplier = explode('; ', $data["supplier_name"]);
+
+        $supplier_data = [];
+
+        foreach ($list_of_supplier as $supplier) {
+            $supplier_data[] = $supplier;
+        }
+
+        $list_of_order_no = explode('; ', $data["order_no"]);
+
+        $order_no_data = [];
+
+        foreach ($list_of_order_no as $order_no) {
+            $order_no_data[] = $order_no;
+        }
+        
+        $list_of_order_remarks = explode('; ', $data["order_remarks"]);
+
+        $order_remarks_data = [];
+
+        foreach ($list_of_order_remarks as $order_remarks) {
+            $order_remarks_data[] = $order_remarks;
+        }
+
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
+        $list_of_remark = explode('; ', $data["remark"]);
+
+        $remark_data = [];
+
+        foreach ($list_of_remark as $remark) {
+            $remark_data[] = $remark;
+        }
+
+        $po_amt = number_format($data["po_amt"], 2, '.', ',');
         
         $dataArray = array(
+            'module'        => "PoOrder",
             'sender'        => $data["sender"],
-            'entity_name'   => $data["entity_name"],
-            'descs'         => $data["descs"],
-            'user_name'     => $data["user_name"],
+            'sender_addr'   => $data["sender_addr"],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'module'        => "PoOrder",
+            'entity_name'   => $data["entity_name"],
+            'email_addr'    => $data["email_addr"],
+            'descs'         => $data["descs"],
+            'user_name'     => $data["user_name"],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data["clarify_user"],
+            'clarify_email' => $data["clarify_email"],
+            'supplier_name' => $supplier_data,
+            'po_amt'        => $po_amt,
+            'order_no'      => $order_no_data,
+            'order_remarks' => $order_remarks_data,
+            'remark'        => $remark_data,
             'body'          => "Please approve Purchase Order No. ".$data['doc_no'],
             'subject'       => "Need Approval for Purchase Order No.  ".$data['doc_no'],
         );
@@ -43,10 +93,9 @@ class PoOrderController extends Controller
         $data2Encrypt = array(
             'entity_cd'     => $data["entity_cd"],
             'project_no'    => $data["project_no"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
             'trx_type'      => $data["trx_type"],
+            'level_no'      => $data["level_no"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
@@ -66,7 +115,7 @@ class PoOrderController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPoMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

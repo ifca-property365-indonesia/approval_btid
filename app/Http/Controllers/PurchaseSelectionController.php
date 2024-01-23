@@ -21,8 +21,8 @@ class PurchaseSelectionController extends Controller
             $po_descs = $request->po_descs;
         }
         
-        $list_of_urls = explode(',', $request->url_file);
-        $list_of_files = explode(',', $request->file_name);
+        $list_of_urls = explode('; ', $request->url_file);
+        $list_of_files = explode('; ', $request->file_name);
 
         $url_data = [];
         $file_data = [];
@@ -34,14 +34,28 @@ class PurchaseSelectionController extends Controller
         foreach ($list_of_files as $file) {
             $file_data[] = $file;
         }
+
+        $list_of_approve = explode('; ',  $request->approve_exist);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
         
         $dataArray = array(
+            'ref_no'        => $request->ref_no,
+            'po_doc_no'     => $request->po_doc_no,
+            'po_descs'      => $po_descs,
+            'supplier_name' => $request->supplier_name,
             'sender'        => $request->sender,
+            'sender_addr'   => $request->sender_addr,
             'entity_name'   => $request->entity_name,
             'descs'         => $request->descs,
             'user_name'     => $request->user_name,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $request->clarify_user,
+            'clarify_email' => $request->clarify_email,
             'body'          => "Please approve Quotation No. ".$request->po_doc_no." for ".$po_descs,
             'subject'       => "Need Approval for Quotation No.  ".$request->po_doc_no,
         );
@@ -49,11 +63,10 @@ class PurchaseSelectionController extends Controller
         $data2Encrypt = array(
             'entity_cd'     => $request->entity_cd,
             'project_no'    => $request->project_no,
-            'email_address' => $request->email_addr,
-            'level_no'      => $request->level_no,
-            'trx_date'      => $request->trx_date,
             'doc_no'        => $request->doc_no,
             'request_no'    => $request->request_no,
+            'trx_date'      => $request->trx_date,
+            'level_no'      => $request->level_no,
             'usergroup'     => $request->usergroup,
             'user_id'       => $request->user_id,
             'supervisor'    => $request->supervisor,

@@ -11,6 +11,40 @@
     <style>
         body {
             font-family: Arial;
+            margin: 0;
+            padding: 0 !important;
+            mso-line-height-rule: exactly;
+            background-color: #ffffff;
+            font-family: Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .custom-table {
+                background-color:#e0e0e0;"
+            }
+
+        td {
+            padding: 8px;
+        }
+
+        @media only screen and (max-width: 620px) {
+            table {
+                width: 100% !important;
+            }
+
+            td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .custom-table {
+                background-color:#ffffff;"
+            }
+            
         }
     </style>
 </head>
@@ -30,23 +64,41 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
+                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;" class="custom-table">
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a quotation that requires your approval :</p>
+                    
+                                    <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
+                                        <b>{{ $dataArray['po_descs'] }}</b><br>
+                                        From Supplier : {{ $dataArray['supplier_name'] }}<br>
+                                        Quotation No.: {{ $dataArray['po_doc_no'] }}<br>
+                                        RF no : {{ $dataArray['ref_no'] }}<br>
+                                    </p>
+                    
                                     <a href="{{ url('api') }}/poselection/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/poselection/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
                                     <a href="{{ url('api') }}/poselection/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
-                                    <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                    <br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        In case you need some clarification, kindly approach : <br>
+                                        <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['clarify_user'] }}
+                                        </a>
+                                    </p>
+                    
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         <b>Thank you,</b><br>
-                                        {{ $dataArray['sender'] }}
-                                    </p><br>
+                                        <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['sender'] }}
+                                        </a>
+                                    </p>
                                     @php
                                         $hasAttachment = false;
                                     @endphp
-
+                    
                                     @foreach($dataArray['url_file'] as $key => $url_file)
                                         @if($url_file !== '' && $dataArray['file_name'][$key] !== '' && $url_file !== 'EMPTY' && $dataArray['file_name'][$key] !== 'EMPTY')
                                             @if(!$hasAttachment)
@@ -54,20 +106,47 @@
                                                     $hasAttachment = true;
                                                 @endphp
                                                 <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <b style="font-style:italic;">To view the attachment, please click the links below:</b><br>
+                                                    <span>To view a detailed product list, description, and estimate price per item, please click on the link below :</span><br>
                                             @endif
                                             <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
                                         @endif
                                     @endforeach
-
+                    
                                     @if($hasAttachment)
                                         </p>
                                     @endif
-
+                    
+                                    @php
+                                        $hasApproval = false;
+                                        $counter = 0;
+                                    @endphp
+                    
+                                    @foreach($dataArray['approve_list'] as $key => $approve_list)
+                                        @if($approve_list !== '' && $approve_list !== 'EMPTY')
+                                            @if(!$hasApproval)
+                                                @php
+                                                    $hasApproval = true;
+                                                @endphp
+                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                                    <span>This request approval has been approved by :</span><br>
+                                            @endif
+                                            {{ ++$counter }}. {{ $approve_list }}<br>
+                                        @endif
+                                    @endforeach
+                    
+                                    @if($hasApproval)
+                                        </p>
+                                    @endif
+                    
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        <b>Please do not reply, as this is an automated-generated email.</b><br>
+                                    </p>
+                    
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    
                     <table style="width:100%;max-width:620px;margin:0 auto;">
                         <tbody>
                             <tr>

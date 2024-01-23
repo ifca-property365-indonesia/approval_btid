@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendCbRpbMail;
 
 class CbRpbController extends Controller
 {
@@ -33,7 +33,16 @@ class CbRpbController extends Controller
             $file_data[] = $file;
         }
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
+        $trx_amt = number_format($data["trx_amt"], 2, '.', ',');
+
         $dataArray = array(
+            'module'        => 'CbRpb',
             'sender'        => $data['sender'],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
@@ -41,7 +50,14 @@ class CbRpbController extends Controller
             'email_address' => $data['email_addr'],
             'user_name'     => $data['user_name'],
             'reason'        => $data['reason'],
-            'module'        => 'CbRpb',
+            'rpb_descs'     => $rpb_descs,
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'currency_cd'   => $data['currency_cd'],
+            'trx_amt'       => $trx_amt,
+            'sender_addr'   => $data['sender_addr'],
+            'hd_doc_no'     => $data['hd_doc_no'],
             'body'          => "Please approve Recapitulation Bank No. ".$data['doc_no']." for ".$rpb_descs,
             'subject'       => "Need Approval for Recapitulation Bank No.  ".$data['doc_no'],
         );
@@ -49,10 +65,10 @@ class CbRpbController extends Controller
         $data2Encrypt = array(
             'entity_cd'     => $data["entity_cd"],
             'project_no'    => $data["project_no"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
             'trx_type'      => $data["trx_type"],
+            'level_no'      => $data["level_no"],
+            'email_address' => $data["email_addr"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
@@ -72,7 +88,7 @@ class CbRpbController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendCbRpbMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

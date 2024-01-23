@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendCbFupdMail;
 
 class CbFupdController extends Controller
 {
@@ -19,9 +19,10 @@ class CbFupdController extends Controller
             $band_hd_descs = $data["band_hd_descs"];
         }
 
+        $dt_amount = number_format($data["dt_amount"], 2, '.', ',');
 
-        $list_of_urls = explode(',', $data["url_file"]);
-        $list_of_files = explode(',', $data["file_name"]);
+        $list_of_urls = explode('; ', $data["url_file"]);
+        $list_of_files = explode('; ', $data["file_name"]);
 
         $url_data = [];
         $file_data = [];
@@ -34,26 +35,38 @@ class CbFupdController extends Controller
             $file_data[] = $file;
         }
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
         $dataArray = array(
+            'module'        => "CbFupd",
             'sender'        => $data["sender"],
+            'sender_addr'   => $data["sender_addr"],
+            'entity_name'   => $data["entity_name"],
+            'band_hd_descs' => $band_hd_descs,
+            'band_hd_no'    => $data["band_hd_no"],
+            'dt_amount'     => $dt_amount,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
-            'doc_no'        => $data["doc_no"],
-            'entity_name'   => $data["entity_name"],
             'user_name'     => $data["user_name"],
             'reason'        => $data["reason"],
-            'module'        => "CbFupd",
-            'body'          => "Please approve Propose Transfer to Bank No. ".$data['doc_no']." for ".$band_hd_descs,
-            'subject'       => "Need Approval for Propose Transfer to Bank No. ".$data['doc_no'],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'body'          => "Please approve Propose Transfer to Bank No. ".$data['band_hd_no']." for ".$band_hd_descs,
+            'subject'       => "Need Approval for Propose Transfer to Bank No. ".$data['band_hd_no'],
         );
 
         $data2Encrypt = array(
             'entity_cd'     => $data["entity_cd"],
             'project_no'    => $data["project_no"],
-            'trx_type'      => $data["trx_type"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
+            'trx_type'      => $data["trx_type"],
+            'level_no'      => $data["level_no"],
+            'email_address' => $data["email_addr"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
@@ -75,7 +88,7 @@ class CbFupdController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendCbFupdMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

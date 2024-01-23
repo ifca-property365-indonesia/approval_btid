@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendCbPpuMail;
 
 class CbPpuController extends Controller
 {
@@ -33,16 +33,32 @@ class CbPpuController extends Controller
             $file_data[] = $file;
         }
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
+        $ppu_amt = number_format($data["ppu_amt"], 2, '.', ',');
+
         $dataArray = array(
+            'module'        => 'CbPpu',
+            'ppu_no'        => $data['ppu_no'],
+            'ppu_descs'     => $data['ppu_descs'],
             'sender'        => $data['sender'],
+            'sender_addr'   => $data['sender_addr'],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'entity_name'   => $data['entity_name'],
-            'email_address' => $data['email_addr'],
             'descs'         => $data['descs'],
             'user_name'     => $data['user_name'],
             'reason'        => $data['reason'],
-            'module'        => 'CbPpu',
+            'pay_to'        => $data['pay_to'],
+            'forex'         => $data['forex'],
+            'ppu_amt'       => $ppu_amt,
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
             'body'          => "Please approve Payment Request No. ".$data['ppu_no']." for ".$ppu_descs,
             'subject'       => "Need Approval for Payment Request No.  ".$data['ppu_no'],
         );
@@ -50,13 +66,13 @@ class CbPpuController extends Controller
         $data2Encrypt = array(
             'entity_cd'     => $data["entity_cd"],
             'project_no'    => $data["project_no"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
             'trx_type'      => $data["trx_type"],
+            'level_no'      => $data["level_no"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
+            'email_address' => $data["email_addr"],
             'type'          => 'U',
             'type_module'   => 'CB',
             'text'          => 'Payment Request'
@@ -75,7 +91,7 @@ class CbPpuController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendCbPpuMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

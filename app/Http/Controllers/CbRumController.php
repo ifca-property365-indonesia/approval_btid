@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendMail;
+use App\Mail\SendCbRumMail;
 
 class CbRumController extends Controller
 {
@@ -33,15 +33,32 @@ class CbRumController extends Controller
             $file_data[] = $file;
         }
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
+        $total_amt = number_format($data["total_amt"], 2, '.', ',');
+
         $dataArray = array(
+            'module'        => 'CbRum',
             'sender'        => $data['sender'],
             'url_file'      => $url_data,
             'file_name'     => $file_data,
+            'remarks_hd'    => $remarks_hd,
             'entity_name'   => $data['entity_name'],
             'email_address' => $data['email_addr'],
             'user_name'     => $data['user_name'],
             'reason'        => $data['reason'],
-            'module'        => 'CbRum',
+            'remarks_hd'    => $remarks_hd,
+            'currency_cd'   => $data['currency_cd'],
+            'total_amt'     => $total_amt,
+            'replenish_doc' => $data['replenish_doc'],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'sender_addr'   => $data['sender_addr'],
             'body'          => "Please approve Cash Advance Settlement No. ".$data['doc_no']." for ".$remarks_hd,
             'subject'       => "Need Approval for Cash Advance Settlement No.  ".$data['doc_no'],
         );
@@ -49,10 +66,10 @@ class CbRumController extends Controller
         $data2Encrypt = array(
             'entity_cd'     => $data["entity_cd"],
             'project_no'    => $data["project_no"],
-            'email_address' => $data["email_addr"],
-            'level_no'      => $data["level_no"],
             'doc_no'        => $data["doc_no"],
             'trx_type'      => $data["trx_type"],
+            'level_no'      => $data["level_no"],
+            'email_address' => $data["email_addr"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
@@ -72,7 +89,7 @@ class CbRumController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendCbRumMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

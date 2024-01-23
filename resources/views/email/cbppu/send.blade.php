@@ -69,12 +69,13 @@
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a request to purchase that requires your approval :</p>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a request payment that requires your approval :</p>
                     
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
-                                        <b>{{ $dataArray['req_hd_descs'] }}</b><br>
-                                        With a total estimated amount of Rp {{ $dataArray['total_price'] }}<br>
-                                        RF No.: {{ $dataArray['req_hd_no'] }}<br>
+                                        <b>{{ $dataArray['ppu_descs'] }}</b><br>
+                                        Pay To: {{ $dataArray['pay_to'] }}<br>
+                                        With a total estimated amount of {{ $dataArray['forex'] }} {{ $dataArray['ppu_amt'] }}<br>
+                                        Request no : {{ $dataArray['ppu_no'] }}<br>
                                     </p>
                     
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
@@ -105,7 +106,7 @@
                                                     $hasAttachment = true;
                                                 @endphp
                                                 <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <span>To view a detailed product list, description, and estimate price per item, please click on the link below :</span><br>
+                                                    <span>To view a detailed request for payment, please click on the link below :</span><br>
                                             @endif
                                             <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
                                         @endif
@@ -115,27 +116,6 @@
                                         </p>
                                     @endif
                     
-                                    @php
-                                        $hasAttachment = false;
-                                    @endphp
-                    
-                                    @foreach($dataArray['doc_link'] as $key => $doc_link)
-                                        @if($doc_link !== '' && $doc_link !== 'EMPTY')
-                                            @if(!$hasAttachment)
-                                                @php
-                                                    $hasAttachment = true;
-                                                @endphp
-                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
-                                            @endif
-                                            <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br>
-                                        @endif
-                                    @endforeach
-                    
-                                    @if($hasAttachment)
-                                        </p>
-                                    @endif
-
                                     @php
                                         $hasApproval = false;
                                         $counter = 0;
