@@ -42,8 +42,8 @@
                                     <p>Do you want to {{ $valuebt }} this request ?</p>
                                     <form id="frmEditor" class="form-horizontal" method="POST" action="{{ url('/api/poselection/getaccess') }}" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="text" id="status" name="status" value="<?php echo $status?>" >
-                                    <input type="text" id="encrypt" name="encrypt" value="<?php echo $encrypt?>" >
+                                    <input type="text" id="status" name="status" value="<?php echo $status?>" hidden>
+                                    <input type="text" id="encrypt" name="encrypt" value="<?php echo $encrypt?>" hidden>
                                     <?php if ($status != 'A'): ?>
                                         <?php if ($status == 'R'): ?>
                                             <p>Please provide the reasons for requesting this revision</p>
