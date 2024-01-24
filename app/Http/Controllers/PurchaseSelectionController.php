@@ -132,7 +132,7 @@ class PurchaseSelectionController extends Controller
         ->where($where2)
         ->get();
 
-        var_dump($data["trx_date"]);
+        var_dump($data);
         var_dump($where);
         var_dump($where2);
     }
