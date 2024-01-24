@@ -187,10 +187,10 @@ class PurchaseSelectionController extends Controller
         $data = Crypt::decrypt($request->encrypt);
         $trx_date = $data["trx_date"];
         $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
-        if ($status == "A") {
+        if ($request->status == "A") {
             $descstatus = "Approved";
             $imagestatus = "approved.png";
-        } else if ($status == "R") {
+        } else if ($request->status == "R") {
             $descstatus = "Revised";
             $imagestatus = "revise.png";
         } else {
