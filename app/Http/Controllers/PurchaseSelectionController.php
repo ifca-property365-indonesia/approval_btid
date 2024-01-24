@@ -204,7 +204,7 @@ class PurchaseSelectionController extends Controller
         $sth->bindParam(3, $data["doc_no"]);
         $sth->bindParam(4, $data["request_no"]);
         $sth->bindParam(5, $dateTime);
-        $sth->bindParam(6, $status);
+        $sth->bindParam(6, $request->status);
         $sth->bindParam(7, $data["level_no"]);
         $sth->bindParam(8, $data["usergroup"]);
         $sth->bindParam(9, $data["user_id"]);
