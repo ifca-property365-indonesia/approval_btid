@@ -178,7 +178,7 @@ class PurchaseSelectionController extends Controller
             $data = array(
                 "status"    => $status,
                 "doc_no"    => $dataArray["doc_no"],
-                "module"    => $module,
+                "module"    => $dataArray["module"],
                 "encrypt"   => $encrypt,
                 "name"      => $name,
                 "bgcolor"   => $bgcolor,
