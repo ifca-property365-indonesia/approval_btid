@@ -104,7 +104,35 @@ class PurchaseSelectionController extends Controller
     public function processData($status='', $encrypt='')
     {
         $data = Crypt::decrypt($encrypt);
+        $where = array(
+            'doc_no'        => $data["doc_no"],
+            'status'        => array("A","R","C"),
+            'entity_cd'     => $data["entity_cd"],
+            'level_no'      => $data["level_no"],
+            'type'          => $data["type"],
+            'module'        => $data["type_module"],
+        );
 
-        var_dump($data);
+        $query = DB::connection('BTID')
+        ->table('mgr.cb_cash_request_appr')
+        ->where($where)
+        ->get();
+
+        $where2 = array(
+            'doc_no'        => $data["doc_no"],
+            'status'        => 'P',
+            'entity_cd'     => $data["entity_cd"],
+            'level_no'      => $data["level_no"],
+            'type'          => $data["type"],
+            'module'        => $data["type_module"],
+        );
+
+        $query2 = DB::connection('BTID')
+        ->table('mgr.cb_cash_request_appr')
+        ->where($where2)
+        ->get();
+
+        var_dump($where);
+        var_dump($where2);
     }
 }
