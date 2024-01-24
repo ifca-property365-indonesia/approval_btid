@@ -132,56 +132,7 @@ class PurchaseSelectionController extends Controller
         ->where($where2)
         ->get();
 
-        if (count($query)>0) {
-            $msg = 'You Have Already Made a Request to '.$data["text"].' No. '.$data["doc_no"] ;
-            $notif = 'Restricted !';
-            $st  = 'OK';
-            $image = "double_approve.png";
-            $msg1 = array(
-                "Pesan" => $msg,
-                "St" => $st,
-                "notif" => $notif,
-                "image" => $image
-            );
-            return view("email.after", $msg1);
-        } else if (count($query2) == 0){
-            $msg = 'There is no '.$data["text"].' with No. '.$data["doc_no"] ;
-            $notif = 'Restricted !';
-            $st  = 'OK';
-            $image = "double_approve.png";
-            $msg1 = array(
-                "Pesan" => $msg,
-                "St" => $st,
-                "notif" => $notif,
-                "image" => $image
-            );
-            return view("email.after", $msg1);
-        } else {
-            if ($status == 'A') {
-                $name   = 'Approval';
-                $bgcolor = '#40de1d';
-                $valuebt  = 'Approve';
-            } else if ($status == 'R') {
-                $name   = 'Revision';
-                $bgcolor = '#f4bd0e';
-                $valuebt  = 'Revise';
-            } else {
-                $name   = 'Cancellation';
-                $bgcolor = '#e85347';
-                $valuebt  = 'Cancel';
-            }
-            $dataArray = Crypt::decrypt($encrypt);
-            $data = array(
-                "status"    => $status,
-                "doc_no"    => $dataArray["doc_no"],
-                "module"    => "poselection",
-                "encrypt"   => $encrypt,
-                "name"      => $name,
-                "bgcolor"   => $bgcolor,
-                "valuebt"   => $valuebt
-            );
-            return view('email/pos/passcheckwithremark', $data);
-        }
+        var_dump($where);
+        var_dump($where2);
     }
-    
 }
