@@ -75,7 +75,7 @@
                                         <b>{{ $dataArray['po_descs'] }}</b><br>
                                         From Supplier : {{ $dataArray['supplier_name'] }}<br>
                                         Quotation No.: {{ $dataArray['po_doc_no'] }}<br>
-                                        With a total estimated amount of Rp {{ $dataArray['total_amt'] }}<br>
+                                        With a total amount of Rp {{ $dataArray['total_amt'] }}<br>
                                         RF no : {{ $dataArray['ref_no'] }}<br>
                                     </p>
                     
