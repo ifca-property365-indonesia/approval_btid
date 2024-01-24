@@ -132,10 +132,6 @@ class PurchaseSelectionController extends Controller
         ->where($where2)
         ->get();
 
-        var_dump($data);
-        var_dump($where);
-        var_dump($where2);
-
         if (count($query)>0) {
             $msg = 'You Have Already Made a Request to '.$data["text"].' No. '.$data["doc_no"] ;
             $notif = 'Restricted !';
@@ -175,17 +171,19 @@ class PurchaseSelectionController extends Controller
                 $valuebt  = 'Cancel';
             }
             $dataArray = Crypt::decrypt($encrypt);
-            var_dump($dataArray);
-            // $data = array(
-            //     "status"    => $status,
-            //     "doc_no"    => $dataArray["doc_no"],
-            //     "module"    => $dataArray["module"],
-            //     "encrypt"   => $encrypt,
-            //     "name"      => $name,
-            //     "bgcolor"   => $bgcolor,
-            //     "valuebt"   => $valuebt
-            // );
-            // return view('email/pos/passcheckwithremark', $data);
+            $data = array(
+                "status"    => $status,
+                "encrypt"   => $encrypt,
+                "name"      => $name,
+                "bgcolor"   => $bgcolor,
+                "valuebt"   => $valuebt
+            );
+            return view('email/pos/passcheckwithremark', $data);
         }
+    }
+
+    public function getaccess(Request $request)
+    {
+        var_dump($request->all());
     }
 }
