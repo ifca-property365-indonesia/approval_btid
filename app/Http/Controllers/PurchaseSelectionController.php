@@ -40,6 +40,8 @@ class PurchaseSelectionController extends Controller
         foreach ($list_of_approve as $approve) {
             $approve_data[] = $approve;
         }
+
+        $total_amt = number_format($data["total_amt"], 2, '.', ',');
         
         $dataArray = array(
             'ref_no'        => $request->ref_no,
@@ -54,6 +56,7 @@ class PurchaseSelectionController extends Controller
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'approve_list'  => $approve_data,
+            'total_amt'     => $total_amt,
             'clarify_user'  => $request->clarify_user,
             'clarify_email' => $request->clarify_email,
             'body'          => "Please approve Quotation No. ".$request->po_doc_no." for ".$po_descs,
