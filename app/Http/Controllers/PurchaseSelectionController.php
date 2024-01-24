@@ -185,6 +185,7 @@ class PurchaseSelectionController extends Controller
     public function getaccess(Request $request)
     {
         $data = Crypt::decrypt($request->encrypt);
+        var_dump($data);
         // var_dump($request->all());
     }
 }
