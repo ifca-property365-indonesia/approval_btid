@@ -21,7 +21,12 @@ class CmProgressController extends Controller
         $amount = number_format( $data["amount"] , 2 , '.' , ',' );
         $prev_progress_amt = number_format( $data["prev_progress_amt"] , 2 , '.' , ',' );
 
-        
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
         $dataArray = array(
             'sender'        => $data["sender"],
             'entity_name'   => $data["entity_name"],
@@ -35,6 +40,10 @@ class CmProgressController extends Controller
             'contract_no'        => $data["contract_no"],
             'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'sender_addr'   => $data['sender_addr'],
             'body'          => "Please approve Contract Progress No. ".$data['doc_no']." for ".$data["descs"],
             'subject'       => "Need Approval for Contract Progress No.  ".$data['doc_no'],
         );

@@ -11,40 +11,6 @@
     <style>
         body {
             font-family: Arial;
-            margin: 0;
-            padding: 0 !important;
-            mso-line-height-rule: exactly;
-            background-color: #ffffff;
-            font-family: Arial;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .custom-table {
-                background-color:#e0e0e0;"
-            }
-
-        td {
-            padding: 8px;
-        }
-
-        @media only screen and (max-width: 620px) {
-            table {
-                width: 100% !important;
-            }
-
-            td {
-                display: block;
-                width: 100% !important;
-                box-sizing: border-box;
-            }
-            .custom-table {
-                background-color:#ffffff;"
-            }
-            
         }
     </style>
 </head>
@@ -69,14 +35,11 @@
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a RAB Budget that requires your approval :</p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
                                         <b>{{ $dataArray['descs'] }}</b><br>
                                         With a total amount of IDR {{ $dataArray['amount'] }}<br>
-                                        and Previous Progress amount of IDR {{ $dataArray['prev_progress_amt'] }}<br>
-                                        on Current Progress on : {{ $dataArray['curr_progress'] }}% and Previous Progress on : {{ $dataArray['prev_progress'] }}%
-                                        Progress No.: {{ $dataArray['progress_no'] }}<br>
-                                        Contract Vo : {{ $dataArray['contract_no'] }}<br>
+                                        RAB Budget No. : {{ $dataArray['doc_no'] }}<br>
                                     </p>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>

@@ -18,15 +18,25 @@ class CmEntryController extends Controller
         $contract_amt = number_format( $data["contract_amt"] , 2 , '.' , ',' );
         $auth_vo = number_format( $data["auth_vo"] , 2 , '.' , ',' );
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
         $dataArray = array(
             'sender'        => $data["sender"],
+            'sender_addr'        => $data["sender_addr"],
             'entity_name'   => $data["entity_name"],
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
             'module'        => $data["module"],
-            'contract_no'        => $data["contract_no"],
-            'contract_amt'        => $contract_amt,
-            'auth_vo'        => $auth_vo,
+            'contract_no'   => $data["contract_no"],
+            'contract_amt'  => $contract_amt,
+            'auth_vo'       => $auth_vo,
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
             'body'          => "Please approve Contract Entry No. ".$data['doc_no']." for ".$data["descs"],
             'subject'       => "Need Approval for Contract Entry No.  ".$data['doc_no'],
         );

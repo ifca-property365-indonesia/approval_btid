@@ -35,36 +35,56 @@
                             <tr>
                                 <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">{{ $dataArray['body'] }}.</p><br>
-                                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
-                                        <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Contract No</td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['contract_no'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Contract Amount</td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['contract_amt'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left; padding-right: 10px;">Auth VO</td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['auth_vo'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: left; padding-right: 10px;">In Entity</td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['entity_name'] }}</td>
-                                        </tr>
-                                    </table>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Entry that requires your approval :</p>
+                                    <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
+                                        <b>{{ $dataArray['descs'] }}</b><br>
+                                        With a total amount of {{ $dataArray['contract_amt'] }}<br>
+                                        Contact No.: {{ $dataArray['contract_no'] }}<br>
+                                        Auth Vo : {{ $dataArray['auth_vo'] }}<br>
+                                    </p>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
-                                    <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                    <br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        In case you need some clarification, kindly approach : <br>
+                                        <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['clarify_user'] }}
+                                        </a>
+                                    </p>
+                    
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         <b>Thank you,</b><br>
-                                        {{ $dataArray['sender'] }}
-                                    </p><br>
+                                        <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['sender'] }}
+                                        </a>
+                                    </p>
+                                    @php
+                                        $hasApproval = false;
+                                        $counter = 0;
+                                    @endphp
+                    
+                                    @foreach($dataArray['approve_list'] as $key => $approve_list)
+                                        @if($approve_list !== '' && $approve_list !== 'EMPTY')
+                                            @if(!$hasApproval)
+                                                @php
+                                                    $hasApproval = true;
+                                                @endphp
+                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                                    <span>This request approval has been approved by :</span><br>
+                                            @endif
+                                            {{ ++$counter }}. {{ $approve_list }}<br>
+                                        @endif
+                                    @endforeach
+                    
+                                    @if($hasApproval)
+                                        </p>
+                                    @endif
+                    
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        <b>Please do not reply, as this is an automated-generated email.</b><br>
+                                    </p>
+                    
                                 </td>
                             </tr>
                         </tbody>
