@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendPLMail;
+use App\Mail\SendPLLymanMail;
 
 class PlBudgetLymanController extends Controller
 {
@@ -15,14 +15,25 @@ class PlBudgetLymanController extends Controller
     {
         $amount = number_format( $data["amount"] , 2 , '.' , ',' );
 
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
+
         $dataArray = array(
             'descs'         => $data["descs"],
             'entity_name'   => $data["entity_name"],
             'project_name'  => $data["project_name"],
             'amount'        => $amount,
+            'doc_no'        => $data["doc_no"],
             'user_name'     => $data["user_name"],
             'sender'        => $data["sender"],
             'module'        => $data["module"],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'sender_addr'   => $data['sender_addr'],
             'body'          => "Please approve RAB Budget No. ".$data['doc_no']." project ".$data["project_name"]. " with Amount ".$amount,
             'subject'       => "Need Approval for RAB Budget No. ".$data['doc_no'],
         );
@@ -50,7 +61,7 @@ class PlBudgetLymanController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendPLMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPLLymanMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;

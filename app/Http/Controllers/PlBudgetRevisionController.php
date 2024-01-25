@@ -7,13 +7,19 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SendPLMail;
+use App\Mail\SendPLRevisionMail;
 
 class PlBudgetRevisionController extends Controller
 {
     public function processModule($data)
     {
         $amount = number_format( $data["amount"] , 2 , '.' , ',' );
+
+        $list_of_approve = explode('; ',  $data["approve_exist"]);
+        $approve_data = [];
+        foreach ($list_of_approve as $approve) {
+            $approve_data[] = $approve;
+        }
 
         $dataArray = array(
             'descs'         => $data["descs"],
@@ -23,6 +29,11 @@ class PlBudgetRevisionController extends Controller
             'user_name'     => $data["user_name"],
             'sender'        => $data["sender"],
             'module'        => $data["module"],
+            'doc_no'        => $data["doc_no"],
+            'approve_list'  => $approve_data,
+            'clarify_user'  => $data['clarify_user'],
+            'clarify_email' => $data['clarify_email'],
+            'sender_addr'   => $data['sender_addr'],
             'body'          => "Please approve Revision RAB Budget No. ".$data['doc_no']." project ".$data["project_name"]. " with Amount ".$amount,
             'subject'       => "Need Approval for Revision RAB Budget No. ".$data['doc_no'],
         );
@@ -51,7 +62,7 @@ class PlBudgetRevisionController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendPLMail($encryptedData, $dataArray));
+                    Mail::to($email)->send(new SendPLRevisionMail($encryptedData, $dataArray));
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
