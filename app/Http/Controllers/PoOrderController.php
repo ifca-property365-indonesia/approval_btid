@@ -99,6 +99,7 @@ class PoOrderController extends Controller
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
+            'email_address' => $data["email_addr"],
             'type'          => 'A',
             'type_module'   => 'PO',
             'text'          => 'Purchase Order'
