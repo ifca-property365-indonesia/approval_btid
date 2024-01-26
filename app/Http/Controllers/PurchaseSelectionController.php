@@ -41,7 +41,7 @@ class PurchaseSelectionController extends Controller
             $approve_data[] = $approve;
         }
 
-        $total_amt = number_format($data["total_amt"], 2, '.', ',');
+        $total_amt = number_format($request->total_amt, 2, '.', ',');
         
         $dataArray = array(
             'ref_no'        => $request->ref_no,
