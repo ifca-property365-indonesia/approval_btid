@@ -75,7 +75,7 @@ class PoOrderController extends Controller
             'url_file'      => $url_data,
             'file_name'     => $file_data,
             'entity_name'   => $data["entity_name"],
-            'email_addr'    => $data["email_addr"],
+            'email_address' => $data["email_addr"],
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
             'approve_list'  => $approve_data,
