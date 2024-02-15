@@ -71,38 +71,40 @@
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;"><b>{{ $dataArray['descs'] }}</b></p>
-                                    <table cellpadding="0" cellspacing="0" style="text-align:left;width:100%;max-width:800px;margin:0 auto;background-color:#ffffff; ">
-                                        <tr>
-                                            <td>With a total amount of IDR </td>
-                                            <td> : </td>
-                                            <td> {{ $dataArray['amount'] }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Previous Progress amount of IDR </td>
-                                            <td> : </td>
-                                            <td> {{ $dataArray['prev_progress_amt'] }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Current Progress on </td>
-                                            <td> : </td>
-                                            <td> {{ $dataArray['curr_progress'] }} %</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Previous Progress on </td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['prev_progress'] }} %</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Progress No </td>
-                                            <td> : </td>
-                                            <td> {{ $dataArray['progress_no'] }} %</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Contract Vo </td>
-                                            <td>:</td>
-                                            <td>{{ $dataArray['contract_no'] }} %</td>
-                                        </tr>
-                                    </table>
+                                    <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
+                                        <table cellpadding="0" cellspacing="0" style="text-align:left;width: 100%;max-width: 500px;margin:0 auto;margin-left: 6px;background-color:#FFFFFF">
+                                            <tr>
+                                                <td>With a total amount of IDR </td>
+                                                <td> : </td>
+                                                <td> {{ $dataArray['amount'] }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Previous Progress amount of IDR </td>
+                                                <td> : </td>
+                                                <td> {{ $dataArray['prev_progress_amt'] }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Current Progress on </td>
+                                                <td> : </td>
+                                                <td> {{ $dataArray['curr_progress'] }} %</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Previous Progress on </td>
+                                                <td>:</td>
+                                                <td>{{ $dataArray['prev_progress'] }} %</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Progress No </td>
+                                                <td> : </td>
+                                                <td> {{ $dataArray['progress_no'] }} %</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Contract Vo </td>
+                                                <td>:</td>
+                                                <td>{{ $dataArray['contract_no'] }} %</td>
+                                            </tr>
+                                        </table>
+                                    </p>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
