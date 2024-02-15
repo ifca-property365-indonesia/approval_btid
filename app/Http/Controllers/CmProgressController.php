@@ -27,6 +27,20 @@ class CmProgressController extends Controller
             $approve_data[] = $approve;
         }
 
+        $list_of_urls = explode(',', $data["url_file"]);
+        $list_of_files = explode(',', $data["file_name"]);
+
+        $url_data = [];
+        $file_data = [];
+
+        foreach ($list_of_urls as $url) {
+            $url_data[] = $url;
+        }
+
+        foreach ($list_of_files as $file) {
+            $file_data[] = $file;
+        }
+
         $dataArray = array(
             'sender'        => $data["sender"],
             'entity_name'   => $data["entity_name"],
@@ -41,6 +55,8 @@ class CmProgressController extends Controller
             'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
             'approve_list'  => $approve_data,
+            'url_file'      => $url_data,
+            'file_name'     => $file_data,
             'clarify_user'  => $data['clarify_user'],
             'clarify_email' => $data['clarify_email'],
             'sender_addr'   => $data['sender_addr'],

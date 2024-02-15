@@ -74,7 +74,8 @@
                                         <b>{{ $dataArray['descs'] }}</b><br>
                                         With a total amount of IDR {{ $dataArray['amount'] }}<br>
                                         and Previous Progress amount of IDR {{ $dataArray['prev_progress_amt'] }}<br>
-                                        on Current Progress on : {{ $dataArray['curr_progress'] }}% and Previous Progress on : {{ $dataArray['prev_progress'] }}%
+                                        on Current Progress on : {{ $dataArray['curr_progress'] }}%<br>
+                                        and Previous Progress on : {{ $dataArray['prev_progress'] }}%<br>
                                         Progress No.: {{ $dataArray['progress_no'] }}<br>
                                         Contract Vo : {{ $dataArray['contract_no'] }}<br>
                                     </p>
@@ -95,6 +96,27 @@
                                             {{ $dataArray['sender'] }}
                                         </a>
                                     </p>
+                                    @php
+                                        $hasAttachment = false;
+                                    @endphp
+                    
+                                    @foreach($dataArray['url_file'] as $key => $url_file)
+                                        @if($url_file !== '' && $dataArray['file_name'][$key] !== '' && $url_file !== 'EMPTY' && $dataArray['file_name'][$key] !== 'EMPTY')
+                                            @if(!$hasAttachment)
+                                                @php
+                                                    $hasAttachment = true;
+                                                @endphp
+                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                                    <span>To view a detailed request for payment, please click on the link below :</span><br>
+                                            @endif
+                                            <a href="{{ $url_file }}" target="_blank">{{ $dataArray['file_name'][$key] }}</a><br>
+                                        @endif
+                                    @endforeach
+                    
+                                    @if($hasAttachment)
+                                        </p>
+                                    @endif
+                    
                                     @php
                                         $hasApproval = false;
                                         $counter = 0;
