@@ -41,6 +41,8 @@ class CmProgressController extends Controller
             'entity_name'        => $data["entity_name"],
             'module'        => $data["module"],
             'approve_list'  => $approve_data,
+            'url_file'      => $data['url_file'],
+            'file_name'     => $data['file_name'],
             'clarify_user'  => $data['clarify_user'],
             'clarify_email' => $data['clarify_email'],
             'sender_addr'   => $data['sender_addr'],
