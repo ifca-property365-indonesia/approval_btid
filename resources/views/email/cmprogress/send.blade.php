@@ -72,38 +72,12 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
                                         <b>{{ $dataArray['descs'] }}</b><br>
-                                        <table>
-                                            <tr>
-                                                <td>With a total amount of IDR </td>
-                                                <td> : </td>
-                                                <td> {{ $dataArray['amount'] }} </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Previous Progress amount of IDR </td>
-                                                <td> : </td>
-                                                <td> {{ $dataArray['prev_progress_amt'] }} </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Current Progress on </td>
-                                                <td> : </td>
-                                                <td> {{ $dataArray['curr_progress'] }} %</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Previous Progress on </td>
-                                                <td>:</td>
-                                                <td>{{ $dataArray['prev_progress'] }} %</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Progress No </td>
-                                                <td> : </td>
-                                                <td> {{ $dataArray['progress_no'] }} %</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Contract Vo </td>
-                                                <td>:</td>
-                                                <td>{{ $dataArray['contract_no'] }} %</td>
-                                            </tr>
-                                        </table>
+                                        With a total amount of IDR {{ $dataArray['amount'] }}<br>
+                                        and Previous Progress amount of IDR {{ $dataArray['prev_progress_amt'] }}<br>
+                                        on Current Progress on : {{ $dataArray['curr_progress'] }}%<br>
+                                        and Previous Progress on : {{ $dataArray['prev_progress'] }}%<br>
+                                        Progress No.: {{ $dataArray['progress_no'] }}<br>
+                                        Contract Vo : {{ $dataArray['contract_no'] }}<br>
                                     </p>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
                                     <a href="{{ url('api') }}/processdata/{{ $dataArray['module'] }}/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
