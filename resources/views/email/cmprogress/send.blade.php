@@ -72,7 +72,7 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
                                         <b>{{ $dataArray['descs'] }}</b><br>
-                                        <table cellpadding="0" cellspacing="0" style="text-align:left;width: 100%;max-width: 500px;margin:0 auto;margin-left: 6px;background-color:#FFFFFF">
+                                        <table cellpadding="0" cellspacing="0" style="text-align:left;width: 100%;max-width: 500px;margin:0 auto;margin-left: 6px;">
                                             <tr>
                                                 <td>With a total amount of IDR </td>
                                                 <td> : </td>
