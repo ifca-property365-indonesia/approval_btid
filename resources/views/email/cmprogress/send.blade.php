@@ -64,14 +64,14 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table style="margin-left:200px;width:100%;max-width:800px;margin:0 auto;background-color:#ffffff;">
+                    <table style="width:100%;max-width:620px;margin:0 auto;background-color:#e0e0e0;">
                         <tbody>
                             <tr>
-                                <td style="text-align:center;padding: 0px 30px 0px 20px">
+                                <td style="padding: 30px 30px">
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
-                                    <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;"><b>{{ $dataArray['descs'] }}</b></p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;">
+                                        <b>{{ $dataArray['descs'] }}</b><br>
                                         <table cellpadding="0" cellspacing="0" style="text-align:left;width: 100%;max-width: 500px;margin:0 auto;margin-left: 6px;background-color:#FFFFFF">
                                             <tr>
                                                 <td>With a total amount of IDR </td>
