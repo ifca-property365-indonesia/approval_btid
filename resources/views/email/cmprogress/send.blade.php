@@ -71,7 +71,7 @@
                                     <h5 style="text-align:left;margin-bottom: 24px; color: #000000; font-size: 20px; font-weight: 400; line-height: 28px;">Dear {{ $dataArray['user_name'] }}, </h5>
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">Below is a Contract Progress that requires your approval :</p>
                                     <p style="text-align:left; margin-bottom: 15px; margin-top: 0; color: #000000; font-size: 16px; list-style-type: circle;"><b>{{ $dataArray['descs'] }}</b></p>
-                                    <table cellpadding="0" cellspacing="0" style="text-align:left;width:100%;max-width:800px;margin:0 auto;background-color:#ffffff; ">
+                                    <table cellpadding="0" cellspacing="0" style="text-align:left;width:80%;max-width:800px;margin:0 auto;background-color:#ffffff; ">
                                         <tr>
                                             <td>With a total amount of IDR </td>
                                             <td> : </td>
