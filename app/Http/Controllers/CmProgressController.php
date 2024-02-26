@@ -17,11 +17,15 @@ class CmProgressController extends Controller
     {
 
         $curr_progress = number_format( $data["curr_progress"] , 2 , '.' , ',' );
+
         $prev_progress = number_format( $data["prev_progress"] , 2 , '.' , ',' );
+
         $amount = number_format( $data["amount"] , 2 , '.' , ',' );
+
         $prev_progress_amt = number_format( $data["prev_progress_amt"] , 2 , '.' , ',' );
 
         $list_of_approve = explode('; ',  $data["approve_exist"]);
+        
         $approve_data = [];
         foreach ($list_of_approve as $approve) {
             $approve_data[] = $approve;
@@ -42,26 +46,26 @@ class CmProgressController extends Controller
         }
 
         $dataArray = array(
-            'sender'        => $data["sender"],
-            'entity_name'   => $data["entity_name"],
-            'descs'         => $data["descs"],
-            'user_name'     => $data["user_name"],
-            'progress_no'        => $data["progress_no"],
-            'curr_progress'        => $curr_progress,
-            'amount'        => $amount,
-            'prev_progress'        => $prev_progress,
-            'prev_progress_amt'        => $prev_progress_amt,
-            'contract_no'        => $data["contract_no"],
-            'entity_name'        => $data["entity_name"],
-            'module'        => $data["module"],
-            'approve_list'  => $approve_data,
-            'url_file'      => $url_data,
-            'file_name'     => $file_data,
-            'clarify_user'  => $data['clarify_user'],
-            'clarify_email' => $data['clarify_email'],
-            'sender_addr'   => $data['sender_addr'],
-            'body'          => "Please approve Contract Progress No. ".$data['doc_no']." for ".$data["descs"],
-            'subject'       => "Need Approval for Contract Progress No.  ".$data['doc_no'],
+            'sender'            => $data["sender"],
+            'entity_name'       => $data["entity_name"],
+            'descs'             => $data["descs"],
+            'user_name'         => $data["user_name"],
+            'progress_no'       => $data["progress_no"],
+            'curr_progress'     => $curr_progress,
+            'amount'            => $amount,
+            'prev_progress'     => $prev_progress,
+            'prev_progress_amt' => $prev_progress_amt,
+            'contract_no'       => $data["contract_no"],
+            'entity_name'       => $data["entity_name"],
+            'module'            => $data["module"],
+            'approve_list'      => $approve_data,
+            'url_file'          => $url_data,
+            'file_name'         => $file_data,
+            'clarify_user'      => $data['clarify_user'],
+            'clarify_email'     => $data['clarify_email'],
+            'sender_addr'       => $data['sender_addr'],
+            'body'              => "Please approve Contract Progress No. ".$data['doc_no']." for ".$data["descs"],
+            'subject'           => "Need Approval for Contract Progress No.  ".$data['doc_no'],
         );
 
         $data2Encrypt = array(
