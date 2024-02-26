@@ -26,7 +26,7 @@ class CmEntryController extends Controller
 
         $dataArray = array(
             'sender'        => $data["sender"],
-            'sender_addr'        => $data["sender_addr"],
+            'sender_addr'   => $data["sender_addr"],
             'entity_name'   => $data["entity_name"],
             'descs'         => $data["descs"],
             'user_name'     => $data["user_name"],
