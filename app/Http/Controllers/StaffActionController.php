@@ -55,11 +55,20 @@ class StaffActionController extends Controller
 
         try {
             $emailAddresses = $request->email_addr;
+            $email_cc = $request->email_cc;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
+                // foreach ($emails as $email) {
+                //     Mail::to($email)->send(new StaffActionMail($EmailBack));
+                // }
+
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new StaffActionMail($EmailBack));
+                    $mail = new StaffActionMail($EmailBack);
+                    if (!empty($email_cc)) {
+                        $mail->cc($email_cc);
+                    }
+                    Mail::to($email)->send($mail);
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
