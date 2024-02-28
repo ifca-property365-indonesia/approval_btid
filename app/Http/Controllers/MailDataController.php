@@ -108,28 +108,27 @@ class MailDataController extends Controller
 
     public function getAccess(Request $request)
     {
-        // $dataFromExternal = $request->all();
-        // $status = $request->status;
-        // $encrypt= $request->encrypt;
-        // $email=$request->email;
-        // $module=$request->module;
-        // $reason=$request->reason;
-        // if (empty($request->reason)) {
-        //     $reason = '0';
-        // }
-        // try {
-        //     $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
-        //     $methodName = 'update';
-        //     $arguments = [$status, $encrypt, $reason];
-        //     $result = call_user_func_array([$controller, $methodName], $arguments);
-        //     return $result;
-        // } catch (\Exception $e) {
-        //     $msg1 = array(
-        //         "Pesan" => "FAILED",
-        //         "image" => "reject.png"
-        //     );
-        //     return view("email.after", $msg1);
-        // }
-        var_dump('aaa');
+        $dataFromExternal = $request->all();
+        $status = $request->status;
+        $encrypt= $request->encrypt;
+        $email=$request->email;
+        $module=$request->module;
+        $reason=$request->reason;
+        if (empty($request->reason)) {
+            $reason = '0';
+        }
+        try {
+            $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
+            $methodName = 'update';
+            $arguments = [$status, $encrypt, $reason];
+            $result = call_user_func_array([$controller, $methodName], $arguments);
+            return $result;
+        } catch (\Exception $e) {
+            $msg1 = array(
+                "Pesan" => "FAILED",
+                "image" => "reject.png"
+            );
+            return view("email.after", $msg1);
+        }
     }
 }
