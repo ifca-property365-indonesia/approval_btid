@@ -111,47 +111,48 @@ class PoRequestController extends Controller
 
     public function update($status, $encrypt, $reason)
     {
-        $data = Crypt::decrypt($encrypt);
+        // $data = Crypt::decrypt($encrypt);
         
-        if ($status == "A") {
-            $descstatus = "Approved";
-            $imagestatus = "approved.png";
-        } else if ($status == "R") {
-            $descstatus = "Revised";
-            $imagestatus = "revise.png";
-        } else {
-            $descstatus = "Cancelled";
-            $imagestatus = "reject.png";
-        }
-        $pdo = DB::connection('BTID')->getPdo();
-        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_po_request ?, ?, ?, ?, ?, ?, ?, ?, ?;");
-        $sth->bindParam(1, $data["entity_cd"]);
-        $sth->bindParam(2, $data["project_no"]);
-        $sth->bindParam(3, $data["doc_no"]);
-        $sth->bindParam(4, $status);
-        $sth->bindParam(5, $data["level_no"]);
-        $sth->bindParam(6, $data["usergroup"]);
-        $sth->bindParam(7, $data["user_id"]);
-        $sth->bindParam(8, $data["supervisor"]);
-        $sth->bindParam(9, $reason);
-        $sth->execute();
-        if ($sth == true) {
-            $msg = "You Have Successfully ".$descstatus." the Purchase Requisition No. ".$data["doc_no"];
-            $notif = $descstatus." !";
-            $st = 'OK';
-            $image = $imagestatus;
-        } else {
-            $msg = "You Failed to ".$descstatus." the Purchase Requisition No.".$data["doc_no"];
-            $notif = 'Fail to '.$descstatus.' !';
-            $st = 'OK';
-            $image = "reject.png";
-        }
-        $msg1 = array(
-            "Pesan" => $msg,
-            "St" => $st,
-            "notif" => $notif,
-            "image" => $image
-        );
-        return view("email.after", $msg1);
+        // if ($status == "A") {
+        //     $descstatus = "Approved";
+        //     $imagestatus = "approved.png";
+        // } else if ($status == "R") {
+        //     $descstatus = "Revised";
+        //     $imagestatus = "revise.png";
+        // } else {
+        //     $descstatus = "Cancelled";
+        //     $imagestatus = "reject.png";
+        // }
+        // $pdo = DB::connection('BTID')->getPdo();
+        // $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_po_request ?, ?, ?, ?, ?, ?, ?, ?, ?;");
+        // $sth->bindParam(1, $data["entity_cd"]);
+        // $sth->bindParam(2, $data["project_no"]);
+        // $sth->bindParam(3, $data["doc_no"]);
+        // $sth->bindParam(4, $status);
+        // $sth->bindParam(5, $data["level_no"]);
+        // $sth->bindParam(6, $data["usergroup"]);
+        // $sth->bindParam(7, $data["user_id"]);
+        // $sth->bindParam(8, $data["supervisor"]);
+        // $sth->bindParam(9, $reason);
+        // $sth->execute();
+        // if ($sth == true) {
+        //     $msg = "You Have Successfully ".$descstatus." the Purchase Requisition No. ".$data["doc_no"];
+        //     $notif = $descstatus." !";
+        //     $st = 'OK';
+        //     $image = $imagestatus;
+        // } else {
+        //     $msg = "You Failed to ".$descstatus." the Purchase Requisition No.".$data["doc_no"];
+        //     $notif = 'Fail to '.$descstatus.' !';
+        //     $st = 'OK';
+        //     $image = "reject.png";
+        // }
+        // $msg1 = array(
+        //     "Pesan" => $msg,
+        //     "St" => $st,
+        //     "notif" => $notif,
+        //     "image" => $image
+        // );
+        // return view("email.after", $msg1);
+        var_dump(aaa);
     }
 }
