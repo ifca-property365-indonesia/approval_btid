@@ -59,10 +59,6 @@ class StaffActionController extends Controller
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
-                // foreach ($emails as $email) {
-                //     Mail::to($email)->send(new StaffActionMail($EmailBack));
-                // }
-
                 foreach ($emails as $email) {
                     $mail = new StaffActionMail($EmailBack);
                     if (!empty($email_cc)) {
