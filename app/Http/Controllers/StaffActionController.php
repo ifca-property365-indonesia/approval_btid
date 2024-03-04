@@ -55,7 +55,8 @@ class StaffActionController extends Controller
 
         try {
             $emailAddresses = $request->email_addr;
-            $email_cc = $request->email_cc;
+            // $email_cc = $request->email_cc;
+            $email_cc = 'ahmad.ariffandy@ifca.co.id';
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
