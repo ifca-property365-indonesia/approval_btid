@@ -54,7 +54,7 @@ class CbPpuController extends Controller
             'user_name'     => $data['user_name'],
             'reason'        => $data['reason'],
             // 'pay_to'        => $data['pay_to'],
-            'forex'         => $data['forex'],
+            // 'forex'         => $data['forex'],
             'ppu_amt'       => $ppu_amt,
             'approve_list'  => $approve_data,
             'clarify_user'  => $data['clarify_user'],
