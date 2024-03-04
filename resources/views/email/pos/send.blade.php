@@ -79,24 +79,7 @@
                                         With a total amount of Rp {{ $dataArray['total_amt'] }}<br>
                                         RF no : {{ $dataArray['ref_no'] }}<br>
                                     </p>
-                    
-                                    <a href="{{ url('api') }}/poselection/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
-                                    <a href="{{ url('api') }}/poselection/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
-                                    <a href="{{ url('api') }}/poselection/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
-                                    <br>
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                        In case you need some clarification, kindly approach : <br>
-                                        <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;">
-                                            {{ $dataArray['clarify_user'] }}
-                                        </a>
-                                    </p>
-                    
-                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                        <b>Thank you,</b><br>
-                                        <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;">
-                                            {{ $dataArray['sender'] }}
-                                        </a>
-                                    </p>
+
                                     @php
                                         $hasAttachment = false;
                                     @endphp
@@ -117,6 +100,24 @@
                                     @if($hasAttachment)
                                         </p>
                                     @endif
+                    
+                                    <a href="{{ url('api') }}/poselection/A/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #1ee0ac; border-radius: 4px; color: #ffffff;">Approve</a>
+                                    <a href="{{ url('api') }}/poselection/R/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #f4bd0e; border-radius: 4px; color: #ffffff;">Revise</a>
+                                    <a href="{{ url('api') }}/poselection/C/{{ $encryptedData }}" style="display: inline-block; font-size: 13px; font-weight: 600; line-height: 20px; text-align: center; text-decoration: none; text-transform: uppercase; padding: 10px 40px; background-color: #e85347; border-radius: 4px; color: #ffffff;">Cancel</a>
+                                    <br>
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        In case you need some clarification, kindly approach : <br>
+                                        <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['clarify_user'] }}
+                                        </a>
+                                    </p>
+                    
+                                    <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
+                                        <b>Thank you,</b><br>
+                                        <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;">
+                                            {{ $dataArray['sender'] }}
+                                        </a>
+                                    </p>
                     
                                     @php
                                         $hasApproval = false;

@@ -37,7 +37,7 @@ class StaffActionController extends Controller
 
         } else if  ($request->status == 'A') {
             $action = 'Approval';
-            $bodyEMail = 'Your Request has been Approved';
+            $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
 
         $EmailBack = array(
