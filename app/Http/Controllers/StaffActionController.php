@@ -56,28 +56,20 @@ class StaffActionController extends Controller
         try {
             $emailAddresses = $request->email_addr;
             $email_cc = $request->email_cc;
-            
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
-                // Combine email addresses and cc addresses
-                $allEmails = array_merge($emails, is_array($email_cc) ? $email_cc : [$email_cc]);
-                // Remove duplicates
-                $uniqueEmails = array_unique($allEmails);
-        
-                foreach ($uniqueEmails as $email) {
+                foreach ($emails as $email) {
                     $mail = new StaffActionMail($EmailBack);
-                    // If the email address exists in the CC list, don't set it as CC again
-                    if (is_array($email_cc) && in_array($email, $email_cc)) {
-                        $mail->cc($email);
+                    if (!empty($email_cc)) {
+                        $mail->cc($email_cc);
                     }
                     Mail::to($email)->send($mail);
                 }
                 
-                $sentTo = implode(', ', $emails);
-                $sentCc = is_array($email_cc) ? implode(', ', $email_cc) : $email_cc;
-                Log::channel('sendmail')->info("Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$sentCc);
-                return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$sentCc ;
+                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                Log::channel('sendmail')->info("Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$email_cc);
+                return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$email_cc ;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
                 return "Tidak ada alamat email yang diberikan.";
@@ -85,7 +77,7 @@ class StaffActionController extends Controller
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
-        }                
+        }
     }
 
     public function fileexist(Request $request)
