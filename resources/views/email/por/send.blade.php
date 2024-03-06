@@ -127,15 +127,15 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         In case you need some clarification, kindly approach : <br>
                                         {{-- <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;"> --}}
-                                            {{ $dataArray['clarify_user'] }}
+                                            {{ $dataArray['kindly'] }}
                                         {{-- </a> --}}
                                     </p>
                     
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         <b>Thank you,</b><br>
-                                        <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;">
+                                        {{-- <a href="mailto:{{ $dataArray['sender_addr'] }}" style="text-decoration: none; color: inherit;"> --}}
                                             {{ $dataArray['kindly'] }}
-                                        </a>
+                                        {{-- </a> --}}
                                     </p>
 
                                     @php
