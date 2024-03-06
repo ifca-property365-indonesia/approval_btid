@@ -56,20 +56,27 @@ class StaffActionController extends Controller
         try {
             $emailAddresses = $request->email_addr;
             $email_cc = $request->email_cc;
+        
+            // Explode the CC emails string into an array
+            $cc_emails = !empty($email_cc) ? explode(';', $email_cc) : [];
+        
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
                     $mail = new StaffActionMail($EmailBack);
-                    if (!empty($email_cc)) {
-                        $mail->cc($email_cc);
+                    
+                    // Set CC emails
+                    foreach ($cc_emails as $cc_email) {
+                        $mail->cc(trim($cc_email));
                     }
+                    
                     Mail::to($email)->send($mail);
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info("Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$email_cc);
-                return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " .$email_cc ;
+                Log::channel('sendmail')->info("Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $email_cc);
+                return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $email_cc;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
                 return "Tidak ada alamat email yang diberikan.";
