@@ -127,7 +127,7 @@
                                     <p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         In case you need some clarification, kindly approach : <br>
                                         <a href="mailto:{{ $dataArray['clarify_email'] }}" style="text-decoration: none; color: inherit;">
-                                            {{ $dataArray['kindly'] }}
+                                            {{ $dataArray['clarify_user'] }}
                                         </a>
                                     </p>
                     
