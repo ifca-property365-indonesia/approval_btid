@@ -59,6 +59,7 @@ class PoRequestController extends Controller
             'clarify_email' => $data["clarify_email"],
             'req_hd_descs'  => $data["req_hd_descs"],
             'req_hd_no'     => $data["req_hd_no"],
+            'kindly'        => $data["kindly"],
             'total_price'   => $formattedNumber,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
