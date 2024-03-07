@@ -76,7 +76,6 @@ class PoRequestController extends Controller
             'doc_no'        => $data["doc_no"],
             'usergroup'     => $data["usergroup"],
             'user_id'       => $data["user_id"],
-            'db_name'       => $data["db_name"],
             'supervisor'    => $data["supervisor"],
             'type'          => 'Q',
             'type_module'   => 'PO',
@@ -113,13 +112,6 @@ class PoRequestController extends Controller
     public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
-
-        $dbName = $data['db_name'];
-
-        // Set the value of the environment variable DB_DATABASE3 to the value of DB_NAME
-        config([
-            'database.connections.BTID.database' => $dbName
-        ]);
         
         if ($status == "A") {
             $descstatus = "Approved";

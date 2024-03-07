@@ -25,13 +25,6 @@ class MailDataController extends Controller
     {
         $data = Crypt::decrypt($encrypt);
 
-        $dbName = $data['db_name'];
-
-        // Set the value of the environment variable DB_DATABASE3 to the value of DB_NAME
-        config([
-            'database.connections.BTID.database' => $dbName
-        ]);
-
         $where = array(
             'doc_no'        => $data["doc_no"],
             'status'        => array("A","R","C"),
