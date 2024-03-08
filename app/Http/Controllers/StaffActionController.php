@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Mail\FeedbackMail;
 use App\Mail\StaffActionMail;
 use App\Mail\StaffActionPoRMail;
+use App\Mail\StaffActionPoSMail;
 use Carbon\Carbon;
 
 class StaffActionController extends Controller
@@ -175,6 +176,80 @@ class StaffActionController extends Controller
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
         }        
+    }
+
+    public function staffaction_pos(Request $request)
+    {
+        $callback = array(
+            'Error' => false,
+            'Pesan' => '',
+            'Status' => 200
+        );
+
+        if ($request->status == 'R') {
+
+            $action = 'Revision';
+            $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
+
+        } else if ($request->status == 'C'){
+            
+            $action = 'Cancellation';
+            $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
+
+        } else if  ($request->status == 'A') {
+            $action = 'Approval';
+            $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
+        }
+
+        $list_of_urls = explode('; ', $request->url_file);
+        $list_of_files = explode('; ', $request->file_name);
+
+        $url_data = [];
+        $file_data = [];
+
+        foreach ($list_of_urls as $url) {
+            $url_data[] = $url;
+        }
+
+        foreach ($list_of_files as $file) {
+            $file_data[] = $file;
+        }
+
+        $EmailBack = array(
+            'doc_no'            => $request->doc_no,
+            'action'            => $action,
+            'reason'            => $request->reason,
+            'descs'             => $request->descs,
+            'subject'		    => $request->subject,
+            'bodyEMail'		    => $bodyEMail,
+            'user_name'         => $request->user_name,
+            'staff_act_send'    => $request->staff_act_send,
+            'entity_name'       => $request->entity_name,
+            'url_file'          => $url_data,
+            'file_name'         => $file_data,
+            'action_date'       => Carbon::now('Asia/Jakarta')->format('d-m-Y H:i')
+        );
+
+        try {
+            $emailAddresses = $request->email_addr;
+            if (!empty($emailAddresses)) {
+                $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+                
+                foreach ($emails as $email) {
+                    Mail::to($email)->send(new StaffActionPoSMail($EmailBack));
+                }
+                
+                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                Log::channel('sendmail')->info('Email berhasil dikirim ke: ' . $sentTo);
+                return 'Email berhasil dikirim ke: ' . $sentTo;
+            } else {
+                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
+                return "Tidak ada alamat email yang diberikan.";
+            }
+        } catch (\Exception $e) {
+            Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
+            return "Gagal mengirim email. Cek log untuk detailnya.";
+        }      
     }
 
     public function fileexist(Request $request)
