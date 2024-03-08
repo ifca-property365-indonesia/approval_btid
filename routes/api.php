@@ -34,3 +34,7 @@ Route::POST('/staffaction', [StaffAction::class, 'staffaction']);
 Route::POST('/staffaction_por', [StaffAction::class, 'staffaction_por']);
 Route::POST('/staffaction_pos', [StaffAction::class, 'staffaction_pos']);
 Route::POST('/fileexist', [StaffAction::class, 'fileexist']);
+
+use App\Http\Controllers\StaffFeedbackController as StaffFeedback;
+
+Route::POST('/feedback_po', [StaffFeedback::class, 'feedback_po']);
