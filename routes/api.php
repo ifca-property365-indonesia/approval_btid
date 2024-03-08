@@ -32,4 +32,5 @@ Route::POST('/poselection/getaccess', [Selection::class, 'getaccess']);
 use App\Http\Controllers\StaffActionController as StaffAction;
 Route::POST('/staffaction', [StaffAction::class, 'staffaction']);
 Route::POST('/staffaction_por', [StaffAction::class, 'staffaction_por']);
+Route::POST('/staffaction_pos', [StaffAction::class, 'staffaction_pos']);
 Route::POST('/fileexist', [StaffAction::class, 'fileexist']);
