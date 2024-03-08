@@ -39,4 +39,5 @@ use App\Http\Controllers\StaffFeedbackController as StaffFeedback;
 
 Route::POST('/feedback_po', [StaffFeedback::class, 'feedback_po']);
 Route::POST('/feedback_cb_fupd', [StaffFeedback::class, 'feedback_cb_fupd']);
+Route::POST('/feedback_cb', [StaffFeedback::class, 'feedback_cb']);
 
