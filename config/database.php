@@ -104,7 +104,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'options'   => [
-                PDO::ATTR_TIMEOUT   => 240
+                PDO::ATTR_TIMEOUT   => 2400
             ],
             'prefix_indexes' => true,
         ],
