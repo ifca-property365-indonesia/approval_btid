@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendCbPpuMail;
 
-class CbPpuController extends Controller
+class CbPpuVvipController extends Controller
 {
     public function processModule($data)
     {
@@ -42,7 +42,7 @@ class CbPpuController extends Controller
         $ppu_amt = number_format($data["ppu_amt"], 2, '.', ',');
 
         $dataArray = array(
-            'module'        => 'CbPpu',
+            'module'        => 'CbPpuVvip',
             'ppu_no'        => $data['ppu_no'],
             'ppu_descs'     => $data['ppu_descs'],
             'sender'        => $data['sender'],
@@ -73,7 +73,7 @@ class CbPpuController extends Controller
             'user_id'       => $data["user_id"],
             'supervisor'    => $data["supervisor"],
             'email_address' => $data["email_addr"],
-            'type'          => 'U',
+            'type'          => 'V',
             'type_module'   => 'CB',
             'text'          => 'Payment Request'
         );
@@ -122,7 +122,7 @@ class CbPpuController extends Controller
             $imagestatus = "reject.png";
         }
         $pdo = DB::connection('BTID')->getPdo();
-        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_cb_ppu ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
+        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_cb_ppu_vvip ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
         $sth->bindParam(1, $data["entity_cd"]);
         $sth->bindParam(2, $data["project_no"]);
         $sth->bindParam(3, $data["doc_no"]);
