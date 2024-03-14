@@ -42,7 +42,7 @@ class CbPpuVvipController extends Controller
         $ppu_amt = number_format($data["ppu_amt"], 2, '.', ',');
 
         $dataArray = array(
-            'module'        => 'CbPpu',
+            'module'        => 'CbPpuVvip',
             'ppu_no'        => $data['ppu_no'],
             'ppu_descs'     => $data['ppu_descs'],
             'sender'        => $data['sender'],
@@ -121,47 +121,36 @@ class CbPpuVvipController extends Controller
             $descstatus = "Cancelled";
             $imagestatus = "reject.png";
         }
-
-        // Execute the stored procedure using Laravel's database query builder
-        try {
-            $result = DB::connection('BTID')->select("EXEC mgr.x_send_mail_approval_cb_ppu_vvip ?, ?, ?, ?, ?, ?, ?, ?, ?, ?", [
-                $data["entity_cd"],
-                $data["project_no"],
-                $data["doc_no"],
-                $data["trx_type"],
-                $status,
-                $data["level_no"],
-                $data["usergroup"],
-                $data["user_id"],
-                $data["supervisor"],
-                $reason,
-            ]);
-
-            // Check the result and set messages accordingly
-            if ($result) {
-                $msg = "You have successfully ".$descstatus." the Payment Request No. ".$data["doc_no"];
-                $notif = $descstatus."!";
-                $st = 'OK';
-                $image = $imagestatus;
-            } else {
-                $msg = "You failed to ".$descstatus." the Payment Request No.".$data["doc_no"];
-                $notif = 'Fail to '.$descstatus.'!';
-                $st = 'OK';
-                $image = "reject.png";
-            }
-
-            // Prepare data for the view
-            $msg1 = [
-                "Pesan" => $msg,
-                "St" => $st,
-                "notif" => $notif,
-                "image" => $image
-            ];
-
-            return view("email.after", $msg1);
-        } catch (\Exception $e) {
-            // Handle exceptions (if any)
-            return "Error: " . $e->getMessage();
+        $pdo = DB::connection('BTID')->getPdo();
+        $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_cb_ppu_vvip ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
+        $sth->bindParam(1, $data["entity_cd"]);
+        $sth->bindParam(2, $data["project_no"]);
+        $sth->bindParam(3, $data["doc_no"]);
+        $sth->bindParam(4, $data["trx_type"]);
+        $sth->bindParam(5, $status);
+        $sth->bindParam(6, $data["level_no"]);
+        $sth->bindParam(7, $data["usergroup"]);
+        $sth->bindParam(8, $data["user_id"]);
+        $sth->bindParam(9, $data["supervisor"]);
+        $sth->bindParam(10, $reason);
+        $sth->execute();
+        if ($sth == true) {
+            $msg = "You have successfully ".$descstatus." the Payment Request No. ".$data["doc_no"];
+            $notif = $descstatus."!";
+            $st = 'OK';
+            $image = $imagestatus;
+        } else {
+            $msg = "You failed to ".$descstatus." the Payment Request No.".$data["doc_no"];
+            $notif = 'Fail to '.$descstatus.'!';
+            $st = 'OK';
+            $image = "reject.png";
         }
+        $msg1 = array(
+            "Pesan" => $msg,
+            "St" => $st,
+            "notif" => $notif,
+            "image" => $image
+        );
+        return view("email.after", $msg1);
     }
 }
