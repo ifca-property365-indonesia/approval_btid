@@ -61,27 +61,6 @@
                                     @if($hasAttachment)
                                         </p>
                                     @endif
-
-                                    @php
-                                        $hasAttachment = false;
-                                    @endphp
-                    
-                                    @foreach($data['doc_link'] as $key => $doc_link)
-                                        @if($doc_link !== '' && $doc_link !== 'EMPTY')
-                                            @if(!$hasAttachment)
-                                                @php
-                                                    $hasAttachment = true;
-                                                @endphp
-                                                <p style="text-align:left; margin-bottom: 15px; color: #000000; font-size: 16px;">
-                                                    <span>This request to purchase comes with additional supporting documents, such as detailed specifications, that you can access from the link below :</span><br>
-                                            @endif
-                                            <a href="{{ $doc_link }}" target="_blank">{{ $doc_link }}</a><br>
-                                        @endif
-                                    @endforeach
-                    
-                                    @if($hasAttachment)
-                                        </p>
-                                    @endif
                                     
                                     <br><p style="text-align:left;margin-bottom: 15px; color: #000000; font-size: 16px;">
                                         <b>Thank you,</b><br>
