@@ -16,9 +16,11 @@ class PoOrderController extends Controller
 
         $list_of_urls = explode('; ', $data["url_file"]);
         $list_of_files = explode('; ', $data["file_name"]);
+        $list_of_doc = explode('; ', $data["document_link"]);
 
         $url_data = [];
         $file_data = [];
+        $doc_data = [];
 
         foreach ($list_of_urls as $url) {
             $url_data[] = $url;
@@ -26,6 +28,10 @@ class PoOrderController extends Controller
 
         foreach ($list_of_files as $file) {
             $file_data[] = $file;
+        }
+
+        foreach ($list_of_doc as $doc) {
+            $doc_data[] = $doc;
         }
 
         $list_of_supplier = explode('; ', $data["supplier_name"]);
@@ -86,6 +92,7 @@ class PoOrderController extends Controller
             'order_no'      => $order_no_data,
             'order_remarks' => $order_remarks_data,
             'remark'        => $remark_data,
+            'doc_link'      => $doc_data,
             'body'          => "Please approve Purchase Order No. ".$data['doc_no'],
             'subject'       => "Need Approval for Purchase Order No.  ".$data['doc_no'],
         );
