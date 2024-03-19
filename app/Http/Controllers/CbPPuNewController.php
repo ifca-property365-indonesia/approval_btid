@@ -109,13 +109,14 @@ class CbPPuNewController extends Controller
     public function processData($status='', $encrypt='')
     {
         $data = Crypt::decrypt($encrypt);
+
         $where = array(
-            'doc_no'        => $data['doc_no'],
+            'doc_no'        => $data["doc_no"],
             'status'        => array("A","R","C"),
-            'entity_cd'     => $data['entity_cd'],
-            'level_no'      => $data['level_no'],
-            'type'          => $data['type'],
-            'module'        => $data['type_module'],
+            'entity_cd'     => $data["entity_cd"],
+            'level_no'      => $data["level_no"],
+            'type'          => $data["type"],
+            'module'        => $data["type_module"],
         );
 
         $query = DB::connection('BTID')
@@ -124,12 +125,12 @@ class CbPPuNewController extends Controller
         ->get();
 
         $where2 = array(
-            'doc_no'        => $data['doc_no'],
+            'doc_no'        => $data["doc_no"],
             'status'        => 'P',
-            'entity_cd'     => $data['entity_cd'],
-            'level_no'      => $data['level_no'],
-            'type'          => $data['type'],
-            'module'        => $data['type_module'],
+            'entity_cd'     => $data["entity_cd"],
+            'level_no'      => $data["level_no"],
+            'type'          => $data["type"],
+            'module'        => $data["type_module"],
         );
 
         $query2 = DB::connection('BTID')
@@ -138,7 +139,7 @@ class CbPPuNewController extends Controller
         ->get();
 
         if (count($query)>0) {
-            $msg = 'You Have Already Made a Request to '.$data['text'].' No. '.$data['doc_no'] ;
+            $msg = 'You Have Already Made a Request to '.$data["text"].' No. '.$data["doc_no"] ;
             $notif = 'Restricted !';
             $st  = 'OK';
             $image = "double_approve.png";
@@ -150,7 +151,7 @@ class CbPPuNewController extends Controller
             );
             return view("email.after", $msg1);
         } else if (count($query2) == 0){
-            $msg = 'There is no '.$data['text'].' with No. '.$data['doc_no'] ;
+            $msg = 'There is no '.$data["text"].' with No. '.$data["doc_no"] ;
             $notif = 'Restricted !';
             $st  = 'OK';
             $image = "double_approve.png";
@@ -178,18 +179,22 @@ class CbPPuNewController extends Controller
             $dataArray = Crypt::decrypt($encrypt);
             $data = array(
                 "status"    => $status,
+                "doc_no"    => $dataArray["doc_no"],
+                "email"     => $dataArray["email_address"],
                 "encrypt"   => $encrypt,
                 "name"      => $name,
                 "bgcolor"   => $bgcolor,
                 "valuebt"   => $valuebt
             );
-            return view('email/pos/passcheckwithremark', $data);
+            return view('email/cbppunew/passcheckwithremark', $data);
         }
     }
 
     public function getaccess(Request $request)
     {
-        $data = Crypt::decrypt($encrypt);
+        $data = Crypt::decrypt($request->encrypt);
+
+        $status = $request->status;
 
         if ($status == "A") {
             $descstatus = "Approved";
