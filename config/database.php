@@ -74,7 +74,10 @@ return [
             'charset' => 'utf8',
             'prefix' => '',            
             'encrypt' => 'yes',
-            'trust_server_certificate' => true,            
+            'trust_server_certificate' => true,
+            'options'   => [
+                PDO::ATTR_TIMEOUT   => 2400
+            ],          
             'prefix_indexes' => true,
         ],
 
