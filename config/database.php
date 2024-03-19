@@ -78,7 +78,7 @@ return [
             'options'   => [
                 PDO::ATTR_TIMEOUT   => 2400
             ],          
-            'prefix_indexes' => true,
+            'prefix_indexes' => true, // Corrected line
         ],
 
         'pgsql' => [

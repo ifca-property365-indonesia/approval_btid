@@ -117,6 +117,7 @@ class PoOrderController extends Controller
     
         try {
             $emailAddresses = $data["email_addr"];
+            $doc_no = $data["doc_no"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
@@ -127,7 +128,7 @@ class PoOrderController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
