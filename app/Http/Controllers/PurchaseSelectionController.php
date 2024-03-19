@@ -181,7 +181,7 @@ class PurchaseSelectionController extends Controller
                 "bgcolor"   => $bgcolor,
                 "valuebt"   => $valuebt
             );
-            return view('email/pos/passcheckwithremark', $data);
+            return view('email/pos/passcheckwithremark2', $data);
         }
     }
 
