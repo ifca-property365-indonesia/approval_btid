@@ -73,9 +73,12 @@ return [
             'password' => env('DB_PASSWORD3', ''),
             'charset' => 'utf8',
             'prefix' => '',
-	    'encrypt' => 'yes',
+            'encrypt' => 'yes',
             'trust_server_certificate' => true,
-	    'prefix_indexes' => true,
+            'options'   => [
+                PDO::ATTR_TIMEOUT   => 2400
+            ]
+            'prefix_indexes' => true,
         ],
 
         'pgsql' => [
