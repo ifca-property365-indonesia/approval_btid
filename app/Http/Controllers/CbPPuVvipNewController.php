@@ -196,7 +196,7 @@ class CbPPuVvipNewController extends Controller
         }
     }
 
-    public function update($status, $encrypt, $reason)
+    public function getaccess($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
 
