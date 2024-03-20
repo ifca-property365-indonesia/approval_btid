@@ -57,7 +57,7 @@ class StaffActionController extends Controller
 
         try {
             $emailAddresses = $request->email_addr;
-        
+            $doc_no = $request->doc_no;
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
@@ -67,7 +67,7 @@ class StaffActionController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
@@ -141,6 +141,7 @@ class StaffActionController extends Controller
         try {
             $emailAddresses = $request->email_addr;
             $email_cc = $request->email_cc;
+            $doc_no = $request->doc_no;
         
             // Explode the email addresses strings into arrays
             $emails = !empty($emailAddresses) ? (is_array($emailAddresses) ? $emailAddresses : [$emailAddresses]) : [];
@@ -166,7 +167,7 @@ class StaffActionController extends Controller
         
                 $sentTo = implode(', ', $emails);
                 $ccList = implode(', ', $cc_emails);
-                Log::channel('sendmail')->info("Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
+                Log::channel('sendmail')->info("Email Feedback doc_no ".$doc_no." berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
                 return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
@@ -232,6 +233,7 @@ class StaffActionController extends Controller
 
         try {
             $emailAddresses = $request->email_addr;
+            $doc_no = $request->doc_no;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
@@ -240,7 +242,7 @@ class StaffActionController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
