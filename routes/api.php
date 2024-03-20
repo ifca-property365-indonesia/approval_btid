@@ -28,6 +28,7 @@ use App\Http\Controllers\PurchaseSelectionController as Selection;
 Route::POST('/purchase_selection', [Selection::class, 'Mail']);
 Route::GET('/poselection/{status}/{encrypt}', [Selection::class, 'processData']);
 Route::POST('/poselection/getaccess', [Selection::class, 'getaccess']);
+Route::POST('/pos/getaccess', [Selection::class, 'getaccess']);
 
 use App\Http\Controllers\CbPPuNewController as CbPPuNew;
 Route::POST('/cbppunew', [CbPPuNew::class, 'Mail']);
