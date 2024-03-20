@@ -116,12 +116,12 @@ class CbPPuVvipNewController extends Controller
         $data = Crypt::decrypt($encrypt);
 
         $where = array(
-            'doc_no'        => "'" . $data["doc_no"] . "'",
-            'status'        => array("'A'", "'R'", "'C'"), // Assuming status is a string or enum type
-            'entity_cd'     => "'" . $data["entity_cd"] . "'",
-            'level_no'      => $data["level_no"], // Assuming level_no is an integer
-            'type'          => "'" . $data["type"] . "'",
-            'module'        => "'" . $data["type_module"] . "'",
+            'doc_no'        => $data["doc_no"],
+            'status'        => array("A","R","C"),
+            'entity_cd'     => $data["entity_cd"],
+            'level_no'      => $data["level_no"],
+            'type'          => $data["type"],
+            'module'        => $data["type_module"],
         );
 
         $query = DB::connection('BTID')
