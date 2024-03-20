@@ -198,8 +198,8 @@ class CbPPuVvipNewController extends Controller
 
     public function getaccess(Request $request)
     {
-        $data = Crypt::decrypt($encrypt);
-
+        $data = Crypt::decrypt($request->encrypt);
+        
         if ($status == "A") {
             $descstatus = "Approved";
             $imagestatus = "approved.png";
