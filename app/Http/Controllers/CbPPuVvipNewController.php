@@ -212,6 +212,7 @@ class CbPPuVvipNewController extends Controller
             $descstatus = "Cancelled";
             $imagestatus = "reject.png";
         }
+        var_dump($data);
         // $pdo = DB::connection('BTID')->getPdo();
         // $sth = $pdo->prepare("SET NOCOUNT ON; EXEC mgr.x_send_mail_approval_cb_ppu ?, ?, ?, ?, ?, ?, ?, ?, ?, ?;");
         // $sth->bindParam(1, $data["entity_cd"]);
