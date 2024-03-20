@@ -121,6 +121,14 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
         ],
+
+        'sendmailFailed' => [
+            'driver' => 'daily', // You can choose the appropriate log driver (single, daily, syslog, etc.)
+            'path' => storage_path('logs/sendmail.log'),
+            'ignore_exceptions' => false,
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
     ],
 
 ];
