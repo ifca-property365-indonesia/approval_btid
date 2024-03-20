@@ -152,7 +152,7 @@ class StaffActionController extends Controller
 
             $currentTime = Carbon::now();
             // Format the date and time
-            $formattedDateTime = $currentTime->format('Y-m-d H:i:s');
+            $formattedDateTime = $currentTime->format('d-m-Y H:i:s');
         
             // Explode the email addresses strings into arrays
             $emails = !empty($emailAddresses) ? (is_array($emailAddresses) ? $emailAddresses : [$emailAddresses]) : [];
