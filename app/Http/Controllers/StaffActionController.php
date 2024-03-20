@@ -141,7 +141,18 @@ class StaffActionController extends Controller
         try {
             $emailAddresses = $request->email_addr;
             $email_cc = $request->email_cc;
+
+            $entity_cd = $request->entity_cd;
             $doc_no = $request->doc_no;
+            $request_type = $request->request_type;
+            $type = $request->type;
+            $module= $request->moduledb;
+            $email_status = 'Y';
+            $audit_user = 'MGR';
+
+            $currentTime = Carbon::now();
+            // Format the date and time
+            $formattedDateTime = $currentTime->format('Y-m-d H:i:s');
         
             // Explode the email addresses strings into arrays
             $emails = !empty($emailAddresses) ? (is_array($emailAddresses) ? $emailAddresses : [$emailAddresses]) : [];
@@ -168,6 +179,19 @@ class StaffActionController extends Controller
                 $sentTo = implode(', ', $emails);
                 $ccList = implode(', ', $cc_emails);
                 Log::channel('sendmail')->info("Email Feedback doc_no ".$doc_no." berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
+                $insert = DB::connection('BTID')
+                ->select('CALL mgr.xrl_save_mail_log(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', array(
+                    $entity_cd,
+                    $doc_no,
+                    $request_type,
+                    $type,
+                    $module,
+                    $sentTo,
+                    $ccList,
+                    $email_status,
+                    $formattedDateTime,
+                    $audit_user
+                ));
                 return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
