@@ -47,3 +47,8 @@ Route::POST('/feedback_po', [StaffFeedback::class, 'feedback_po']);
 Route::POST('/feedback_cb_fupd', [StaffFeedback::class, 'feedback_cb_fupd']);
 Route::POST('/feedback_cb', [StaffFeedback::class, 'feedback_cb']);
 
+use App\Http\Controllers\CbPPuVvipNewController as CbPPuVvipNew;
+Route::POST('/cbppunewvvip', [CbPPuVvipNew::class, 'Mail']);
+Route::GET('/cbppunewvvip/{status}/{encrypt}', [CbPPuVvipNew::class, 'processData']);
+Route::POST('/cbppunewvvip/getaccess', [CbPPuVvipNew::class, 'getaccess']);
+
