@@ -196,6 +196,10 @@ class CbPPuVvipNewController extends Controller
         }
     }
 
+    public function update(){
+        var_dump("aa");
+    }
+
     public function getaccess($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);

@@ -51,4 +51,5 @@ use App\Http\Controllers\CbPPuVvipNewController as CbPPuVvipNew;
 Route::POST('/cbppunewvvip', [CbPPuVvipNew::class, 'Mail']);
 Route::GET('/cbppunewvvip/{status}/{encrypt}', [CbPPuVvipNew::class, 'processData']);
 Route::POST('/cbppunewvvip/getaccess', [CbPPuVvipNew::class, 'getaccess']);
+Route::GET('/cbppunewvvip/getaccess', [CbPPuVvipNew::class, 'update']);
 
