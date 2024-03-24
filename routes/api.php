@@ -52,3 +52,7 @@ Route::POST('/cbppunewvvip', [CbPPuVvipNew::class, 'Mail']);
 Route::GET('/cbppunewvvip/{status}/{encrypt}', [CbPPuVvipNew::class, 'processData']);
 Route::POST('/cbppunewvvip/getaccess', [CbPPuVvipNew::class, 'getaccess']);
 
+
+use App\Http\Controllers\SelController as Select;
+Route::get('/select', [Select::class, 'index']);
+

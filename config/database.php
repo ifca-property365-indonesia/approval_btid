@@ -75,9 +75,9 @@ return [
             'prefix' => '',
             'encrypt' => 'yes',
             'trust_server_certificate' => true,
-            'options'   => [
-                PDO::ATTR_TIMEOUT   => 2400
-            ],
+            // 'options'   => [
+            //     PDO::ATTR_TIMEOUT   => 2400
+            // ],
             'prefix_indexes' => true, // Corrected line
         ],
 
@@ -106,9 +106,6 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
-            'options'   => [
-                PDO::ATTR_TIMEOUT   => 2400
-            ],
             'prefix_indexes' => true,
         ],
 

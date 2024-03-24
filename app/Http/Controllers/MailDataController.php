@@ -14,10 +14,10 @@ class MailDataController extends Controller
     {
         $dataFromExternal = $request->all();
         $module = $request->module;
-        $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
+        $controllerName = 'App\\Http\\Controllers\\' . $module . 'Controller';
         $methodName = 'processModule';
-        $arguments = [$dataFromExternal];
-        $result = call_user_func_array([$controller, $methodName], $arguments);
+        $controllerInstance = new $controllerName();
+        $result = $controllerInstance->$methodName($dataFromExternal);
         return $result;
     }
 
@@ -118,11 +118,13 @@ class MailDataController extends Controller
             $reason = '0';
         }
         try {
-            $controller = 'App\\Http\\Controllers\\' . $module . 'Controller';
+            $controllerName = 'App\\Http\\Controllers\\' . $module . 'Controller';
             $methodName = 'update';
             $arguments = [$status, $encrypt, $reason];
-            $result = call_user_func_array([$controller, $methodName], $arguments);
+            $controllerInstance = new $controllerName();
+            $result = call_user_func_array([$controllerInstance, $methodName], $arguments);
             return $result;
+
         } catch (\Exception $e) {
             $msg1 = array(
                 "Pesan" => "FAILED",
