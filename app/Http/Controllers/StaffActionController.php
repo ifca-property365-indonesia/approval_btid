@@ -27,17 +27,20 @@ class StaffActionController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
@@ -87,17 +90,20 @@ class StaffActionController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
@@ -141,15 +147,15 @@ class StaffActionController extends Controller
         try {
             $emailAddresses = $request->email_addr;
             $email_cc = $request->email_cc;
-
+        
             $entity_cd = $request->entity_cd;
             $doc_no = $request->doc_no;
             $request_type = $request->request_type;
             $type = $request->type;
-            $module= $request->moduledb;
+            $module = $request->moduledb;
             $email_status = 'Y';
             $audit_user = 'MGR';
-
+        
             $currentTime = Carbon::now();
             // Format the date and time
             $formattedDateTime = $currentTime->format('d-m-Y H:i:s');
@@ -164,21 +170,21 @@ class StaffActionController extends Controller
             // Remove email addresses from CC list if they exist in the email addresses list
             $cc_emails = array_diff($cc_emails, $emails);
         
+            // Set CC emails outside the loop
+            $mail = new StaffActionPoRMail($EmailBack);
+            foreach ($cc_emails as $cc_email) {
+                $mail->cc(trim($cc_email));
+            }
+        
             if (!empty($emails)) {
                 foreach ($emails as $email) {
-                    $mail = new StaffActionPoRMail($EmailBack);
-        
-                    // Set CC emails
-                    foreach ($cc_emails as $cc_email) {
-                        $mail->cc(trim($cc_email));
-                    }
-        
+                    // Send email
                     Mail::to($email)->send($mail);
                 }
         
                 $sentTo = implode(', ', $emails);
                 $ccList = implode(', ', $cc_emails);
-                Log::channel('sendmail')->info("Email Feedback doc_no ".$doc_no." berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
+                Log::channel('sendmail')->info("Email Feedback doc_no " . $doc_no . " berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
                 return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
@@ -187,7 +193,7 @@ class StaffActionController extends Controller
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
-        }        
+        }               
     }
 
     public function staffaction_pos(Request $request)
@@ -198,17 +204,20 @@ class StaffActionController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }

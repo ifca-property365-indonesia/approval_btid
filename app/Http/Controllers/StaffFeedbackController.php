@@ -27,17 +27,20 @@ class StaffFeedbackController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
@@ -108,17 +111,20 @@ class StaffFeedbackController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
@@ -183,17 +189,20 @@ class StaffFeedbackController extends Controller
             'Status' => 200
         );
 
-        if ($request->status == 'R') {
+        $action = ''; // Initialize $action
+        $bodyEMail = '';
+
+        if (strcasecmp($request->status, 'R') == 0) {
 
             $action = 'Revision';
             $bodyEMail = 'Please revise '.$request->descs.' No. '.$request->doc_no.' with the reason : '.$request->reason;
 
-        } else if ($request->status == 'C'){
+        } else if (strcasecmp($request->status, 'C') == 0){
             
             $action = 'Cancellation';
             $bodyEMail = $request->descs.' No. '.$request->doc_no.' has been cancelled with the reason : '.$request->reason;
 
-        } else if  ($request->status == 'A') {
+        } else if (strcasecmp($request->status, 'A') == 0) {
             $action = 'Approval';
             $bodyEMail = 'Your Request '.$request->descs.' No. '.$request->doc_no.' has been Approved';
         }
