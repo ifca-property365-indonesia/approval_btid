@@ -144,6 +144,15 @@ class PoOrderController extends Controller
     {
         $data = Crypt::decrypt($encrypt);
 
+        $descstatus = " ";
+        $imagestatus = " ";
+
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
+
         if ($status == "A") {
             $descstatus = "Approved";
             $imagestatus = "approved.png";

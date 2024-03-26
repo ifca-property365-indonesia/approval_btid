@@ -116,6 +116,12 @@ class CbPPuVvipNewController extends Controller
     {
         $data = Crypt::decrypt($encrypt);
 
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
+
         $where = array(
             'doc_no'        => $data["doc_no"],
             'status'        => array("A","R","C"),
@@ -169,6 +175,9 @@ class CbPPuVvipNewController extends Controller
             );
             return view("email.after", $msg1);
         } else {
+            $name   = " ";
+            $bgcolor = " ";
+            $valuebt  = " ";
             if ($status == 'A') {
                 $name   = 'Approval';
                 $bgcolor = '#40de1d';
@@ -201,6 +210,15 @@ class CbPPuVvipNewController extends Controller
         $data = Crypt::decrypt($request->encrypt);
 
         $status = $request->status;
+
+        $descstatus = " ";
+        $imagestatus = " ";
+
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
 
         if ($status == "A") {
             $descstatus = "Approved";
