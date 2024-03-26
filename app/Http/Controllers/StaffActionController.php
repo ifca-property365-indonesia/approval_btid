@@ -63,7 +63,7 @@ class StaffActionController extends Controller
             $doc_no = $request->doc_no;
             // Check if email address is set, not empty, and a valid email address
             if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionMail($encryptedData, $dataArray));
+                Mail::to($emailAddress)->send(new StaffActionMail($EmailBack));
                 
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
@@ -255,7 +255,7 @@ class StaffActionController extends Controller
             $doc_no = $request->doc_no;
             // Check if email address is set, not empty, and a valid email address
             if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionPoSMail($encryptedData, $dataArray));
+                Mail::to($emailAddress)->send(new StaffActionPoSMail($EmailBack));
                 
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);

@@ -85,7 +85,7 @@ class StaffFeedbackController extends Controller
             $doc_no = $request->doc_no;
             // Check if email address is set, not empty, and a valid email address
             if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionPoOrderMail($encryptedData, $dataArray));
+                Mail::to($emailAddress)->send(new StaffActionPoOrderMail($EmailBack));
                 
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
@@ -163,7 +163,7 @@ class StaffFeedbackController extends Controller
             $doc_no = $request->doc_no;
             // Check if email address is set, not empty, and a valid email address
             if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionCbFupdMail($encryptedData, $dataArray));
+                Mail::to($emailAddress)->send(new StaffActionCbFupdMail($EmailBack));
                 
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
@@ -241,7 +241,7 @@ class StaffFeedbackController extends Controller
             $doc_no = $request->doc_no;
             // Check if email address is set, not empty, and a valid email address
             if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionCbMail($encryptedData, $dataArray));
+                Mail::to($emailAddress)->send(new StaffActionCbMail($EmailBack));
                 
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
