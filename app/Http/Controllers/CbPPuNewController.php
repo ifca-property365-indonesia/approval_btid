@@ -83,24 +83,23 @@ class CbPPuNewController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
-            // Check if email addresses are provided and not empty
-            if (!empty($emailAddresses)) {
-                $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+            // Check if email address is set, not empty, and a valid email address
+            if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+                Mail::to($emailAddress)->send(new SendCbPpuNewMail($encryptedData, $dataArray));
                 
-                foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendCbPpuNewMail($encryptedData, $dataArray));
-                }
+                // Log the sent email address
+                Log::channel('sendmail')->info('Email doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
                 
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                return "Email berhasil dikirim ke: " . $sentTo;
+                return "Email berhasil dikirim ke: " . $emailAddress;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                // Log and return a warning if email address is invalid or not provided
+                Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');
+                return "Alamat email ".$emailAddress." tidak valid atau tidak diberikan.";
             }
         } catch (\Exception $e) {
+            // Log and return an error if an exception occurs
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email: " . $e->getMessage();
         }
@@ -109,6 +108,12 @@ class CbPPuNewController extends Controller
     public function processData($status='', $encrypt='')
     {
         $data = Crypt::decrypt($encrypt);
+
+        $msg = '';
+        $notif = '';
+        $st = '';
+        $image = '';
+        $msg1 = '';
 
         $where = array(
             'doc_no'        => $data["doc_no"],
@@ -163,6 +168,9 @@ class CbPPuNewController extends Controller
             );
             return view("email.after", $msg1);
         } else {
+            $name   = '';
+            $bgcolor = '';
+            $valuebt  = '';
             if ($status == 'A') {
                 $name   = 'Approval';
                 $bgcolor = '#40de1d';
@@ -195,6 +203,15 @@ class CbPPuNewController extends Controller
         $data = Crypt::decrypt($request->encrypt);
 
         $status = $request->status;
+
+        $descstatus = "";
+        $imagestatus = "";
+
+        $msg = '';
+        $notif = '';
+        $st = '';
+        $image = '';
+        $msg1 = '';
 
         if ($status == "A") {
             $descstatus = "Approved";

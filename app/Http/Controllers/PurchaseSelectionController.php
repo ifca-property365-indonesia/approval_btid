@@ -108,6 +108,14 @@ class PurchaseSelectionController extends Controller
     public function processData($status='', $encrypt='')
     {
         $data = Crypt::decrypt($encrypt);
+
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
+
+
         $where = array(
             'doc_no'        => $data["doc_no"],
             'status'        => array("A","R","C"),
@@ -161,6 +169,9 @@ class PurchaseSelectionController extends Controller
             );
             return view("email.after", $msg1);
         } else {
+            $name = " ";
+            $bgcolor = " ";
+            $valuebt  = " ";
             if ($status == 'A') {
                 $name   = 'Approval';
                 $bgcolor = '#40de1d';
@@ -193,6 +204,15 @@ class PurchaseSelectionController extends Controller
         $dateTime = DateTime::createFromFormat('d-m-Y', $trx_date);
 
         $status = $request->status;
+        
+        $descstatus = " ";
+        $imagestatus = " ";
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
+
 
         if ($status == "A") {
             $descstatus = "Approved";

@@ -25,6 +25,12 @@ class MailDataController extends Controller
     {
         $data = Crypt::decrypt($encrypt);
 
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
+
         $where = array(
             'doc_no'        => $data["doc_no"],
             'status'        => array("A","R","C"),
@@ -78,6 +84,9 @@ class MailDataController extends Controller
             );
             return view("email.after", $msg1);
         } else {
+            $name   = " ";
+            $bgcolor = " ";
+            $valuebt  = " ";
             if ($status == 'A') {
                 $name   = 'Approval';
                 $bgcolor = '#40de1d';

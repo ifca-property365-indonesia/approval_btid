@@ -113,6 +113,14 @@ class PoRequestController extends Controller
     public function update($status, $encrypt, $reason)
     {
         $data = Crypt::decrypt($encrypt);
+
+        $descstatus = " ";
+        $imagestatus = " ";
+        $msg = " ";
+        $msg1 = " ";
+        $notif = " ";
+        $st = " ";
+        $image = " ";
         
         if ($status == "A") {
             $descstatus = "Approved";
