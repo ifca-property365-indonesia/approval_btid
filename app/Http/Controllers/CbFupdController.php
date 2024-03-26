@@ -90,7 +90,7 @@ class CbFupdController extends Controller
                 // Log the sent email address
                 Log::channel('sendmail')->info('Email doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
                 
-                return "Email berhasil dikirim ke: " . $emailAddress;
+                return "Email Doc No ".$doc_no." berhasil dikirim ke: " . $emailAddress;
             } else {
                 // Log and return a warning if email address is invalid or not provided
                 Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');

@@ -54,25 +54,23 @@ class PlBudgetLymanController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $data["email_addr"];
+            $emailAddress = strtolower($data["email_addr"]);
             $doc_no = $data["doc_no"];
-        
-            // Check if email addresses are provided and not empty
-            if (!empty($emailAddresses)) {
-                $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+            // Check if email address is set, not empty, and a valid email address
+            if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+                Mail::to($emailAddress)->send(new SendPLLymanMail($encryptedData, $dataArray));
                 
-                foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendPLLymanMail($encryptedData, $dataArray));
-                }
+                // Log the sent email address
+                Log::channel('sendmail')->info('Email doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
                 
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                return "Email berhasil dikirim ke: " . $sentTo;
+                return "Email Doc No ".$doc_no." berhasil dikirim ke: " . $emailAddress;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                // Log and return a warning if email address is invalid or not provided
+                Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');
+                return "Alamat email ".$emailAddress." tidak valid atau tidak diberikan.";
             }
         } catch (\Exception $e) {
+            // Log and return an error if an exception occurs
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email: " . $e->getMessage();
         }
