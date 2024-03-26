@@ -81,7 +81,7 @@ class PurchaseSelectionController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
         
             // Check if email addresses are provided and not empty

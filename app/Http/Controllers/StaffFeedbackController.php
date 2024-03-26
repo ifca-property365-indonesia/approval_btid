@@ -81,7 +81,7 @@ class StaffFeedbackController extends Controller
         );
 
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
@@ -159,7 +159,7 @@ class StaffFeedbackController extends Controller
         );
 
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
@@ -237,7 +237,7 @@ class StaffFeedbackController extends Controller
         );
 
         try {
-            $emailAddresses = $request->email_addr;
+            $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];

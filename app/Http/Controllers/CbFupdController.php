@@ -81,7 +81,7 @@ class CbFupdController extends Controller
         $encryptedData = Crypt::encrypt($data2Encrypt);
     
         try {
-            $emailAddresses = $data["email_addr"];
+            $emailAddresses = strtolower($data["email_addr"]);
             $doc_no = $data["doc_no"];
         
             // Check if email addresses are provided and not empty
