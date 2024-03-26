@@ -59,23 +59,24 @@ class StaffActionController extends Controller
         );
 
         try {
-            $emailAddresses = strtolower($request->email_addr);
+            $emailAddresses = $request->email_addr;
             $doc_no = $request->doc_no;
-            // Check if email address is set, not empty, and a valid email address
-            if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionMail($EmailBack));
+            // Check if email addresses are provided and not empty
+            if (!empty($emailAddresses)) {
+                $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
-                // Log the sent email address
-                Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
+                foreach ($emails as $email) {
+                    Mail::to($email)->send(new StaffActionMail($EmailBack));
+                }
                 
-                return "Email berhasil dikirim ke: " . $emailAddress;
+                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                return "Email berhasil dikirim ke: " . $sentTo;
             } else {
-                // Log and return a warning if email address is invalid or not provided
-                Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');
-                return "Alamat email ".$emailAddress." tidak valid atau tidak diberikan.";
+                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
+                return "Tidak ada alamat email yang diberikan.";
             }
         } catch (\Exception $e) {
-            // Log and return an error if an exception occurs
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email: " . $e->getMessage();
         }
@@ -251,26 +252,26 @@ class StaffActionController extends Controller
         );
 
         try {
-            $emailAddresses = strtolower($request->email_addr);
+            $emailAddresses = $request->email_addr;
             $doc_no = $request->doc_no;
-            // Check if email address is set, not empty, and a valid email address
-            if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-                Mail::to($emailAddress)->send(new StaffActionPoSMail($EmailBack));
+            if (!empty($emailAddresses)) {
+                $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
-                // Log the sent email address
-                Log::channel('sendmail')->info('Email Feedback doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $emailAddress);
+                foreach ($emails as $email) {
+                    Mail::to($email)->send(new StaffActionPoSMail($EmailBack));
+                }
                 
-                return "Email berhasil dikirim ke: " . $emailAddress;
+                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                // Log and return a warning if email address is invalid or not provided
-                Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');
-                return "Alamat email ".$emailAddress." tidak valid atau tidak diberikan.";
+                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
+                return "Tidak ada alamat email yang diberikan.";
             }
         } catch (\Exception $e) {
-            // Log and return an error if an exception occurs
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
-            return "Gagal mengirim email: " . $e->getMessage();
-        }    
+            return "Gagal mengirim email. Cek log untuk detailnya.";
+        }      
     }
 
     public function fileexist(Request $request)
