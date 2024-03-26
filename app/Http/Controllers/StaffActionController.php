@@ -144,55 +144,52 @@ class StaffActionController extends Controller
         );
 
         try {
-            $emailAddresses = $request->email_addr;
-            $email_cc = $request->email_cc;
-        
-            $entity_cd = $request->entity_cd;
+            $emailAddress = strtolower($request->email_addr);
+            $emailCc = strtolower($request->email_cc); // Add this line to get CC email address
             $doc_no = $request->doc_no;
-            $request_type = $request->request_type;
-            $type = $request->type;
-            $module = $request->moduledb;
-            $email_status = 'Y';
-            $audit_user = 'MGR';
-        
-            $currentTime = Carbon::now();
-            // Format the date and time
-            $formattedDateTime = $currentTime->format('d-m-Y H:i:s');
-        
-            // Explode the email addresses strings into arrays
-            $emails = !empty($emailAddresses) ? (is_array($emailAddresses) ? $emailAddresses : [$emailAddresses]) : [];
-            $cc_emails = !empty($email_cc) ? explode(';', $email_cc) : [];
-        
-            // Remove duplicates from CC emails
-            $cc_emails = array_unique($cc_emails);
-        
-            // Remove email addresses from CC list if they exist in the email addresses list
-            $cc_emails = array_diff($cc_emails, $emails);
-        
-            // Set CC emails outside the loop
-            $mail = new StaffActionPoRMail($EmailBack);
-            foreach ($cc_emails as $cc_email) {
-                $mail->cc(trim($cc_email));
-            }
-        
-            if (!empty($emails)) {
-                foreach ($emails as $email) {
-                    // Send email
-                    Mail::to($email)->send($mail);
+            
+            // Check if email address is set, not empty, and a valid email address
+            if (isset($emailAddress) && !empty($emailAddress) && filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+                $mail = Mail::to($emailAddress);
+                
+                // Process CC addresses
+                $ccAddresses = [];
+                if (isset($emailCc) && !empty($emailCc)) {
+                    $ccAddresses = explode(';', $emailCc);
+                    $ccAddresses = array_map('trim', $ccAddresses); // Trim whitespaces
+                    $ccAddresses = array_filter($ccAddresses, 'filter_var', FILTER_VALIDATE_EMAIL); // Filter valid email addresses
+                    
+                    // Filter out invalid email addresses
+                    $ccAddresses = array_filter($ccAddresses, function($ccAddress) {
+                        return !empty($ccAddress);
+                    });
+                    
+                    // Add CC if provided
+                    foreach ($ccAddresses as $ccAddress) {
+                        $mail->cc($ccAddress);
+                    }
                 }
-        
-                $sentTo = implode(', ', $emails);
-                $ccList = implode(', ', $cc_emails);
-                Log::channel('sendmail')->info("Email Feedback doc_no " . $doc_no . " berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
-                return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
+                
+                $mail->send(new StaffActionPoRMail($EmailBack));
+                
+                // Log the sent email address
+                $logMessage = "Email Feedback doc_no " . $doc_no . " berhasil dikirim ke: " . $emailAddress;
+                if (!empty($ccAddresses)) {
+                    $logMessage .= " & CC-nya ke: " . implode(', ', $ccAddress);
+                }
+                Log::channel('sendmail')->info($logMessage);
+                return $logMessage;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                // Log and return a warning if email address is invalid or not provided
+                Log::channel('sendmail')->warning('Alamat email '.$emailAddress.' tidak valid atau tidak diberikan.');
+                return "Alamat email ".$emailAddress." tidak valid atau tidak diberikan.";
             }
         } catch (\Exception $e) {
+            // Log and return an error if an exception occurs
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
-            return "Gagal mengirim email. Cek log untuk detailnya.";
-        }               
+            return "Gagal mengirim email: " . $e->getMessage();
+        }        
+                       
     }
 
     public function staffaction_pos(Request $request)
