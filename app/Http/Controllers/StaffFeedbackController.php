@@ -94,8 +94,8 @@ class StaffFeedbackController extends Controller
                 Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no);
+                return "Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no;
             }
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
@@ -172,8 +172,8 @@ class StaffFeedbackController extends Controller
                 Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no);
+                return "Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no;
             }
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
@@ -250,8 +250,8 @@ class StaffFeedbackController extends Controller
                 Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
-                return "Tidak ada alamat email yang diberikan.";
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no);
+                return "Tidak ada alamat email untuk feedback yang diberikan. Doc No" .$doc_no;
             }
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
