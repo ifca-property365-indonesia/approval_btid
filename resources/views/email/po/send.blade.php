@@ -104,7 +104,7 @@
                                                 {{ $supplier_name }}<br>
                                             @endif
                                         @endforeach
-                                        With a total amount of Rp {{ $dataArray['po_amt'] }} (Grand total included tax)<br>
+                                        With a total amount of Rp {{ $dataArray['po_amt'] }}<br>
                                         @foreach($dataArray['order_remarks'] as $key => $order_remarks)
                                             @php
                                                 $order_no = $dataArray['order_no'][$key] ?? '';

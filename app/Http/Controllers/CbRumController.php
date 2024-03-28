@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendCbRumMail;
 
@@ -97,8 +98,9 @@ class CbRumController extends Controller
                 Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
-                Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan. Doc No" .$doc_no);
-                return "Tidak ada alamat email yang diberikan. Doc No" .$doc_no;
+                Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
+                Log::channel('sendmail')->warning($doc_no);
+                return "Tidak ada alamat email yang diberikan";
             }
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendCbFupdMail;
 
@@ -83,21 +84,31 @@ class CbFupdController extends Controller
         try {
             $emailAddresses = strtolower($data["email_addr"]);
             $doc_no = $data["doc_no"];
+            $entity_cd = $data["entity_cd"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
-                
+        
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendCbFupdMail($encryptedData, $dataArray));
+                    // Check if the email has been sent before for this document and entity combination
+                    $cacheKey = 'email_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
+                    if (!Cache::has($cacheKey)) {
+                        // Send email
+                        Mail::to($email)->send(new SendCbFupdMail($encryptedData, $dataArray));
+        
+                        // Mark email as sent
+                        Cache::put($cacheKey, true, now()->addHours(24));
+                    }
                 }
-                
+        
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email doc_no ' . $doc_no . ' berhasil dikirim ke: ' . $sentTo);
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
-                Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan. Doc No" .$doc_no);
-                return "Tidak ada alamat email yang diberikan. Doc No" .$doc_no;
+                Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
+                Log::channel('sendmail')->warning($doc_no);
+                return "Tidak ada alamat email yang diberikan";
             }
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
