@@ -111,7 +111,7 @@ class CbPPuVvipNewController extends Controller
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                 Log::channel('sendmail')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                Log::channel('sendmailapproval')->info('Email doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmailapproval')->info('Email doc_no ' . $doc_no . ' Entity ' . $entity_cd . ' berhasil dikirim ke: ' . $sentTo);
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
