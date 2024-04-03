@@ -49,6 +49,11 @@ return [
             'lock_connection' => null,
         ],
 
+        'mail_app' => [
+            'driver' => 'file',
+            'path' => storage_path('cachemail/data'),
+        ],
+
         'file' => [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),

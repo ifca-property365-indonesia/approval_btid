@@ -119,15 +119,13 @@ return [
             'path' => storage_path('logs/sendmail.log'),
             'ignore_exceptions' => false,
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 14,
         ],
 
-        'sendmailFailed' => [
+        'sendmailfeedback' => [
             'driver' => 'daily', // You can choose the appropriate log driver (single, daily, syslog, etc.)
-            'path' => storage_path('logs/sendmail.log'),
+            'path' => storage_path('logs/sendmailfeedback/' . date('Ymd') . '/sendmail.log'),
             'ignore_exceptions' => false,
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 14,
         ],
     ],
 

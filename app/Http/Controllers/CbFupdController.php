@@ -91,14 +91,14 @@ class CbFupdController extends Controller
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
         
                 foreach ($emails as $email) {
-                    // Check if the email has been sent before for this document and entity combination
+                    // Check if the email has been sent before for this document
                     $cacheKey = 'email_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
                     if (!Cache::has($cacheKey)) {
                         // Send email
                         Mail::to($email)->send(new SendCbFupdMail($encryptedData, $dataArray));
         
                         // Mark email as sent
-                        Cache::put($cacheKey, true, now()->addHours(24));
+                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
                     }
                 }
         
@@ -107,7 +107,7 @@ class CbFupdController extends Controller
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
-                Log::channel('sendmail')->warning($doc_no);
+                Log::channel('sendmail')->info($doc_no);
                 return "Tidak ada alamat email yang diberikan";
             }
         } catch (\Exception $e) {

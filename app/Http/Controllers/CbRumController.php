@@ -85,13 +85,22 @@ class CbRumController extends Controller
         try {
             $emailAddresses = strtolower($data["email_addr"]);
             $doc_no = $data["doc_no"];
+            $entity_cd = $data["entity_cd"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new SendCbRumMail($encryptedData, $dataArray));
+                    // Check if the email has been sent before for this document
+                    $cacheKey = 'email_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
+                    if (!Cache::has($cacheKey)) {
+                        // Send email
+                        Mail::to($email)->send(new SendCbRumMail($encryptedData, $dataArray));
+        
+                        // Mark email as sent
+                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
+                    }
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
@@ -99,7 +108,7 @@ class CbRumController extends Controller
                 return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
-                Log::channel('sendmail')->warning($doc_no);
+                Log::channel('sendmail')->info($doc_no);
                 return "Tidak ada alamat email yang diberikan";
             }
         } catch (\Exception $e) {
