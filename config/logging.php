@@ -123,7 +123,14 @@ return [
 
         'sendmailfeedback' => [
             'driver' => 'daily', // You can choose the appropriate log driver (single, daily, syslog, etc.)
-            'path' => storage_path('logs/sendmailfeedback/' . date('Ymd') . '/sendmail.log'),
+            'path' => storage_path('logs/sendmail/' . date('Ymd') . '/sendmailfeedback.log'),
+            'ignore_exceptions' => false,
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'sendmailapproval' => [
+            'driver' => 'daily', // You can choose the appropriate log driver (single, daily, syslog, etc.)
+            'path' => storage_path('logs/sendmail/' . date('Ymd') . '/sendmailapproval.log'),
             'ignore_exceptions' => false,
             'level' => env('LOG_LEVEL', 'debug'),
         ],

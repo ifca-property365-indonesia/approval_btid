@@ -75,6 +75,7 @@ class StaffFeedbackController extends Controller
             'user_name'         => $request->user_name,
             'staff_act_send'    => $request->staff_act_send,
             'entity_name'       => $request->entity_name,
+            'entity_cd'         => $request->entity_cd,
             'url_file'          => $url_data,
             'file_name'         => $file_data,
             'doc_link'          => $doc_data,
@@ -83,10 +84,12 @@ class StaffFeedbackController extends Controller
         $emailAddresses = strtolower($request->email_addr);
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
+        $entity_cd = $request->entity_cd;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
+            $entity_cd = $request->entity_cd;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
@@ -103,15 +106,16 @@ class StaffFeedbackController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmailfeedback')->warning("Tidak ada alamat email untuk feedback yang diberikan");
-                Log::channel('sendmailfeedback')->warning($doc_no);
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
+                Log::channel('sendmail')->warning($doc_no);
                 return "Tidak ada alamat email untuk feedback yang diberikan";
             }
         } catch (\Exception $e) {
-            Log::channel('sendmailfeedback')->error('Gagal mengirim email: ' . $e->getMessage());
+            Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
         }      
     }
@@ -166,6 +170,7 @@ class StaffFeedbackController extends Controller
             'user_name'         => $request->user_name,
             'staff_act_send'    => $request->staff_act_send,
             'entity_name'       => $request->entity_name,
+            'entity_cd'         => $request->entity_cd,
             'url_file'          => $url_data,
             'file_name'         => $file_data,
             'action_date'       => Carbon::now('Asia/Jakarta')->format('d-m-Y H:i')
@@ -173,16 +178,18 @@ class StaffFeedbackController extends Controller
         $emailAddresses = strtolower($request->email_addr);
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
+        $entity_cd = $request->entity_cd;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
+            $entity_cd = $request->entity_cd;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheKey = 'email_feedback_sent_' . md5($doc_no . '_' . $entity_name . '_' . $email);
+                    $cacheKey = 'email_feedback_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
                     if (!Cache::has($cacheKey)) {
                         // Send email
                         Mail::to($email)->send(new StaffActionCbFupdMail($EmailBack));
@@ -193,15 +200,16 @@ class StaffFeedbackController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmailfeedback')->warning("Tidak ada alamat email untuk feedback yang diberikan");
-                Log::channel('sendmailfeedback')->warning($doc_no);
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
+                Log::channel('sendmail')->warning($doc_no);
                 return "Tidak ada alamat email untuk feedback yang diberikan";
             }
         } catch (\Exception $e) {
-            Log::channel('sendmailfeedback')->error('Gagal mengirim email: ' . $e->getMessage());
+            Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
         }      
     }
@@ -256,6 +264,7 @@ class StaffFeedbackController extends Controller
             'user_name'         => $request->user_name,
             'staff_act_send'    => $request->staff_act_send,
             'entity_name'       => $request->entity_name,
+            'entity_cd'         => $request->entity_cd,
             'url_file'          => $url_data,
             'file_name'         => $file_data,
             'action_date'       => Carbon::now('Asia/Jakarta')->format('d-m-Y H:i')
@@ -263,10 +272,12 @@ class StaffFeedbackController extends Controller
         $emailAddresses = strtolower($request->email_addr);
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
+        $entity_cd = $request->entity_cd;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
+            $entity_cd = $request->entity_cd;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
@@ -283,15 +294,16 @@ class StaffFeedbackController extends Controller
                 }
                 
                 $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                 return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
-                Log::channel('sendmailfeedback')->warning("Tidak ada alamat email untuk feedback yang diberikan");
-                Log::channel('sendmailfeedback')->warning($doc_no);
+                Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
+                Log::channel('sendmail')->warning($doc_no);
                 return "Tidak ada alamat email untuk feedback yang diberikan";
             }
         } catch (\Exception $e) {
-            Log::channel('sendmailfeedback')->error('Gagal mengirim email: ' . $e->getMessage());
+            Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
         }      
     }
