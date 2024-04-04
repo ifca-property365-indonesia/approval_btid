@@ -56,3 +56,6 @@ Route::POST('/cbppunewvvip/getaccess', [CbPPuVvipNew::class, 'getaccess']);
 use App\Http\Controllers\SelController as Select;
 Route::get('/select', [Select::class, 'index']);
 
+use App\Http\Controllers\AutoSendController as AutoSend;
+Route::get('/autosend', [AutoSend::class, 'index']);
+
