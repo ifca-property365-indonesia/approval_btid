@@ -88,6 +88,7 @@ class PoOrderController extends Controller
             'approve_list'  => $approve_data,
             'clarify_user'  => $data["clarify_user"],
             'clarify_email' => $data["clarify_email"],
+            'curr_cd'       => $data["curr_cd"],
             'supplier_name' => $supplier_data,
             'po_amt'        => $po_amt,
             'order_no'      => $order_no_data,
