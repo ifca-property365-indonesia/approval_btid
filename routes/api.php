@@ -59,3 +59,6 @@ Route::get('/select', [Select::class, 'index']);
 use App\Http\Controllers\AutoSendController as AutoSend;
 Route::get('/autosend', [AutoSend::class, 'index']);
 
+use App\Http\Controllers\AutoFeedbackController as AutoFeedback;
+Route::get('/autofeedback', [AutoFeedback::class, 'index']);
+
