@@ -85,30 +85,39 @@ class StaffFeedbackController extends Controller
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
+        $status = $request->status;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
+            $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheKey = 'email_feedback_sent_' . md5($doc_no . '_' . $entity_name . '_' . $email);
-                    if (!Cache::has($cacheKey)) {
+                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFilePath = storage_path('app/mail_cache/feedbackPoOrder/' . date('Ymd'). '/' . $cacheFile);
+                    $cacheDirectory = dirname($cacheFilePath);
+                
+                    // Ensure the directory exists
+                    if (!file_exists($cacheDirectory)) {
+                        mkdir($cacheDirectory, 0755, true);
+                    }
+                
+                    if (!file_exists($cacheFilePath)) {
                         // Send email
                         Mail::to($email)->send(new StaffActionPoOrderMail($EmailBack));
-        
+                
                         // Mark email as sent
-                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
+                        file_put_contents($cacheFilePath, 'sent');
+                        $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                        Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                        Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
+                        return 'Email berhasil dikirim ke: ' . $sentTo;
                     }
                 }
-                
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
-                return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
                 Log::channel('sendmail')->warning($doc_no);
@@ -179,30 +188,39 @@ class StaffFeedbackController extends Controller
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
+        $status = $request->status;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
+            $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheKey = 'email_feedback_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
-                    if (!Cache::has($cacheKey)) {
+                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFilePath = storage_path('app/mail_cache/feedbackCbFupd/' . date('Ymd'). '/' . $cacheFile);
+                    $cacheDirectory = dirname($cacheFilePath);
+                
+                    // Ensure the directory exists
+                    if (!file_exists($cacheDirectory)) {
+                        mkdir($cacheDirectory, 0755, true);
+                    }
+                
+                    if (!file_exists($cacheFilePath)) {
                         // Send email
                         Mail::to($email)->send(new StaffActionCbFupdMail($EmailBack));
-        
+                
                         // Mark email as sent
-                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
+                        file_put_contents($cacheFilePath, 'sent');
+                        $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                        Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                        Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
+                        return 'Email berhasil dikirim ke: ' . $sentTo;
                     }
                 }
-                
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
-                return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
                 Log::channel('sendmail')->warning($doc_no);
@@ -273,30 +291,39 @@ class StaffFeedbackController extends Controller
         $doc_no = $request->doc_no;
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
+        $status = $request->status;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
+            $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheKey = 'email_feedback_sent_' . md5($doc_no . '_' . $entity_name . '_' . $email);
-                    if (!Cache::has($cacheKey)) {
+                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFilePath = storage_path('app/mail_cache/feedbackCb/' . date('Ymd'). '/' . $cacheFile);
+                    $cacheDirectory = dirname($cacheFilePath);
+                
+                    // Ensure the directory exists
+                    if (!file_exists($cacheDirectory)) {
+                        mkdir($cacheDirectory, 0755, true);
+                    }
+                
+                    if (!file_exists($cacheFilePath)) {
                         // Send email
                         Mail::to($email)->send(new StaffActionCbMail($EmailBack));
-        
+                
                         // Mark email as sent
-                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
+                        file_put_contents($cacheFilePath, 'sent');
+                        $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                        Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
+                        Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
+                        return 'Email berhasil dikirim ke: ' . $sentTo;
                     }
                 }
-                
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
-                Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
-                return 'Email berhasil dikirim ke: ' . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email untuk feedback yang diberikan");
                 Log::channel('sendmail')->warning($doc_no);

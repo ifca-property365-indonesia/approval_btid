@@ -33,7 +33,7 @@ class AutoSendController extends Controller
         ->whereNull('sent_mail_date')
         ->where('status', 'P')
         ->whereNotNull('currency_cd')
-        ->where('audit_date', '>=', '2024-03-27')
+        ->where('audit_date', '>=', DB::raw("CONVERT(datetime, '2024-03-28', 120)"))
         ->orderBy('entity_cd', 'desc')
         ->orderBy('doc_no', 'desc')
         ->get();
