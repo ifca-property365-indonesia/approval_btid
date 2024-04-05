@@ -92,7 +92,6 @@ class StaffActionController extends Controller
                         // Mark email as sent
                         file_put_contents($cacheFilePath, 'sent');
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                        Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return "Email berhasil dikirim ke: " . $sentTo;
                     }
@@ -221,7 +220,6 @@ class StaffActionController extends Controller
                         file_put_contents($cacheFilePath, 'sent');
                         $sentTo = implode(', ', $emails);
                         $ccList = implode(', ', $cc_emails);
-                        Log::channel('sendmail')->info("Email Feedback doc_no " . $doc_no . " berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList);
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo . ' & CC ke : ' . $ccList);
                         return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
                     }
@@ -323,7 +321,6 @@ class StaffActionController extends Controller
                         // Mark email as sent
                         file_put_contents($cacheFilePath, 'sent');
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                        Log::channel('sendmail')->info('Email Feedback doc_no '.$doc_no.' berhasil dikirim ke: ' . $sentTo);
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return 'Email berhasil dikirim ke: ' . $sentTo;
                     }
