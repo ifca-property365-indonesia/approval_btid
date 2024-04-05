@@ -31,11 +31,9 @@ class AutoSendController extends Controller
         $query = DB::connection('BTID')
         ->table('mgr.cb_cash_request_appr')
         ->whereNull('sent_mail_date')
-        ->where('status', '=', 'P')
+        ->where('status', 'P')
         ->whereNotNull('currency_cd')
-        ->whereRaw('DAY(audit_date) >= 27')
-        ->whereRaw('MONTH(audit_date) >= 3')
-        ->whereRaw('YEAR(audit_date) >= 2024')
+        ->where('audit_date', '>=', '2024-03-27')
         ->orderBy('entity_cd', 'desc')
         ->orderBy('doc_no', 'desc')
         ->get();
