@@ -48,7 +48,7 @@ class CbFupdController extends Controller
             'sender_addr'   => $data["sender_addr"],
             'entity_name'   => $data["entity_name"],
             'band_hd_descs' => $band_hd_descs,
-            'band_hd_no'    => $data["band_hd_no"],
+            'band_hd_no'    => $data["band_hd_doc_no"],
             'dt_amount'     => $dt_amount,
             'url_file'      => $url_data,
             'file_name'     => $file_data,
@@ -57,8 +57,8 @@ class CbFupdController extends Controller
             'approve_list'  => $approve_data,
             'clarify_user'  => $data['clarify_user'],
             'clarify_email' => $data['clarify_email'],
-            'body'          => "Please approve Propose Transfer to Bank No. ".$data['band_hd_no']." for ".$band_hd_descs,
-            'subject'       => "Need Approval for Propose Transfer to Bank No. ".$data['band_hd_no'],
+            'body'          => "Please approve Propose Transfer to Bank No. ".$data['band_hd_doc_no']." for ".$band_hd_descs,
+            'subject'       => "Need Approval for Propose Transfer to Bank No. ".$data['band_hd_doc_no'],
         );
 
         $data2Encrypt = array(
@@ -85,26 +85,36 @@ class CbFupdController extends Controller
             $emailAddresses = strtolower($data["email_addr"]);
             $doc_no = $data["doc_no"];
             $entity_cd = $data["entity_cd"];
+            $level_no = $data["level_no"];
+            $type = 'E';
+            $module = 'CB';
+            $trx_type = $data["trx_type"];
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
         
                 foreach ($emails as $email) {
-                    // Check if the email has been sent before for this document
-                    $cacheKey = 'email_sent_' . md5($doc_no . '_' . $entity_cd . '_' . $email);
-                    if (!Cache::has($cacheKey)) {
+                    $cacheFile = 'email_sent_' . $entity_cd . '_' . $doc_no . '_' . $level_no . '_' . $type . '_' . $module . '_' . $trx_type . '.txt';
+                    $cacheFilePath = storage_path('app/mail_cache/cbfupd/' . date('Ymd'). '/' . $cacheFile);
+                    $cacheDirectory = dirname($cacheFilePath);
+                
+                    // Ensure the directory exists
+                    if (!file_exists($cacheDirectory)) {
+                        mkdir($cacheDirectory, 0755, true);
+                    }
+                
+                    if (!file_exists($cacheFilePath)) {
                         // Send email
                         Mail::to($email)->send(new SendCbFupdMail($encryptedData, $dataArray));
-        
+                
                         // Mark email as sent
-                        Cache::store('mail_app')->put($cacheKey, true, now()->addHours(24));
+                        file_put_contents($cacheFilePath, 'sent');
+                        $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
+                        Log::channel('sendmailapproval')->info('Email doc_no ' . $doc_no . ' Entity ' . $entity_cd . ' berhasil dikirim ke: ' . $sentTo);
+                        return "Email berhasil dikirim ke: " . $sentTo;
                     }
                 }
-        
-                $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
-                Log::channel('sendmailapproval')->info('Email doc_no ' . $doc_no . ' Entity ' . $entity_cd . ' berhasil dikirim ke: ' . $sentTo);
-                return "Email berhasil dikirim ke: " . $sentTo;
             } else {
                 Log::channel('sendmail')->warning("Tidak ada alamat email yang diberikan");
                 Log::channel('sendmail')->info($doc_no);
