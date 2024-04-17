@@ -73,6 +73,8 @@ class StaffActionController extends Controller
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+
+                $emailSent = false;
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
@@ -94,6 +96,7 @@ class StaffActionController extends Controller
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return "Email berhasil dikirim ke: " . $sentTo;
+                        $emailSent = true;
                     }
                 }
             } else {
@@ -201,6 +204,8 @@ class StaffActionController extends Controller
                     $mail->cc(trim($cc_email));
                 }
         
+                $emailSent = false;
+        
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
                     $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
@@ -221,8 +226,14 @@ class StaffActionController extends Controller
                         $sentTo = implode(', ', $emails);
                         $ccList = implode(', ', $cc_emails);
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo . ' & CC ke : ' . $ccList);
-                        return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
+                        $emailSent = true;
                     }
+                }
+        
+                if ($emailSent) {
+                    return "Email berhasil dikirim ke: " . $sentTo . " & CC ke : " . $ccList;
+                } else {
+                    return "Email sudah dikirim sebelumnya.";
                 }
             } else {
                 Log::channel('sendmail')->warning('Tidak ada alamat email yang diberikan.');
@@ -231,7 +242,8 @@ class StaffActionController extends Controller
         } catch (\Exception $e) {
             Log::channel('sendmail')->error('Gagal mengirim email: ' . $e->getMessage());
             return "Gagal mengirim email. Cek log untuk detailnya.";
-        }                        
+        }
+                                
     }
 
     public function staffaction_pos(Request $request)
@@ -302,6 +314,8 @@ class StaffActionController extends Controller
             $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+
+                $emailSent = false;
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
@@ -323,6 +337,7 @@ class StaffActionController extends Controller
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return 'Email berhasil dikirim ke: ' . $sentTo;
+                        $emailSent = true;
                     }
                 }
             } else {

@@ -94,6 +94,8 @@ class StaffFeedbackController extends Controller
             $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+
+                $emailSent = false;
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
@@ -115,6 +117,7 @@ class StaffFeedbackController extends Controller
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return 'Email berhasil dikirim ke: ' . $sentTo;
+                        $emailSent = true;
                     }
                 }
             } else {
@@ -196,6 +199,8 @@ class StaffFeedbackController extends Controller
             $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+
+                $emailSent = false;
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
@@ -217,6 +222,7 @@ class StaffFeedbackController extends Controller
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return 'Email berhasil dikirim ke: ' . $sentTo;
+                        $emailSent = true;
                     }
                 }
             } else {
@@ -298,6 +304,8 @@ class StaffFeedbackController extends Controller
             $status = $request->status;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
+
+                $emailSent = false;
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
@@ -319,6 +327,7 @@ class StaffFeedbackController extends Controller
                         $sentTo = is_array($emailAddresses) ? implode(', ', $emailAddresses) : $emailAddresses;
                         Log::channel('sendmailfeedback')->info('Email Feedback doc_no '.$doc_no.' Entity ' . $entity_cd.' berhasil dikirim ke: ' . $sentTo);
                         return 'Email berhasil dikirim ke: ' . $sentTo;
+                        $emailSent = true;
                     }
                 }
             } else {
