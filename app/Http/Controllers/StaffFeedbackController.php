@@ -86,12 +86,14 @@ class StaffFeedbackController extends Controller
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
 
@@ -99,7 +101,7 @@ class StaffFeedbackController extends Controller
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackPoOrder/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 
@@ -191,12 +193,14 @@ class StaffFeedbackController extends Controller
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
 
@@ -204,7 +208,7 @@ class StaffFeedbackController extends Controller
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackCbFupd/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 
@@ -296,12 +300,14 @@ class StaffFeedbackController extends Controller
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
 
@@ -309,7 +315,7 @@ class StaffFeedbackController extends Controller
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackCb/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 

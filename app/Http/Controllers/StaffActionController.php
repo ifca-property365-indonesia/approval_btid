@@ -64,12 +64,14 @@ class StaffActionController extends Controller
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
@@ -78,7 +80,7 @@ class StaffActionController extends Controller
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackStaffAction/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 
@@ -179,6 +181,7 @@ class StaffActionController extends Controller
         $entity_name = $request->entity_name;
         $doc_no = $request->doc_no;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $email_cc = $request->email_cc;
@@ -186,6 +189,7 @@ class StaffActionController extends Controller
             $entity_name = $request->entity_name;
             $doc_no = $request->doc_no;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
         
             // Check if email addresses are provided and not empty
             if (!empty($emailAddresses)) {
@@ -208,7 +212,7 @@ class StaffActionController extends Controller
         
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackPOR/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 
@@ -306,12 +310,14 @@ class StaffActionController extends Controller
         $entity_name = $request->entity_name;
         $entity_cd = $request->entity_cd;
         $status = $request->status;
+        $approve_seq = $request->approve_seq;
         try {
             $emailAddresses = strtolower($request->email_addr);
             $doc_no = $request->doc_no;
             $entity_name = $request->entity_name;
             $entity_cd = $request->entity_cd;
             $status = $request->status;
+            $approve_seq = $request->approve_seq;
             if (!empty($emailAddresses)) {
                 $emails = is_array($emailAddresses) ? $emailAddresses : [$emailAddresses];
 
@@ -319,7 +325,7 @@ class StaffActionController extends Controller
                 
                 foreach ($emails as $email) {
                     // Check if the email has been sent before for this document
-                    $cacheFile = 'email_feedback_sent_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
+                    $cacheFile = 'email_feedback_sent_' . $approve_seq . '_' . $entity_cd . '_' . $doc_no . '_' . $status . '.txt';
                     $cacheFilePath = storage_path('app/mail_cache/feedbackPOS/' . date('Ymd'). '/' . $cacheFile);
                     $cacheDirectory = dirname($cacheFilePath);
                 
