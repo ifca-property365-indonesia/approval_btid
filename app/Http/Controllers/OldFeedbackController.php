@@ -22,16 +22,19 @@ use PDO;
 use DateTime;
 
 
-class AutoFeedbackController extends Controller
+class OldFeedbackController extends Controller
 {
     public function index()
     {
         ini_set('memory_limit', '8192M');
 
+        // $day = now()->day;
+        $day = '16';
+
         $query = DB::connection('BTID')
         ->table('mgr.cb_cash_request_appr')
         ->where('mgr.cb_cash_request_appr.status', '=', 'A')
-        ->whereDay('mgr.cb_cash_request_appr.approved_date', '=', now()->day)
+        ->whereDay('mgr.cb_cash_request_appr.approved_date', '=', $day)
         ->whereMonth('mgr.cb_cash_request_appr.approved_date', '=', now()->month)
         ->whereYear('mgr.cb_cash_request_appr.approved_date', '=', now()->year)
         ->where('mgr.cb_cash_request_appr.level_no', '=', function ($query) {
@@ -112,8 +115,7 @@ class AutoFeedbackController extends Controller
                 $exec = 'mgr.x_send_mail_approval_feedback_po_selection';
                 $folder = 'feedbackPOS';
             }
-            // $defaultDate = date('Ym') . '15';
-            $defaultDate = date('Ymd');
+            $defaultDate = date('Ym') . $day;
             $cacheFilePath = storage_path('app/mail_cache/'.$folder.'/' . $defaultDate . '/' . $cacheFile);
             $cacheDirectory = dirname($cacheFilePath);
                 

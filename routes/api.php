@@ -62,3 +62,6 @@ Route::get('/autosend', [AutoSend::class, 'index']);
 use App\Http\Controllers\AutoFeedbackController as AutoFeedback;
 Route::get('/autofeedback', [AutoFeedback::class, 'index']);
 
+use App\Http\Controllers\OldFeedbackController as OldFeedback;
+Route::get('/oldfeedback', [OldFeedback::class, 'index']);
+
